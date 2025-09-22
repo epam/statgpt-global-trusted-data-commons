@@ -1,12 +1,13 @@
 'use server';
 
-import { StructuralMetaData } from '@statgpt/sdmx-toolkit/src/models/structural-metadata';
+import {
+  DataMessage,
+  DatasetQueryFilters,
+  SdmxReferences,
+  StructuralMetaData,
+} from '@dev-statgpt/sdmx-toolkit';
 import { apiLogger } from '../../core/logger';
 import { datasetApi } from '../api/api';
-import { DataMessage } from '@statgpt/sdmx-toolkit/src/models/data/data-message';
-import { DatasetQueryFilters } from '@statgpt/sdmx-toolkit/src/models/dataset-query-filters';
-
-import { SdmxReferences } from '@statgpt/sdmx-toolkit/src/types/references';
 
 export async function getDataSet(
   urn: string,

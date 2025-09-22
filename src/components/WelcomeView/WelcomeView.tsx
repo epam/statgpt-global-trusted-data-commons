@@ -1,7 +1,14 @@
 'use client';
 
+import {
+  ConversationViewTitles,
+  ConversationWelcome,
+} from '@dev-statgpt/conversation-view';
+import { getConversationNavPath } from '@dev-statgpt/shared-toolkit';
 import { FormSchemaButtonOption } from '@epam/ai-dial-shared';
-import { ConversationWelcome } from '@statgpt/conversation-view/src/components/ConversationWelcome/ConversationWelcome';
+import { IconSend } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import { FC } from 'react';
 import WelcomeTitleIcon from '../../../public/images/logo-small.svg';
 import { getBucket } from '../../app/actions/bucket';
 import {
@@ -9,19 +16,14 @@ import {
   getConversations,
   getSharedConversations,
 } from '../../app/actions/conversations';
-import { ApplicationRoute } from '../../types/application-routes';
-import { useRouter } from 'next/navigation';
-import { FC } from 'react';
-import { useConversationList } from '../../context/ConversationListContext';
-import { IconSend } from '@tabler/icons-react';
-import { getConversationNavPath } from '@statgpt/shared-toolkit/src/utils/conversation-id-to-navigation';
-import { useCurrentLocale, useI18n } from '../../locales/client';
-import { ConversationViewTitles } from '@statgpt/conversation-view/src/models/titles';
 import {
   AppI18nKeys,
   NavI18nKeys,
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
+import { useConversationList } from '../../context/ConversationListContext';
+import { useCurrentLocale, useI18n } from '../../locales/client';
+import { ApplicationRoute } from '../../types/application-routes';
 
 interface Props {
   suggestionsList: FormSchemaButtonOption[];

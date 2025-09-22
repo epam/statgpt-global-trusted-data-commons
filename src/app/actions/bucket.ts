@@ -1,7 +1,7 @@
 'use server';
 
 import { dialApiClient } from '../api/api';
-import { DIAL_API_ROUTES } from '@statgpt/dial-toolkit/src/constants/api-urls';
+import { DIAL_API_ROUTES } from '@dev-statgpt/dial-toolkit';
 import { cookies, headers } from 'next/headers';
 import { getUserToken } from '../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';

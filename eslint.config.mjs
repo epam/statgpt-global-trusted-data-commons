@@ -35,7 +35,7 @@ export default defineConfig([
       sourceType: 'commonjs',
 
       parserOptions: {
-        project: ['tsconfig.*?.json'],
+        project: ['tsconfig.json'],
       },
     },
   },

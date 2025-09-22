@@ -1,16 +1,52 @@
 'use client';
 
-import { AdvancedView } from '@statgpt/conversation-view/src/components/AdvancedView/AdvancedView';
-import { ConversationView } from '@statgpt/conversation-view/src/components/ConversationView/ConversationView';
-import { useAdvancedView } from '@statgpt/conversation-view/src/context/AdvancedViewContext';
-import { useConversationList } from '../../context/ConversationListContext';
-import MessageIcon from '../../../public/images/chat/message-icon.svg';
-import Footer from '../Footer/Footer';
-import { formatNumbers } from '../../constants/format-numbers';
-import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
-import { ApplicationRoute } from '../../types/application-routes';
+import {
+  AdvancedView,
+  AttachmentsStyles,
+  ChartingIcon,
+  ConversationView,
+  ConversationViewTitles,
+  useAdvancedView,
+} from '@dev-statgpt/conversation-view';
+import { Dataflow, openDownloadWindow } from '@dev-statgpt/sdmx-toolkit';
+import {
+  CUSTOM_PERIOD,
+  DataQuery,
+  TimeRangeOptions,
+} from '@dev-statgpt/shared-toolkit';
+import { Conversation } from '@epam/ai-dial-shared';
+import {
+  IconCalendarWeek,
+  IconChevronRight,
+  IconCircleFilled,
+  IconSend,
+  IconSquareCheckFilled,
+} from '@tabler/icons-react';
+import classNames from 'classnames';
+import { JWT } from 'next-auth/jwt';
+import { useParams, useRouter } from 'next/navigation';
+import { FC, useMemo, useState } from 'react';
+import AdvancedModeIcon from '../../../public/images/advanced-mode.svg';
 import Dataset from '../../../public/images/chat/data-set.svg';
-import { useI18n } from '../../locales/client';
+import DownloadIcon from '../../../public/images/chat/download.svg';
+import ErrorIcon from '../../../public/images/chat/error.svg';
+import MessageIcon from '../../../public/images/chat/message-icon.svg';
+import SuccessIcon from '../../../public/images/chat/success.svg';
+import ChevronLeft from '../../../public/images/chevron-left.svg';
+import ChevronRight from '../../../public/images/chevron-right.svg';
+import ChevronSolidDownIcon from '../../../public/images/chevron-solid-down.svg';
+import UnfoldIcon from '../../../public/images/unfold.svg';
+import { getFile } from '../../app/actions/attachments';
+import { getBucket } from '../../app/actions/bucket';
+import { getConstraints } from '../../app/actions/constraints';
+import {
+  createConversation,
+  getConversation,
+  getConversations,
+  updateConversation,
+} from '../../app/actions/conversations';
+import { getDataSet, getDataSetData } from '../../app/actions/dataset';
+import { formatNumbers } from '../../constants/format-numbers';
 import {
   AdvancedViewI18nKeys,
   AppI18nKeys,
@@ -22,45 +58,11 @@ import {
   TimeI18nKeys,
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
-import { getFile } from '../../app/actions/attachments';
-import { getConstraints } from '../../app/actions/constraints';
-import {
-  getConversation,
-  updateConversation,
-  createConversation,
-  getConversations,
-} from '../../app/actions/conversations';
-import { getBucket } from '../../app/actions/bucket';
-import { getDataSet, getDataSetData } from '../../app/actions/dataset';
-import { CUSTOM_PERIOD } from '@statgpt/shared-toolkit/src/constants/calendar';
-import { openDownloadWindow } from '@statgpt/sdmx-toolkit/src/utils/download';
-import { DataQuery } from '@statgpt/shared-toolkit/src/models/data-query';
-import { TimeRangeOptions } from '@statgpt/shared-toolkit/src/models/time-range';
-import AdvancedModeIcon from '../../../public/images/advanced-mode.svg';
-import UnfoldIcon from '../../../public/images/unfold.svg';
-import DownloadIcon from '../../../public/images/chat/download.svg';
-import SuccessIcon from '../../../public/images/chat/success.svg';
-import ErrorIcon from '../../../public/images/chat/error.svg';
-import ChevronRight from '../../../public/images/chevron-right.svg';
-import ChevronLeft from '../../../public/images/chevron-left.svg';
-import ChevronSolidDownIcon from '../../../public/images/chevron-solid-down.svg';
-import {
-  IconCalendarWeek,
-  IconChevronRight,
-  IconCircleFilled,
-  IconSend,
-  IconSquareCheckFilled,
-} from '@tabler/icons-react';
-import classNames from 'classnames';
-import { FC, useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { ChartingIcon } from '@statgpt/conversation-view/src/types/charting-icon';
-import { Dataflow } from '@statgpt/sdmx-toolkit/src/models/structural-metadata/dataflow';
-import { JWT } from 'next-auth/jwt';
-import { AttachmentsStyles } from '@statgpt/conversation-view/src/models/attachments-styles';
-import { ConversationViewTitles } from '@statgpt/conversation-view/src/models/titles';
-import { AttachmentsActions } from '@statgpt/conversation-view/src/models/actions';
-import { Conversation } from '@epam/ai-dial-shared';
+import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
+import { useConversationList } from '../../context/ConversationListContext';
+import { useI18n } from '../../locales/client';
+import { ApplicationRoute } from '../../types/application-routes';
+import Footer from '../Footer/Footer';
 
 interface Props {
   bucketId: string;
@@ -179,7 +181,7 @@ const ConversationViewWrapper: FC<Props> = ({
         updateDatasets: (datasets?: Dataflow[]) => {
           setDatasets(datasets);
         },
-      }) as AttachmentsActions,
+      }),
     [],
   );
   const conversationViewActions = useMemo(

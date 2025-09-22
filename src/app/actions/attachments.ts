@@ -2,7 +2,7 @@
 
 import { conversationApi } from '../api/api';
 import { apiLogger } from '../../core/logger';
-import { GridAttachmentContent } from '@statgpt/dial-toolkit/src/models/grid-attachment';
+import { GridAttachmentContent } from '@dev-statgpt/dial-toolkit';
 import { cookies, headers } from 'next/headers';
 import { getUserToken } from '../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';

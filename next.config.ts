@@ -1,3 +1,5 @@
+import { NextConfig } from 'next';
+
 //@ts-check
 
 const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
@@ -16,16 +18,7 @@ const ContentSecurityPolicy = `
     ${process.env.NODE_ENV === 'production' ? 'upgrade-insecure-requests;' : ''}
 `;
 
-
-const { composePlugins, withNx } = require('@nx/next');
-
-/**
- * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
- **/
-const nextConfig = {
-  nx: {
-    svgr: false,
-  },
+const nextConfig: NextConfig = {
   poweredByHeader: false,
   async rewrites() {
     const dialApiHost = process.env.DIAL_API_URL;
@@ -39,7 +32,8 @@ const nextConfig = {
       },
     ];
   },
-  async headers() {
+
+    async headers() {
     return [
       {
         source: '/((?!api/v1).*)',
@@ -78,10 +72,10 @@ const nextConfig = {
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
+
     return config;
   },
 };
 
-const plugins = [withNx];
+export default nextConfig;
 
-module.exports = composePlugins(...plugins)(nextConfig);

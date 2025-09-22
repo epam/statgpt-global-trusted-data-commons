@@ -9,7 +9,7 @@
  */
 
 import { LogContext, LogLevel } from '../types/log';
-import { parseBoolean } from '@statgpt/shared-toolkit/src/utils/parse-boolean';
+import { parseBoolean } from '@dev-statgpt/shared-toolkit';
 
 class NextLogger {
   private name: string;

@@ -1,4 +1,4 @@
-import { FormatNumbersType } from '@statgpt/shared-toolkit/src/models/format-numbers-type';
+import { FormatNumbersType } from '@dev-statgpt/shared-toolkit';
 
 export const formatNumbers: FormatNumbersType = {
   decimal: '0.00',

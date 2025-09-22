@@ -1,9 +1,8 @@
 'use server';
 
+import { SeriesFilterDto, StructuralMetaData } from '@dev-statgpt/sdmx-toolkit';
 import { apiLogger } from '../../core/logger';
 import { availabilityApi } from '../api/api';
-import { StructuralMetaData } from '@statgpt/sdmx-toolkit/src/models/structural-metadata';
-import { SeriesFilterDto } from '@statgpt/sdmx-toolkit/src/models/series-filter';
 
 export async function getConstraints(
   urn: string,

@@ -3,7 +3,7 @@ import {
   DatasetApi,
   SdmxApiClient,
 } from '@dev-statgpt/sdmx-toolkit';
-import { DialApiClient,ConversationApi } from '@dev-statgpt/dial-toolkit';
+import { DialApiClient, ConversationApi } from '@dev-statgpt/dial-toolkit';
 
 export const DEFAULT_MODEL_ID = process.env.DEFAULT_MODEL || 'gpt-4-turbo';
 

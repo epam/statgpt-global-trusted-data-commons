@@ -1,4 +1,5 @@
 import { Inter, Open_Sans } from 'next/font/google';
+import '@dev-statgpt/ui-components/index.css';
 import './globals.scss';
 import classNames from 'classnames';
 import { ReactNode } from 'react';

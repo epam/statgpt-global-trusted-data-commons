@@ -1,4 +1,4 @@
-import { AdvancedViewProvider } from '@statgpt/conversation-view/src/context/AdvancedViewContext';
+import { AdvancedViewProvider } from '@dev-statgpt/conversation-view';
 import ConversationListWrapper from '../../components/ConversationList/ConversationListWrapper';
 import { ConversationListProvider } from '../../context/ConversationListContext';
 import { I18nProvider } from '../../locales/client';
