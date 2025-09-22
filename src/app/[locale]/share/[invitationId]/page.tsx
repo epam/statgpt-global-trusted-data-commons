@@ -1,0 +1,65 @@
+import { DIAL_API_ROUTES } from '@dev-statgpt/dial-toolkit';
+import {
+  getHeaders,
+  RequestOptions,
+  sendRequest,
+  getConversationUrlWithoutLocale,
+} from '@dev-statgpt/shared-toolkit';
+import { getIsInvalidSession } from '../../../../utils/auth/is-valid-session';
+import { SIGN_IN_LINK } from '../../../../constants/auth';
+import { getUserToken } from '../../../../utils/auth/auth-request';
+import { getIsEnableAuthToggle } from '../../../../utils/auth/get-auth-toggle';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string; invitationId: string }>;
+}) {
+  const { locale, invitationId } = await params;
+
+  const isEnableAuth = getIsEnableAuthToggle();
+  const token = await getUserToken(isEnableAuth, headers(), cookies());
+  const isInvalidSession = await getIsInvalidSession(isEnableAuth, token);
+
+  if (isInvalidSession) {
+    return redirect(SIGN_IN_LINK);
+  }
+
+  const requestHeaders = getHeaders(void 0, {
+    jwt: token?.access_token as string,
+  });
+  const options: RequestOptions = {
+    method: 'GET',
+  };
+
+  await sendRequest(
+    `${process.env.DIAL_API_URL}${DIAL_API_ROUTES.SHARE_CONVERSATION_ACCEPT(invitationId)}`,
+    requestHeaders,
+    options,
+  );
+
+  const conversationDetailsResponse = await sendRequest(
+    `${process.env.DIAL_API_URL}${DIAL_API_ROUTES.SHARE_CONVERSATION_DETAILS(invitationId)}`,
+    requestHeaders,
+    options,
+  );
+
+  let sharedConversationDetails;
+
+  try {
+    sharedConversationDetails = await conversationDetailsResponse.json();
+  } catch {
+    redirect('/');
+  }
+
+  const conversationUrl = getConversationUrlWithoutLocale(
+    sharedConversationDetails?.resources?.[0]?.url,
+    locale,
+  );
+
+  redirect(`/${locale}/${conversationUrl}`);
+}
