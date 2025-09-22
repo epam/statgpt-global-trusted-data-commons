@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
     ];
   },
 
-    async headers() {
+  async headers() {
     return [
       {
         source: '/((?!api/v1).*)',
@@ -78,4 +78,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

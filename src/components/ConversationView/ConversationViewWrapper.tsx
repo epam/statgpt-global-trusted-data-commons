@@ -165,23 +165,22 @@ const ConversationViewWrapper: FC<Props> = ({
     setTo: t(MessageI18nKeys.SET_TO),
   };
   const attachmentsActions = useMemo(
-    () =>
-      ({
-        getFile,
-        getDataSet,
-        getDataSetData,
-        downloadDataSet: openDownloadWindow,
-        getConstraints,
-        updateCurrentDataQuery: (dataQuery?: DataQuery) => {
-          setCurrentDataQuery(dataQuery);
-        },
-        updateDataQueries: (dataQueries?: DataQuery[]) => {
-          setDataQueries(dataQueries);
-        },
-        updateDatasets: (datasets?: Dataflow[]) => {
-          setDatasets(datasets);
-        },
-      }),
+    () => ({
+      getFile,
+      getDataSet,
+      getDataSetData,
+      downloadDataSet: openDownloadWindow,
+      getConstraints,
+      updateCurrentDataQuery: (dataQuery?: DataQuery) => {
+        setCurrentDataQuery(dataQuery);
+      },
+      updateDataQueries: (dataQueries?: DataQuery[]) => {
+        setDataQueries(dataQueries);
+      },
+      updateDatasets: (datasets?: Dataflow[]) => {
+        setDatasets(datasets);
+      },
+    }),
     [],
   );
   const conversationViewActions = useMemo(
