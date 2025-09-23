@@ -4,7 +4,7 @@ FROM node:22-alpine AS base
 WORKDIR /app
 
 # Copy only the package files first for dependency caching
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
@@ -16,7 +16,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Build the Next.js app (runs as root)
-RUN yarn build
+RUN npm run build
 
 # Fix permissions so cache files can be written at runtime
 RUN mkdir -p /app/.next/cache && chmod -R 777 /app/.next
@@ -25,4 +25,4 @@ RUN mkdir -p /app/.next/cache && chmod -R 777 /app/.next
 EXPOSE 3000
 
 # Run as root (DO NOT switch to USER node for now)
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
