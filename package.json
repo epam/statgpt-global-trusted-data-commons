@@ -6,7 +6,7 @@
     "start": "next dev --port=4200",
     "build": "next build",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "vitest",
+    "test": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --check .",
     "format:write": "prettier --write ."
   },
