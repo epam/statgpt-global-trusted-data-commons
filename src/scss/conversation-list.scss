@@ -1,0 +1,16 @@
+.conversation {
+  &-item {
+    @apply rounded-[10px] h-[44px];
+  }
+
+  &-view-header {
+    @apply h-[72px];
+  }
+}
+
+.delete-conversation-popup {
+  @apply border-t-2 border-semantic-error;
+  .cancel-button {
+    @apply text-button-tertiary;
+  }
+}
