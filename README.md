@@ -1,114 +1,173 @@
-# Trusted Official Data
+# Global Trusted Data Commons
 
-## Set Up Developer Environment
 
-This project is managed by [NX](https://nextjs.org/).
+A React and Nx based web application with codebase for Global Trusted Data Commons portal.
 
-Before diving into the development environment, install Node.js (version >=18.18.2) and npm (version >=9.8.1) on your system. If you don't already have them, follow the [instruction](https://nodejs.org/en/download/).
+It's build using the shared libraries of [StatGPT portals frontend](https://github.com/epam/statgpt-portal-frontend).
 
-Once you have Node.js and npm installed, follow these steps to set up your developer environment:
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/mit)
+[![React](https://img.shields.io/badge/React-19+-61dafb.svg)](https://reactjs.org/)
+[![Nx](https://img.shields.io/badge/Nx-21+-7F52FF.svg)](https://nx.dev/)
 
-1. Clone the Trusted Official Data repository:
+## Table of Contents
 
+- [✨ Main Features](#-main-features)
+- [🏗️ Architecture Overview](#-architecture-overview)
+- [🚀 Quick Start](#-quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Start](#start)
+- [💻 Development](#-development)
+  - [Prerequisites](#prerequisites-1)
+  - [Development Setup](#development-setup)
+- [🔨 Build](#-build)
+- [🧪 Test](#-test)
+- [🧑‍💻 Environment Variables](#-Environment-Variables)
+  - [Environment Variables for the Application](#environment-variables-for-the-application)
+  - [Environment Variables for the CSP](#environment-variables-for-the-csp)
+  - [Environment Variables for the Configuration of Auth Providers](#environment-variables-for-the-configuration-of-auth-providers)
+- [🤝 Contributing](#-contributing)
+- [🔒 Security](#-security)
+- [📄 License](#-license)
+- [🌟 Related Projects](#-related-projects)
+
+
+## ✨ Main Features
+
+- **Chat interface & history**: based on DIAL Api
+- **Real-time Messaging**: Stream responses from LLM models using Server-Sent Events
+- **Effortless SDMX data exploration**: powered by the SDMX API
+- **Advanced view**: filtering across datasets
+- **Charting**: view data in chart format
+- **Sharing**: share conversations via link or QH-code
+- **Authentication Support**: NextAuth.js integration for secure user authentication (optional)
+
+
+## 🏗️ Architecture Overview
+
+This project uses:
+- **Next.js** with App Router for the frontend framework
+- **Nx Monorepo**  for project organization and tooling
+- **TypeScript**  for type safety
+- **Tailwind CSS**  for styling
+- **DIAL API** for LLM backend integration
+- **React** for building UI components
+- **NextAuth.js** for authentication (optional)
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js >= 22.19.0
+- npm >= 11.0.0
+
+### Start
+
+```bash
+npm install 
+mpn run start
+```
+
+## 💻 Development
+
+### Prerequisites
+
+- Node.js >= 22.19.0
+- npm >= 11.0.0
+- DIAL API access (for backend integration)
+
+
+### Development Setup
+
+1. **Clone the repository**
    ```bash
-   git clone https://gitlab.deltixhub.com/Deltix/migapp/talk-to-your-data/statgpt-portal-frontend.git
+   git clone https://github.com/epam/statgpt-global-trusted-data-commons.git
+   cd statgpt-portal-frontend
    ```
 
-2. Install project dependencies:
-
+2. **Install Dependencies**
    ```bash
    npm install
    ```
 
-3. Create `.env` file in the `\apps\trusted-official-data` project directory and add the required variables with appropriate values. These three are the only required environment variables. Refer to [Environment Variables](#environment-variables) to learn more.
+
+3. **Set up env variables** 
+
+   Create `.env` file in the root of project directory and add the required variables with appropriate values. These are the only required environment variables. Refer to [Environment Variables](#-environment-variables) to learn more.
 
    ```bash
+    # DIAL API Configuration
    DIAL_API_URL="ADD_VALUE_HERE"
    DIAL_API_KEY="ADD_VALUE_HERE"
-   NEXTAUTH_SECRET="ADD_VALUE_HERE"
+   DEFAULT_MODEL="ADD_VALUE_HERE"
+   
+    # SDMX API Configuration
    SDMX_API_URL="ADD_VALUE_HERE"
-   SDMX_AUTH_KEY="ADD_VALUE_HERE"
+   CONSTRAINS_SDMX_API_URL="ADD_VALUE_HERE"
    ```
 
-4. To start the development server, run:
-
+3. **Start Development Environment**
    ```bash
-   npm run nx serve trusted-official-data
+   npm run start
    ```
 
-Once the server is up and running, open `http://localhost:4200` in your browser to view the Trusted Official Data application.
+   Once the server is up and running, open `http://localhost:4200` in your browser to view the Global Trusted Data Commons application.
 
-To run the optimized production build, execute this command:
-
-```bash
-npm run nx serve trusted-official-data --configuration=production
-```
-
-This will start a production server on the default port 4200.
-
-## Build
-
-To create an optimized build of your application, run the following command:
+## 🔨 Build
 
 ```bash
-npm run nx build trusted-official-data --configuration=production
+npm run build
 ```
 
-After running the command, you will see a `.next` folder created in your project directory with the optimized output.
+After running the command, you will see a `dist` folder created in your project directory with the optimized output.
 
-## Test
+## 🧪 Test
 
 To run the unit tests suite for your application, execute the following command:
 
 ```bash
-npm run nx test trusted-official-data
+npm run nx test
 ```
 
 
-## Environment Variables
+## 🧑‍💻 Environment Variables
 
-Trusted Official Data uses environment variables for configuration. All environment variables that can be used to configure settings and behavior of the application are included in the `.env` file.
+### Environment Variables for the Application
+
+Global Trusted Data Commons uses environment variables for configuration. All environment variables that can be used to configure settings and behavior of the application are included in the `.env` file.
 
 > Selected variables were predefined for the development purposes in the `.env.development` file.
 
-| Variable                            | Required | Description                                                                                                                                                                                                                                                                                                        | Available Values                                                                                 | Default values                                                                                                                     |
-| ----------------------------------- |:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `DIAL_API_URL`                     |   Yes    | AI DIAL Core API Host.<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings).                                                                                                                                                                                     | Any string                                                                                       |                                                                                                                                    |
-| `DIAL_API_KEY`                      | Optional | AI DIAL Core API Key.<br />Define this variable if authorization using JWT is not configured.<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) to learn how to set up AI DIAL Core and define API keys.                                                      | Any string                                                                                       |                                                                                                                                    |
-| `DIAL_API_VERSION`                  |    No    | AI DIAL API Version                                                                                                                                                                                                                                                                                                | Any string                                                                                       | `2024-02-01`                                                                                                                       |
-| `DEFAULT_MODEL`                     |    No    | A model that will be used for the new conversation if the recently-used models or recently-used models from local storage are not available. If none of the above is available - the first model from the AI DIAL Core config will be used as a pre-selected conversation model. `Reference` or `ID` of the agent. | Any string                                                                                       | First available model from [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) config listing |
-| `SDMX_API_URL`                     |   Yes    | SDMX + api url                                                                                                                                                                                                                                                                                                     | Any string                                                                                       |  |
-| `SDMX_AUTH_KEY`                    |   Yes    | SDMX api basic auth key                                                                                                                                                                                                                                                                                          | Any string                                                                                       |  |
-
-
+| Variable                            | Required | Description                                                                                                                                                                                                                                                 | Available Values                                                                                 | Default values                                                                                                                     |
+| ----------------------------------- |:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `DIAL_API_URL`                     |   Yes    | AI DIAL Core API Url.<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings).                                                                                                                               | Any string                                                                                       |                                                                                                                                    |
+| `DIAL_API_KEY`                      | Optional | AI DIAL Core API Key.<br />Define this variable if authorization using JWT is not configured.<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) to learn how to set up AI DIAL Core and define API keys. | Any string                                                                                       |                                                                                                                                    |
+| `DIAL_API_VERSION`                  |    No    | AI DIAL API Version                                                                                                                                                                                                                                         | Any string                                                                                       | `2024-02-01`                                                                                                                       |
+| `DEFAULT_MODEL`                     |    No    | A model that will be used for the new conversation. `Reference` or `ID` of the agent.                                                                                                                                                                       | Any string                                                                                       | First available model from [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) config listing |
+| `SDMX_API_URL`                     |   Yes    | SDMX+ api url                                                                                                                                                                                                                                               | Any string                                                                                       |  |
+| `CONSTRAINS_SDMX_API_URL`          |    No    | SDMX+ Constrains api url                                                                                                                                                                                                                                    | Any string                                                                                       |  |
 
 ### Environment Variables for the CSP
 
 There env variables controls CSP
 
-| Variable                  | Required | Description                         | Available Values   | Default values |
-| ------------------------- | :------: | ----------------------------------- | ------------------ | -------------- |
-| `ALLOWED_FRAME_ANCESTORS` |    No    | Where app can be inserted as iframe | Any valid url list | 'none' 
-
-### Environment Variables for the Configuration of [Opentelemetry](https://opentelemetry.io/)
-
-All standard env variables you could find in the official [opentelemetry documentation](https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/).
-If no value set for the **OTEL_METRICS_EXPORTER** then [OpenTelemetry Prometheus Metric Exporter](https://www.npmjs.com/package/@opentelemetry/exporter-prometheus) will be used. If value set to _"otlp"_ the [OpenTelemetry Collector Metrics Exporter for web and node](https://www.npmjs.com/package/@opentelemetry/exporter-metrics-otlp-http) will be used.
+| Variable                  |  Required  | Description                         | Available Values    | Default values   |
+|---------------------------| :------: |-------------------------------------|---------------------|------------------|
+| `ALLOWED_FRAME_ANCESTORS` |    No    | Where app can be inserted as iframe | Any valid url list  | 'none'           |
 
 ### Environment Variables for the Configuration of Auth Providers
 
-> Refer to [IDP Configuration](https://github.com/epam/ai-dial/blob/main/docs/tutorials/2.devops/2.auth-and-access-control/3.configure-idps/0.overview.md) to view configuration examples for supported IDP providers.
-
-The table below presents a list of environment variables you can use to configure a specific IDP provider.
-
-> **NOTE**: to test the Trusted Official Data application in an **unauthenticated** mode, do not provide any of these variables. The only required variable to launch the application is `NEXTAUTH_SECRET`.
+General auth variables:
 
 | Variable                          |                         Required                         | Description                                                                                                                                                                                                                                        | Available Values                                                                                                                | Default values                                  |
 |-----------------------------------| :------------------------------------------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `NEXTAUTH_URL`                    | Optional.<br /> Required for **production** deployments. | NextAuth URL                                                                                                                                                                                                                                       | Any string                                                                                                                      |                                                 |
-| `NEXTAUTH_SECRET`                 |                           Yes                            | NextAuth Secret (generate by `openssl rand -base64 32` for example)                                                                                                                                                                                | Any string                                                                                                                      |                                                 |
-| `ADMIN_ROLE_NAMES`                |                            No                            | Defines default administrator role names                                                                                                                                                                                                           | Any string. Values must be separated by a comma.                                                                                | `admin`                                         |
-| `DIAL_ROLES_FIELD`                |                            No                            | Defines the path of the roles field in JWT token                                                                                                                                                                                                   | Any string. Value can be dot-separated. E.g. path `realm_access.roles` if there is a claim `realm_access: { roles: ['admin'] }` | `dial_roles`                                    |
+| `NEXTAUTH_SECRET`                 |                           Optional                            | NextAuth Secret (generate by `openssl rand -base64 32` for example)                                                                                                                                                                                | Any string                                                                                                                      |                                                 |
+
+
+The table below presents a list of environment variables you can use to configure a specific IDP provider.
+
+| Variable                          |                         Required                         | Description                                                                                                                                                                                                                                        | Available Values                                                                                                                | Default values                                  |
+|-----------------------------------| :------------------------------------------------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `AUTH_AUTH0_AUDIENCE`             |                            No                            | Auth0 Audience                                                                                                                                                                                                                                     | Any string                                                                                                                      |                                                 |
 | `AUTH_AUTH0_CLIENT_ID`            |                            No                            | Auth0 Client ID                                                                                                                                                                                                                                    | Any string                                                                                                                      |                                                 |
 | `AUTH_AUTH0_HOST`                 |                            No                            | Auth0 Host                                                                                                                                                                                                                                         | Any string                                                                                                                      |                                                 |
@@ -172,3 +231,32 @@ The table below presents a list of environment variables you can use to configur
 | `AUTH_OKTA_SCOPE`                 |                            No                            | Okta Scope                                                                                                                                                                                                                                         | Any string                                                                                                                      | `openid email profile`                          |
 | `AUTH_OKTA_ADMIN_ROLE_NAMES`      |                            No                            | Defines the administrator names                                                                                                                                                                                                                    | Any string. Values must be separated by a comma.                                                                                |                                                 |
 | `AUTH_OKTA_DIAL_ROLES_FIELD`      |                            No                            | Defines the path of the roles field in JWT token                                                                                                                                                                                                   | refer to `DIAL_ROLES_FIELD` for details                                                                                         |                                                 |
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on:
+
+- Code style guidelines
+- Testing requirements
+- Pull request process
+
+
+## 🔒 Security
+
+If you discover a security vulnerability, please refer to our [Security Policy](./SECURITY.md).
+
+## 📄 License
+
+[MIT](./LICENSE) - see the [LICENSE](./LICENSE) file for details.
+
+## 🌟 Related Projects
+
+- [StatGPT Frontend](https://github.com/epam/statgpt-portal-frontend) - Frontend codebase for StatGPT portals.
+- [StatGPT Backend](https://github.com/epam/statgpt-backend)- StatGPT backend, which implements APIs and main logic of the StatGPT application.
+- [AI-DIAL](https://github.com/epam/ai-dial) - Entrypoint for all AI Dial projects
+
+---
+
+<p align="center">
+  Made by <a href="https://www.epam.com">EPAM Systems</a>
+</p>
