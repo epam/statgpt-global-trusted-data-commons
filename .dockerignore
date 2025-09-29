@@ -6,4 +6,5 @@ helm
 .env
 .env.local
 .git
+.github
 docs
