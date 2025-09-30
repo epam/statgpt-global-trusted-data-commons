@@ -12,8 +12,7 @@ COPY . .
 
 # Fix permissions as root
 RUN chmod -R +x /app/node_modules/.bin && \
-  chmod -R +x /app/node_modules/next/dist/bin && \
-  chown -R nodejs:nodejs /app
+  chmod -R +x /app/node_modules/next/dist/bin
 
 USER nodejs
 ENV NEXT_TELEMETRY_DISABLED=1
