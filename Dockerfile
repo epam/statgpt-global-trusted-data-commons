@@ -11,8 +11,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Fix permissions as root
-RUN chmod -R +x /app/node_modules/.bin && \
-  chmod -R +x /app/node_modules/next/dist/bin
+RUN chmod -R +x /app/node_modules/.bin
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
