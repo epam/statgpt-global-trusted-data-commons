@@ -14,7 +14,6 @@ COPY . .
 RUN chmod -R +x /app/node_modules/.bin && \
   chmod -R +x /app/node_modules/next/dist/bin
 
-USER nodejs
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
