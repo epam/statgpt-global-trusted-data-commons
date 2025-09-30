@@ -1,24 +1,40 @@
 FROM node:22-alpine AS base
 
-# Set working directory
+FROM base AS deps
 WORKDIR /app
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci
 
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Fix permissions as root
+RUN chmod -R +x /app/node_modules/.bin && \
+  chmod -R +x /app/node_modules/next/dist/bin && \
+  chown -R nodejs:nodejs /app
+
+USER nodejs
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN npm run build
+
+FROM node:22-alpine AS runner
+WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Build the Next.js app (runs as root)
-RUN npm run build
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Fix permissions so cache files can be written at runtime
-RUN mkdir -p /app/.next/cache && chmod -R 777 /app/.next
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Expose Next.js port
+USER nextjs
+
 EXPOSE 3000
 
 # Run as root (DO NOT switch to USER node for now)
