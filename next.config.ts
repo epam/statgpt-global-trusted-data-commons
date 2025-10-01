@@ -19,6 +19,7 @@ const ContentSecurityPolicy = `
 `;
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   poweredByHeader: false,
   async rewrites() {
     const dialApiHost = process.env.DIAL_API_URL;
