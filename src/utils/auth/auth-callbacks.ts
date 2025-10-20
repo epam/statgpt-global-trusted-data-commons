@@ -2,7 +2,6 @@
 import { Account, CallbacksOptions, Profile } from 'next-auth';
 
 import { decodeJwt } from 'jose';
-import { get } from 'lodash';
 import { TokenSet } from 'openid-client';
 import { Token, UserSession } from '../../models/auth';
 import { logTokenExpiration } from './log-token-info';
@@ -18,20 +17,6 @@ export const safeDecodeJwt = (accessToken: string) => {
     // TODO: read roles from GCP token format
     return {};
   }
-};
-
-const getUser = (accessToken?: string) => {
-  const rolesFieldName = process.env.DIAL_ROLES_FIELD ?? 'dial_roles';
-  const decodedPayload = accessToken ? safeDecodeJwt(accessToken) : {};
-  const adminRoleNames = (process.env.ADMIN_ROLE_NAMES || 'admin').split(',');
-  const dialRoles = get(decodedPayload, rolesFieldName, []) as string[];
-  const roles = Array.isArray(dialRoles) ? dialRoles : [dialRoles];
-  const isAdmin =
-    roles.length > 0 && adminRoleNames.some((role) => roles.includes(role));
-
-  return {
-    isAdmin,
-  };
 };
 
 /**
@@ -120,7 +105,6 @@ async function refreshAccessToken(token: Token) {
     logTokenExpiration(refreshedTokens, 'in refreshAccessToken callback');
     const returnToken = {
       ...token,
-      user: getUser(refreshedTokens.access_token),
       access_token: refreshedTokens.access_token,
       accessTokenExpires: refreshedTokens.expires_in
         ? Date.now() + refreshedTokens.expires_in * 1000
@@ -153,7 +137,6 @@ export const callbacks: Partial<
     if (options.account) {
       return {
         ...options.token,
-        user: getUser(options.account?.access_token),
         jobTitle: options.profile?.job_title,
         access_token: options.account.access_token,
         accessTokenExpires:
@@ -175,7 +158,6 @@ export const callbacks: Partial<
     ) {
       return {
         ...options.token,
-        user: getUser(options.token?.access_token as string),
       };
     }
 
@@ -183,7 +165,7 @@ export const callbacks: Partial<
     const refreshedToken = await refreshAccessToken(typedToken);
 
     const newToken = { ...refreshedToken, isNew: true };
-    console.log('newToken', newToken);
+
     if ((newToken as { error?: string }).error) {
       console.error(
         (newToken as { error?: string }).error,
@@ -205,13 +187,6 @@ export const callbacks: Partial<
     if (options.token?.error) {
       console.info(`Session error: ${options.token.error}`);
       (options.session as UserSession).error = options.token.error;
-    }
-
-    const isAdmin =
-      (options?.token?.user as { isAdmin?: boolean })?.isAdmin ?? false;
-
-    if (options.session.user) {
-      (options?.session?.user as { isAdmin?: boolean }).isAdmin = isAdmin;
     }
 
     return options.session;

@@ -82,3 +82,40 @@
     }
   }
 }
+.message-wrapper {
+  &:hover {
+    .message-actions {
+      @apply opacity-100;
+    }
+  }
+
+  .edit-buttons-wrapper {
+    @apply justify-end;
+  }
+}
+
+.loading-message {
+  @apply p-3;
+}
+
+.message-actions {
+  @apply opacity-0 transition duration-300;
+
+  & > p {
+    @apply cursor-pointer;
+
+    svg {
+      @apply text-neutrals-1000;
+    }
+
+    &:hover {
+      svg {
+        @apply text-primary;
+      }
+    }
+  }
+}
+
+.scroll-button-wrapper {
+  bottom: 140px;
+}

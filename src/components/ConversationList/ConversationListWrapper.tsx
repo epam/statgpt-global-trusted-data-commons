@@ -3,33 +3,30 @@
 import { IconPlus } from '@tabler/icons-react';
 import classNames from 'classnames';
 import { useParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import {
-  ActionMenuItem,
-  ConversationList,
-  ConversationListTitles,
-} from '@dev-statgpt/conversation-list';
-import { useAdvancedView } from '@dev-statgpt/conversation-view';
-import {
-  getConversationId,
-  getConversationNavPath,
-} from '@dev-statgpt/shared-toolkit';
-import { Button } from '@dev-statgpt/ui-components';
-import Delete from '../../../public/images/chat/delete.svg';
-import Export from '../../../public/images/chat/export.svg';
-import Share from '../../../public/images/chat/share.svg';
+import { ConversationList } from '@statgpt/conversation-list/src/components/ConversationList/ConversationList';
+import MessageIcon from '../../../public/images/message-dots.svg';
+import { useAdvancedView } from '@statgpt/conversation-view/src/context/AdvancedViewContext';
 import Logo from '../../../public/images/logo.svg';
 import Collapse from '../../../public/images/menu/collapse.svg';
+import Share from '../../../public/images/chat/share.svg';
+import Delete from '../../../public/images/chat/delete.svg';
+import Export from '../../../public/images/chat/export.svg';
 import Expand from '../../../public/images/menu/expand.svg';
-import MessageIcon from '../../../public/images/message-dots.svg';
+import Rename from '../../../public/images/chat/rename.svg';
+
+import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { getFileBlob } from '../../app/actions/attachments';
 import {
   deleteConversation,
-  getConversation,
   getConversations,
+  getConversation,
   getSharedConversations,
+  renameConversation,
 } from '../../app/actions/conversations';
+import { ApplicationRoute } from '../../types/application-routes';
+import { useCurrentLocale, useI18n } from '../../locales/client';
 import {
   AppI18nKeys,
   ChatI18nKeys,
@@ -37,10 +34,15 @@ import {
   DateGroupsI18nKeys,
   I18nKeys,
 } from '../../constants/i18n-keys';
-import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
+import { Button } from '@statgpt/ui-components/src/components/Button/Button';
 import { useConversationList } from '../../context/ConversationListContext';
-import { useCurrentLocale, useI18n } from '../../locales/client';
-import { ApplicationRoute } from '../../types/application-routes';
+import { ActionMenuItem } from '@statgpt/conversation-list/src/types/action-menu-item';
+import { getConversationNavPath } from '@statgpt/shared-toolkit/src/utils/conversation-id-to-navigation';
+import { getConversationId } from '@statgpt/shared-toolkit/src/utils/conversation-navigation-to-id';
+import { ConversationListTitles } from '@statgpt/conversation-list/src/models/titles';
+import { SIGN_IN_LINK } from '../../constants/auth';
+import { ApiResponse } from '@statgpt/shared-toolkit/src';
+import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 
 const ConversationListWrapper = () => {
   const t = useI18n();
@@ -57,13 +59,28 @@ const ConversationListWrapper = () => {
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const actions = {
-    getConversations,
-    getSharedConversations,
-    deleteConversation,
-    getConversation,
-    getFileBlob,
-  };
+  const authHandler = useCallback(
+    <Args extends any[], T>(
+      action: (...args: Args) => Promise<ApiResponse<T>>,
+    ): ((...args: Args) => Promise<T>) => {
+      return wrapWithAuthHandler(action, () => {
+        router.push(SIGN_IN_LINK);
+      });
+    },
+    [router],
+  );
+
+  const actions = useMemo(
+    () => ({
+      getConversations: authHandler(getConversations),
+      getSharedConversations: authHandler(getSharedConversations),
+      deleteConversation: authHandler(deleteConversation),
+      getConversation: authHandler(getConversation),
+      getFileBlob: authHandler(getFileBlob),
+      renameConversation: authHandler(renameConversation),
+    }),
+    [authHandler],
+  );
 
   const titles: ConversationListTitles = {
     noConversation: t(ConversationI18nKeys.NO_CONVERSATIONS),
@@ -81,6 +98,9 @@ const ConversationListWrapper = () => {
     yesterday: t(DateGroupsI18nKeys.YESTERDAY),
     lastWeek: t(DateGroupsI18nKeys.LAST_WEEK),
     earlier: t(DateGroupsI18nKeys.EARLIER),
+    rename: t(ConversationI18nKeys.RENAME),
+    renameTitle: t(ConversationI18nKeys.RENAME_TITLE),
+    save: t(ConversationI18nKeys.SAVE),
   };
 
   const onToggleCollapse = useCallback(() => {
@@ -119,6 +139,20 @@ const ConversationListWrapper = () => {
     }
   }, [isOpenedAdvancedView, router, setIsOpenedAdvancedView]);
 
+  const shareTitles = {
+    share: t(ChatI18nKeys.SHARE),
+    shareLink: t(ChatI18nKeys.SHARE_LINK_TITLE),
+    close: t(AppI18nKeys.CLOSE),
+    shareCopyLink: t(ChatI18nKeys.SHARE_COPY_LINK),
+    shareCopiedLink: t(ChatI18nKeys.SHARE_COPIED_LINK),
+    shareDescription: t(ChatI18nKeys.SHARE_LINK_DESCRIPTION),
+    shareRemoveAccessToUsers: t(ChatI18nKeys.SHARE_REMOVE_ACCESS_TO_USERS),
+    chatExpiration: t(ChatI18nKeys.CHAT_EXPIRATION),
+    chatExpirationDays: t(ChatI18nKeys.CHAT_EXPIRATION_DAYS),
+    chatName: t(ChatI18nKeys.CHAT_NAME),
+    chatWarning: t(ChatI18nKeys.CHAT_WARNING),
+  };
+
   return (
     <aside
       className={classNames(
@@ -136,7 +170,7 @@ const ConversationListWrapper = () => {
           className="flex flex-row items-center cursor-pointer"
           onClick={redirectToMainView}
         >
-          <Logo />
+          <Logo width={34} height={34} />
           {!isCollapsed ? (
             <span className="text-hues-900 text-start logo ml-3">
               <p className="font-semibold mr-1 inline mb-1">
@@ -153,7 +187,7 @@ const ConversationListWrapper = () => {
             title={t(I18nKeys.App.COLLAPSE)}
             onClick={onToggleCollapse}
           >
-            <Collapse />
+            <Collapse width={20} height={20} />
           </i>
         ) : null}
       </div>
@@ -178,20 +212,8 @@ const ConversationListWrapper = () => {
           actions={actions}
           locale={locale}
           shareConversationProps={{
-            ...SHARE_CONVERSATION_PROPS,
-            share: t(ChatI18nKeys.SHARE),
-            shareLink: t(ChatI18nKeys.SHARE_LINK_TITLE),
-            close: t(AppI18nKeys.CLOSE),
-            shareCopyLink: t(ChatI18nKeys.SHARE_COPY_LINK),
-            shareCopiedLink: t(ChatI18nKeys.SHARE_COPIED_LINK),
-            shareDescription: t(ChatI18nKeys.SHARE_LINK_DESCRIPTION),
-            shareRemoveAccessToUsers: t(
-              ChatI18nKeys.SHARE_REMOVE_ACCESS_TO_USERS,
-            ),
-            chatExpiration: t(ChatI18nKeys.CHAT_EXPIRATION),
-            chatExpirationDays: t(ChatI18nKeys.CHAT_EXPIRATION_DAYS),
-            chatName: t(ChatI18nKeys.CHAT_NAME),
-            chatWarning: t(ChatI18nKeys.CHAT_WARNING),
+            ...SHARE_CONVERSATION_PROPS(authHandler),
+            ...shareTitles,
             id,
           }}
           conversations={conversations}
@@ -205,13 +227,14 @@ const ConversationListWrapper = () => {
             isSmallModalButton: true,
             conversationItemIcon: (
               <i className="w-[20px] h-[20px] mr-4">
-                <MessageIcon />
+                <MessageIcon width={20} height={20} />
               </i>
             ),
             actionsIcons: {
-              [ActionMenuItem.DELETE]: <Delete />,
-              [ActionMenuItem.SHARE]: <Share />,
-              [ActionMenuItem.EXPORT]: <Export />,
+              [ActionMenuItem.DELETE]: <Delete width={16} height={16} />,
+              [ActionMenuItem.SHARE]: <Share width={16} height={16} />,
+              [ActionMenuItem.EXPORT]: <Export width={16} height={16} />,
+              [ActionMenuItem.RENAME]: <Rename width={16} height={16} />,
             },
           }}
         >
@@ -221,7 +244,7 @@ const ConversationListWrapper = () => {
               title={t(I18nKeys.App.EXPAND)}
               onClick={onToggleCollapse}
             >
-              <Expand />
+              <Expand width={20} height={20} />
             </i>
           ) : null}
         </ConversationList>

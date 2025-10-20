@@ -1,4 +1,4 @@
-import { DIAL_API_ROUTES } from '@dev-statgpt/dial-toolkit';
+import { DIAL_API_ROUTES,ResourceTypes,ConversationResource } from '@dev-statgpt/dial-toolkit';
 import {
   getHeaders,
   RequestOptions,
@@ -56,8 +56,13 @@ export default async function Page({
     redirect('/');
   }
 
+  const conversationResource = sharedConversationDetails?.resources?.find(
+    (resource: ConversationResource) =>
+      resource?.url?.includes(ResourceTypes.CONVERSATION?.toLowerCase()),
+  );
+
   const conversationUrl = getConversationUrlWithoutLocale(
-    sharedConversationDetails?.resources?.[0]?.url,
+    conversationResource?.url,
     locale,
   );
 
