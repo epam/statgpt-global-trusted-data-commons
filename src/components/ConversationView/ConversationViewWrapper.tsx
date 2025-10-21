@@ -2,10 +2,15 @@
 
 import { Conversation } from '@epam/ai-dial-shared';
 import {
-  AdvancedView, AttachmentsActions,
+  AdvancedView,
+  AttachmentsActions,
   AttachmentsStyles,
-  ChartingIcon, ConversationView, ConversationViewTitles,
-  MessageActionIcons, useAdvancedView, UserInfo
+  ChartingIcon,
+  ConversationView,
+  ConversationViewTitles,
+  MessageActionIcons,
+  useAdvancedView,
+  UserInfo,
 } from '@epam/statgpt-conversation-view';
 import { Dataflow, openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
 import {
@@ -76,7 +81,6 @@ import { useI18n } from '../../locales/client';
 import { ApplicationRoute } from '../../types/application-routes';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import Footer from '../Footer/Footer';
-
 
 interface Props {
   bucketId: string;
