@@ -1,14 +1,31 @@
 'use client';
 
-import { openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
+import { Conversation } from '@epam/ai-dial-shared';
 import {
+  AdvancedView, AttachmentsActions,
+  AttachmentsStyles,
+  ChartingIcon, ConversationView, ConversationViewTitles,
+  MessageActionIcons, useAdvancedView, UserInfo
+} from '@epam/statgpt-conversation-view';
+import { Dataflow, openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
+import {
+  ApiResponse,
   CUSTOM_PERIOD,
   DataQuery,
   TimeRangeOptions,
 } from '@epam/statgpt-shared-toolkit';
-import { AdvancedView } from '@statgpt/conversation-view/src/components/AdvancedView/AdvancedView';
-import { ConversationView } from '@statgpt/conversation-view/src/components/ConversationView/ConversationView';
-import { useAdvancedView } from '@statgpt/conversation-view/src/context/AdvancedViewContext';
+import {
+  IconCalendarWeek,
+  IconChevronRight,
+  IconCircleFilled,
+  IconSend,
+  IconSquareCheckFilled,
+} from '@tabler/icons-react';
+import classNames from 'classnames';
+import { JWT } from 'next-auth/jwt';
+import { signOut, useSession } from 'next-auth/react';
+import { useParams, useRouter } from 'next/navigation';
+import { FC, useCallback, useMemo, useState } from 'react';
 import AdvancedModeIcon from '../../../public/images/advanced-mode.svg';
 import Dataset from '../../../public/images/chat/data-set.svg';
 import Down from '../../../public/images/chat/down.svg';
@@ -38,6 +55,7 @@ import {
   updateConversation,
 } from '../../app/actions/conversations';
 import { getDataSet, getDataSetData } from '../../app/actions/dataset';
+import { SIGN_IN_LINK } from '../../constants/auth';
 import { formatNumbers } from '../../constants/format-numbers';
 import {
   AdvancedViewI18nKeys,
@@ -56,32 +74,9 @@ import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { useConversationList } from '../../context/ConversationListContext';
 import { useI18n } from '../../locales/client';
 import { ApplicationRoute } from '../../types/application-routes';
-import Footer from '../Footer/Footer';
-import { Conversation } from '@epam/ai-dial-shared';
-import {
-  AttachmentsActions,
-  AttachmentsStyles,
-  ChartingIcon,
-  UserInfo,
-  ConversationViewTitles,
-  MessageActionIcons,
-} from '@epam/statgpt-conversation-view';
-import { Dataflow } from '@epam/statgpt-sdmx-toolkit';
-import { ApiResponse } from '@epam/statgpt-shared-toolkit';
-import {
-  IconCalendarWeek,
-  IconChevronRight,
-  IconCircleFilled,
-  IconSend,
-  IconSquareCheckFilled,
-} from '@tabler/icons-react';
-import classNames from 'classnames';
-import { JWT } from 'next-auth/jwt';
-import { signOut, useSession } from 'next-auth/react';
-import { useParams, useRouter } from 'next/navigation';
-import { FC, useCallback, useMemo, useState } from 'react';
-import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
+import Footer from '../Footer/Footer';
+
 
 interface Props {
   bucketId: string;
