@@ -1,16 +1,17 @@
-import { DIAL_API_ROUTES,ResourceTypes,ConversationResource } from '@dev-statgpt/dial-toolkit';
+import { DIAL_API_ROUTES,ResourceTypes,ConversationResource } from '@epam/statgpt-dial-toolkit';
 import {
   getHeaders,
   RequestOptions,
   sendRequest,
   getConversationUrlWithoutLocale,
-} from '@dev-statgpt/shared-toolkit';
+} from '@epam/statgpt-shared-toolkit';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+
 import { getIsInvalidSession } from '../../../../utils/auth/is-valid-session';
 import { SIGN_IN_LINK } from '../../../../constants/auth';
 import { getUserToken } from '../../../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../../../utils/auth/get-auth-toggle';
-import { cookies, headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 

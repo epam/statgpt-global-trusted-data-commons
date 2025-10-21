@@ -1,11 +1,12 @@
 'use server';
 
-import { dialApiClient } from '../api/api';
-import { DIAL_API_ROUTES } from '@dev-statgpt/dial-toolkit';
+import { DIAL_API_ROUTES } from '@epam/statgpt-dial-toolkit';
+import { ApiResponse } from '@epam/statgpt-shared-toolkit';
 import { cookies, headers } from 'next/headers';
+
+import { dialApiClient } from '../api/api';
 import { getUserToken } from '../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';
-import { ApiResponse } from '@statgpt/shared-toolkit';
 import { getIsInvalidSession } from '../../utils/auth';
 import { INVALID_SESSION_RESPONSE } from '../../utils/auth/check-session';
 import { makeSuccessResponse } from '../../utils/auth/success-response';

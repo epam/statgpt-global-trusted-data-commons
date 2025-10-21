@@ -1,13 +1,14 @@
 'use server';
 
-import { SeriesFilterDto, StructuralMetaData } from '@dev-statgpt/sdmx-toolkit';
+import { SeriesFilterDto, StructuralMetaData } from '@epam/statgpt-sdmx-toolkit';
+import { ApiResponse } from '@epam/statgpt-shared-toolkit';
+
 import { apiLogger } from '../../core/logger';
 import { availabilityApi } from '../api/api';
 import {
   checkSessionInvalid,
   INVALID_SESSION_RESPONSE,
 } from '../../utils/auth/check-session';
-import { ApiResponse } from '@statgpt/shared-toolkit';
 import { makeSuccessResponse } from '../../utils/auth/success-response';
 
 export async function getConstraints(

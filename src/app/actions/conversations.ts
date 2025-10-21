@@ -1,9 +1,6 @@
 'use server';
 
 import { Conversation, ConversationInfo } from '@epam/ai-dial-shared';
-import { getBucket } from './bucket';
-import { conversationApi, DEFAULT_MODEL_ID } from '../api/api';
-import { apiLogger } from '../../core/logger';
 import {
   ConversationData,
   CreateConversationRequest,
@@ -11,12 +8,16 @@ import {
   SharedConversations,
   SharedConversationsRequest,
   UpdateConversationRequest,
-} from '@dev-statgpt/dial-toolkit';
+} from '@epam/statgpt-dial-toolkit';
 import { revalidatePath } from 'next/cache';
 import { cookies, headers } from 'next/headers';
+import { ApiResponse, HTTP_ERROR_CODES } from '@epam/statgpt-shared-toolkit';
+
+import { getBucket } from './bucket';
+import { conversationApi, DEFAULT_MODEL_ID } from '../api/api';
+import { apiLogger } from '../../core/logger';
 import { getUserToken } from '../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';
-import { ApiResponse, HTTP_ERROR_CODES } from '@statgpt/shared-toolkit';
 import { getIsInvalidSession } from '../../utils/auth/is-valid-session';
 import { INVALID_SESSION_RESPONSE } from '../../utils/auth/check-session';
 import { makeSuccessResponse } from '../../utils/auth/success-response';

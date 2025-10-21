@@ -3,30 +3,33 @@
 import { IconPlus } from '@tabler/icons-react';
 import classNames from 'classnames';
 import { useParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-import { ConversationList } from '@statgpt/conversation-list/src/components/ConversationList/ConversationList';
-import MessageIcon from '../../../public/images/message-dots.svg';
-import { useAdvancedView } from '@statgpt/conversation-view/src/context/AdvancedViewContext';
-import Logo from '../../../public/images/logo.svg';
-import Collapse from '../../../public/images/menu/collapse.svg';
-import Share from '../../../public/images/chat/share.svg';
+import {
+  ActionMenuItem,
+  ConversationList,
+  ConversationListTitles,
+} from '@epam/statgpt-conversation-list';
+import { useAdvancedView } from '@epam/statgpt-conversation-view';
+import {
+  getConversationId,
+  getConversationNavPath,
+} from '@epam/statgpt-shared-toolkit';
+import { Button } from '@epam/statgpt-ui-components';
 import Delete from '../../../public/images/chat/delete.svg';
 import Export from '../../../public/images/chat/export.svg';
+import Share from '../../../public/images/chat/share.svg';
+import Logo from '../../../public/images/logo.svg';
+import Collapse from '../../../public/images/menu/collapse.svg';
 import Expand from '../../../public/images/menu/expand.svg';
-import Rename from '../../../public/images/chat/rename.svg';
-
-import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
+import MessageIcon from '../../../public/images/message-dots.svg';
 import { getFileBlob } from '../../app/actions/attachments';
 import {
   deleteConversation,
-  getConversations,
   getConversation,
+  getConversations,
   getSharedConversations,
-  renameConversation,
 } from '../../app/actions/conversations';
-import { ApplicationRoute } from '../../types/application-routes';
-import { useCurrentLocale, useI18n } from '../../locales/client';
 import {
   AppI18nKeys,
   ChatI18nKeys,
@@ -34,15 +37,10 @@ import {
   DateGroupsI18nKeys,
   I18nKeys,
 } from '../../constants/i18n-keys';
-import { Button } from '@statgpt/ui-components/src/components/Button/Button';
+import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { useConversationList } from '../../context/ConversationListContext';
-import { ActionMenuItem } from '@statgpt/conversation-list/src/types/action-menu-item';
-import { getConversationNavPath } from '@statgpt/shared-toolkit/src/utils/conversation-id-to-navigation';
-import { getConversationId } from '@statgpt/shared-toolkit/src/utils/conversation-navigation-to-id';
-import { ConversationListTitles } from '@statgpt/conversation-list/src/models/titles';
-import { SIGN_IN_LINK } from '../../constants/auth';
-import { ApiResponse } from '@statgpt/shared-toolkit/src';
-import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
+import { useCurrentLocale, useI18n } from '../../locales/client';
+import { ApplicationRoute } from '../../types/application-routes';
 
 const ConversationListWrapper = () => {
   const t = useI18n();

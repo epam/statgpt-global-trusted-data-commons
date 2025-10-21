@@ -5,7 +5,7 @@ import {
   DatasetQueryFilters,
   SdmxReferences,
   StructuralMetaData,
-} from '@dev-statgpt/sdmx-toolkit';
+} from '@epam/statgpt-sdmx-toolkit';
 import { apiLogger } from '../../core/logger';
 import { datasetApi } from '../api/api';
 import {
@@ -13,7 +13,7 @@ import {
   INVALID_SESSION_RESPONSE,
 } from '../../utils/auth/check-session';
 import { makeSuccessResponse } from '../../utils/auth/success-response';
-import { ApiResponse } from '@statgpt/shared-toolkit';
+import { ApiResponse } from '@epam/statgpt-shared-toolkit';
 
 export async function getDataSet(
   urn: string,

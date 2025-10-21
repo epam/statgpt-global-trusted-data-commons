@@ -1,8 +1,10 @@
+import { cookies, headers } from 'next/headers';
+import { HTTP_ERROR_CODES } from '@epam/statgpt-shared-toolkit';
+
 import { getUserToken } from './auth-request';
 import { getIsEnableAuthToggle } from './get-auth-toggle';
-import { cookies, headers } from 'next/headers';
 import { getIsInvalidSession } from './is-valid-session';
-import { HTTP_ERROR_CODES } from '@statgpt/shared-toolkit';
+
 
 export const checkSessionInvalid = async () => {
   const isEnableAuth = getIsEnableAuthToggle();
