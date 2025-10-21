@@ -3,7 +3,7 @@
 import { IconPlus } from '@tabler/icons-react';
 import classNames from 'classnames';
 import { useParams, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   ActionMenuItem,
@@ -12,12 +12,14 @@ import {
 } from '@epam/statgpt-conversation-list';
 import { useAdvancedView } from '@epam/statgpt-conversation-view';
 import {
+  ApiResponse,
   getConversationId,
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
 import { Button } from '@epam/statgpt-ui-components';
 import Delete from '../../../public/images/chat/delete.svg';
 import Export from '../../../public/images/chat/export.svg';
+import Rename from '../../../public/images/chat/rename.svg';
 import Share from '../../../public/images/chat/share.svg';
 import Logo from '../../../public/images/logo.svg';
 import Collapse from '../../../public/images/menu/collapse.svg';
@@ -29,6 +31,7 @@ import {
   getConversation,
   getConversations,
   getSharedConversations,
+  renameConversation,
 } from '../../app/actions/conversations';
 import {
   AppI18nKeys,
@@ -41,6 +44,8 @@ import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { useConversationList } from '../../context/ConversationListContext';
 import { useCurrentLocale, useI18n } from '../../locales/client';
 import { ApplicationRoute } from '../../types/application-routes';
+import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
+import { SIGN_IN_LINK } from '../../constants/auth';
 
 const ConversationListWrapper = () => {
   const t = useI18n();

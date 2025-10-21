@@ -5,7 +5,6 @@ import { getUserToken } from './auth-request';
 import { getIsEnableAuthToggle } from './get-auth-toggle';
 import { getIsInvalidSession } from './is-valid-session';
 
-
 export const checkSessionInvalid = async () => {
   const isEnableAuth = getIsEnableAuthToggle();
   const token = await getUserToken(isEnableAuth, headers(), cookies());

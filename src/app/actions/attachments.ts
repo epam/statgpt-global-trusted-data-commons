@@ -1,6 +1,7 @@
 'use server';
 
-import { ApiResponse, GridAttachmentContent } from '@epam/statgpt-dial-toolkit';
+import { GridAttachmentContent } from '@epam/statgpt-dial-toolkit';
+import { ApiResponse } from '@epam/statgpt-shared-toolkit';
 import { cookies, headers } from 'next/headers';
 
 import { apiLogger } from '../../core/logger';

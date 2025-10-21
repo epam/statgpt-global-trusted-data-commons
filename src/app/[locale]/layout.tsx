@@ -1,4 +1,7 @@
-import { AdvancedViewProvider, OnboardingProvider } from '@epam/statgpt-conversation-view';
+import {
+  AdvancedViewProvider,
+  OnboardingProvider,
+} from '@epam/statgpt-conversation-view';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
@@ -10,7 +13,6 @@ import { I18nProvider } from '../../locales/client';
 import { getUserToken } from '../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';
 import { getIsInvalidSession } from '../../utils/auth/is-valid-session';
-
 
 export default async function LocaleLayout({
   children,

@@ -1,6 +1,9 @@
 'use server';
 
-import { SeriesFilterDto, StructuralMetaData } from '@epam/statgpt-sdmx-toolkit';
+import {
+  SeriesFilterDto,
+  StructuralMetaData,
+} from '@epam/statgpt-sdmx-toolkit';
 import { ApiResponse } from '@epam/statgpt-shared-toolkit';
 
 import { apiLogger } from '../../core/logger';

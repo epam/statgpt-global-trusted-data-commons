@@ -1,7 +1,19 @@
 'use client';
 
 import { FormSchemaButtonOption } from '@epam/ai-dial-shared';
-import { ConversationWelcome } from '@statgpt/conversation-view/src/components/ConversationWelcome/ConversationWelcome';
+import {
+  ConversationViewTitles,
+  ConversationWelcome,
+  UserInfo,
+} from '@epam/statgpt-conversation-view';
+import {
+  ApiResponse,
+  getConversationNavPath,
+} from '@epam/statgpt-shared-toolkit';
+import { IconSend } from '@tabler/icons-react';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { FC, useCallback, useMemo } from 'react';
 import WelcomeTitleIcon from '../../../public/images/logo-small.svg';
 import { getBucket } from '../../app/actions/bucket';
 import {
@@ -9,24 +21,16 @@ import {
   getConversations,
   getSharedConversations,
 } from '../../app/actions/conversations';
-import { ApplicationRoute } from '../../types/application-routes';
-import { useRouter } from 'next/navigation';
-import { FC, useCallback, useMemo } from 'react';
-import { useConversationList } from '../../context/ConversationListContext';
-import { IconSend } from '@tabler/icons-react';
-import { getConversationNavPath } from '@statgpt/shared-toolkit/src/utils/conversation-id-to-navigation';
-import { useCurrentLocale, useI18n } from '../../locales/client';
-import { ConversationViewTitles } from '@statgpt/conversation-view/src/models/titles';
+import { SIGN_IN_LINK } from '../../constants/auth';
 import {
   AppI18nKeys,
   AuthI18nKeys,
   NavI18nKeys,
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
-import { signOut, useSession } from 'next-auth/react';
-import { UserInfo } from '@statgpt/user-info/src/models/user-info';
-import { SIGN_IN_LINK } from '../../constants/auth';
-import { ApiResponse } from '@statgpt/shared-toolkit/src';
+import { useConversationList } from '../../context/ConversationListContext';
+import { useCurrentLocale, useI18n } from '../../locales/client';
+import { ApplicationRoute } from '../../types/application-routes';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 
 interface Props {

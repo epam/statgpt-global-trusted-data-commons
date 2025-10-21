@@ -1,4 +1,8 @@
-import { DIAL_API_ROUTES,ResourceTypes,ConversationResource } from '@epam/statgpt-dial-toolkit';
+import {
+  DIAL_API_ROUTES,
+  ResourceTypes,
+  ConversationResource,
+} from '@epam/statgpt-dial-toolkit';
 import {
   getHeaders,
   RequestOptions,
