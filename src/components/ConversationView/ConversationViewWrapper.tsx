@@ -1,20 +1,24 @@
 'use client';
 
+import { Conversation } from '@epam/ai-dial-shared';
 import {
   AdvancedView,
+  AttachmentsActions,
   AttachmentsStyles,
   ChartingIcon,
   ConversationView,
   ConversationViewTitles,
+  MessageActionIcons,
   useAdvancedView,
-} from '@dev-statgpt/conversation-view';
-import { Dataflow, openDownloadWindow } from '@dev-statgpt/sdmx-toolkit';
+  UserInfo,
+} from '@epam/statgpt-conversation-view';
+import { Dataflow, openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
 import {
+  ApiResponse,
   CUSTOM_PERIOD,
   DataQuery,
   TimeRangeOptions,
-} from '@dev-statgpt/shared-toolkit';
-import { Conversation } from '@epam/ai-dial-shared';
+} from '@epam/statgpt-shared-toolkit';
 import {
   IconCalendarWeek,
   IconChevronRight,
@@ -24,10 +28,12 @@ import {
 } from '@tabler/icons-react';
 import classNames from 'classnames';
 import { JWT } from 'next-auth/jwt';
+import { signOut, useSession } from 'next-auth/react';
 import { useParams, useRouter } from 'next/navigation';
-import { FC, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import AdvancedModeIcon from '../../../public/images/advanced-mode.svg';
 import Dataset from '../../../public/images/chat/data-set.svg';
+import Down from '../../../public/images/chat/down.svg';
 import DownloadIcon from '../../../public/images/chat/download.svg';
 import ErrorIcon from '../../../public/images/chat/error.svg';
 import MessageIcon from '../../../public/images/chat/message-icon.svg';
@@ -35,6 +41,13 @@ import SuccessIcon from '../../../public/images/chat/success.svg';
 import ChevronLeft from '../../../public/images/chevron-left.svg';
 import ChevronRight from '../../../public/images/chevron-right.svg';
 import ChevronSolidDownIcon from '../../../public/images/chevron-solid-down.svg';
+import Copy from '../../../public/images/messages/copy.svg';
+import Edit from '../../../public/images/messages/edit.svg';
+import Regenerate from '../../../public/images/messages/renew.svg';
+import ThumbDown from '../../../public/images/messages/thumb-down.svg';
+import ThumbPressed from '../../../public/images/messages/thumb-filled.svg';
+import ThumbUp from '../../../public/images/messages/thumb-up.svg';
+import Reset from '../../../public/images/reset.svg';
 import UnfoldIcon from '../../../public/images/unfold.svg';
 import { getFile } from '../../app/actions/attachments';
 import { getBucket } from '../../app/actions/bucket';
@@ -43,15 +56,19 @@ import {
   createConversation,
   getConversation,
   getConversations,
+  rateResponse,
   updateConversation,
 } from '../../app/actions/conversations';
 import { getDataSet, getDataSetData } from '../../app/actions/dataset';
+import { SIGN_IN_LINK } from '../../constants/auth';
 import { formatNumbers } from '../../constants/format-numbers';
 import {
   AdvancedViewI18nKeys,
   AppI18nKeys,
   AttachmentsI18nKeys,
+  AuthI18nKeys,
   ChatI18nKeys,
+  ConversationI18nKeys,
   DownloadI18nKeys,
   MessageI18nKeys,
   NavI18nKeys,
@@ -62,6 +79,7 @@ import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { useConversationList } from '../../context/ConversationListContext';
 import { useI18n } from '../../locales/client';
 import { ApplicationRoute } from '../../types/application-routes';
+import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import Footer from '../Footer/Footer';
 
 interface Props {
@@ -86,9 +104,10 @@ const ConversationViewWrapper: FC<Props> = ({
   const [datasets, setDatasets] = useState<Dataflow[]>();
   const { locale, id }: { locale: string; id: string[] } = useParams();
   const chartingIcons = {
-    [ChartingIcon.NEXT]: <ChevronRight />,
-    [ChartingIcon.PREVIOUS]: <ChevronLeft />,
+    [ChartingIcon.NEXT]: <ChevronRight width={20} height={20} />,
+    [ChartingIcon.PREVIOUS]: <ChevronLeft width={20} height={20} />,
   };
+  const { data: session } = useSession();
 
   const t = useI18n() as (
     key: string,
@@ -100,8 +119,22 @@ const ConversationViewWrapper: FC<Props> = ({
     [locale, bucketId, conversationId],
   );
 
+  const openUrl = useCallback((url: string) => router.push(url), [router]);
+
+  const authHandler = useCallback(
+    function <Args extends any[], T>(
+      action: (...args: Args) => Promise<ApiResponse<T>>,
+    ): (...args: Args) => Promise<T> {
+      return wrapWithAuthHandler(action, () => {
+        openUrl(SIGN_IN_LINK);
+      });
+    },
+    [openUrl],
+  );
+
   const shareConversationProps = {
-    ...SHARE_CONVERSATION_PROPS,
+    ...SHARE_CONVERSATION_PROPS(authHandler),
+    id,
     share: t(ChatI18nKeys.SHARE),
     shareLink: t(ChatI18nKeys.SHARE_LINK_TITLE),
     close: t(AppI18nKeys.CLOSE),
@@ -113,7 +146,6 @@ const ConversationViewWrapper: FC<Props> = ({
     chatExpirationDays: t(ChatI18nKeys.CHAT_EXPIRATION_DAYS),
     chatName: t(ChatI18nKeys.CHAT_NAME),
     chatWarning: t(ChatI18nKeys.CHAT_WARNING),
-    id,
   };
   const conversationViewTitles: ConversationViewTitles = {
     newChat: t(NavI18nKeys.NEW_CHAT),
@@ -163,38 +195,41 @@ const ConversationViewWrapper: FC<Props> = ({
     dataGrid: t(AttachmentsI18nKeys.DATA_GRID),
     queryUpdatedManually: t(MessageI18nKeys.QUERY_UPDATED_MANUALLY),
     setTo: t(MessageI18nKeys.SET_TO),
+    signOut: t(AuthI18nKeys.SIGN_OUT),
+    loading: t(MessageI18nKeys.LOADING),
   };
   const attachmentsActions = useMemo(
-    () => ({
-      getFile,
-      getDataSet,
-      getDataSetData,
-      downloadDataSet: openDownloadWindow,
-      getConstraints,
-      updateCurrentDataQuery: (dataQuery?: DataQuery) => {
-        setCurrentDataQuery(dataQuery);
-      },
-      updateDataQueries: (dataQueries?: DataQuery[]) => {
-        setDataQueries(dataQueries);
-      },
-      updateDatasets: (datasets?: Dataflow[]) => {
-        setDatasets(datasets);
-      },
-    }),
-    [],
+    () =>
+      ({
+        getFile: authHandler(getFile),
+        getDataSet: authHandler(getDataSet),
+        getDataSetData: authHandler(getDataSetData),
+        downloadDataSet: openDownloadWindow,
+        getConstraints: authHandler(getConstraints),
+        updateCurrentDataQuery: (dataQuery?: DataQuery) => {
+          setCurrentDataQuery(dataQuery);
+        },
+        updateDataQueries: (dataQueries?: DataQuery[]) => {
+          setDataQueries(dataQueries);
+        },
+        updateDatasets: (datasets?: Dataflow[]) => {
+          setDatasets(datasets);
+        },
+      }) as AttachmentsActions,
+    [authHandler],
   );
   const conversationViewActions = useMemo(
     () => ({
-      getConversation,
-      getConversations,
-      updateConversation,
-      getBucket,
-      createConversation,
+      getConversation: authHandler(getConversation),
+      getConversations: authHandler(getConversations),
+      updateConversation: authHandler(updateConversation),
+      getBucket: authHandler(getBucket),
+      createConversation: authHandler(createConversation),
+      rateResponse: authHandler(rateResponse),
       ...attachmentsActions,
     }),
-    [attachmentsActions],
+    [attachmentsActions, authHandler],
   );
-  const openUrl = (url: string) => router.push(url);
 
   const timeRangeOptions: TimeRangeOptions[] = [
     { value: 0, title: t(AdvancedViewI18nKeys.ALL_PERIODS) },
@@ -240,6 +275,19 @@ const ConversationViewWrapper: FC<Props> = ({
     },
   };
 
+  const messageActionsIcons: MessageActionIcons = {
+    regenerate: <Regenerate width={20} height={20} />,
+    copy: <Copy width={20} height={20} />,
+    thumbUp: <ThumbUp width={20} height={20} />,
+    thumbDown: <ThumbDown width={20} height={20} />,
+    edit: <Edit width={20} height={20} />,
+    thumbPressed: <ThumbPressed width={20} height={20} />,
+  };
+
+  const signOutAction = () => {
+    signOut();
+  };
+
   return (
     <div
       className={classNames(
@@ -261,20 +309,27 @@ const ConversationViewWrapper: FC<Props> = ({
             titles={conversationViewTitles}
             actions={conversationViewActions}
             locale={locale}
+            userInfo={session?.user as UserInfo}
+            isShowUserInfo={true}
+            signOutAction={signOutAction}
             messageStyles={{
               advanceViewIcon: <AdvancedModeIcon className="w-4 h-4" />,
               processingTitle: t(MessageI18nKeys.PROCESSING_REVIEW),
               openAdvanceViewTitle: t(
                 AdvancedViewI18nKeys.OPENED_IN_ADVANCED_VIEW,
               ),
-              systemMessageIcon: <MessageIcon />,
+              systemMessageIcon: <MessageIcon width={44} height={44} />,
               messagesWrapperClass: isOpenedAdvancedView
                 ? 'p-4'
                 : 'pt-8 pl-[15%] pr-[8%]',
             }}
             attachmentsStyles={{
               openAdvancedViewIcon: (
-                <UnfoldIcon className="text-neutrals-1000" />
+                <UnfoldIcon
+                  width={16}
+                  height={16}
+                  className="text-neutrals-1000"
+                />
               ),
               ...attachmentsStyles,
             }}
@@ -292,9 +347,16 @@ const ConversationViewWrapper: FC<Props> = ({
             expandStagesIcon={<IconChevronRight className="w-5 h-5" />}
             conversationsRoute={ApplicationRoute.Conversations}
             token={token?.access_token as string}
+            dataQuery={currentDataQuery}
             setConversation={setConversation}
             setConversations={setConversations}
             openUrl={openUrl}
+            messageActionsIcons={messageActionsIcons}
+            editMessageTitles={{
+              cancel: t(ConversationI18nKeys.CANCEL),
+              send: t(ConversationI18nKeys.SEND),
+            }}
+            scrollBottomIcon={<Down width={20} height={20} />}
           />
         </div>
         <Footer />
@@ -328,12 +390,13 @@ const ConversationViewWrapper: FC<Props> = ({
                 radioIcon: <IconCircleFilled className="w-3 h-3" />,
                 dateFormat: 'm-d-Y',
               },
+              resetIcon: <Reset />,
             },
             timeRangeOptions,
             conversation,
             conversationKey,
             setConversation,
-            updateConversation,
+            updateConversation: authHandler(updateConversation),
           }}
           attachmentsProps={{
             currentDataQuery,

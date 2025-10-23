@@ -16,4 +16,14 @@
   &-details {
     @apply text-neutrals-900;
   }
+
+  &-dataset-name {
+    @apply py-1 px-2 rounded-full;
+    @apply bg-neutrals-200 text-primary mb-3;
+    @apply border border-hues-600;
+  }
+
+  &-dataset-icon {
+    @apply w-4 h-4;
+  }
 }

@@ -1,7 +1,11 @@
 'use client';
 
-import { AdvancedViewProvider } from '@dev-statgpt/conversation-view';
+import {
+  AdvancedViewProvider,
+  OnboardingProvider,
+} from '@epam/statgpt-conversation-view';
 import { ReactNode, useEffect } from 'react';
+
 import ConversationListWrapper from '../../components/ConversationList/ConversationListWrapper';
 import { ConversationListProvider } from '../../context/ConversationListContext';
 import { I18nProvider } from '../../locales/client';
@@ -23,16 +27,17 @@ export default function LocaleLayout({
 
     getLocale();
   }, [params]);
-
   return (
     <I18nProvider locale={locale}>
       <div className="flex h-full flex-row w-full main-layout">
-        <AdvancedViewProvider>
-          <ConversationListProvider>
-            <ConversationListWrapper />
-            <main className="flex-1 h-full min-w-0">{children}</main>
-          </ConversationListProvider>
-        </AdvancedViewProvider>
+        <OnboardingProvider>
+          <AdvancedViewProvider>
+            <ConversationListProvider>
+              <ConversationListWrapper />
+              <main className="flex-1 h-full min-w-0">{children}</main>
+            </ConversationListProvider>
+          </AdvancedViewProvider>
+        </OnboardingProvider>
       </div>
     </I18nProvider>
   );

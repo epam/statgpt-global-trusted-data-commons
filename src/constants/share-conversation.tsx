@@ -5,12 +5,15 @@ import {
   revokeSharedConversations,
 } from '../app/actions/conversations';
 import { IconUpload } from '@tabler/icons-react';
-import { ShareConversationProps } from '@dev-statgpt/conversation-view';
+import { ShareConversationProps } from '@epam/statgpt-conversation-view';
+import { AuthHandler } from '../utils/auth/requests-wrapper';
 
-export const SHARE_CONVERSATION_PROPS: ShareConversationProps = {
+export const SHARE_CONVERSATION_PROPS = (
+  authHandler: AuthHandler,
+): ShareConversationProps => ({
   shareIcon: <IconUpload />,
-  getConversation,
-  generateConversationLink,
-  getSharedConversations,
-  revokeSharedConversations,
-};
+  getConversation: authHandler(getConversation),
+  generateConversationLink: authHandler(generateConversationLink),
+  getSharedConversations: authHandler(getSharedConversations),
+  revokeSharedConversations: authHandler(revokeSharedConversations),
+});

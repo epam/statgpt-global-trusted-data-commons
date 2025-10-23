@@ -12,7 +12,8 @@
   "auth": {
     "authorization": "Authorization",
     "errorTitle": "Authorization error occurred",
-    "errorDescription": "The service is under development, so access is currently unavailable."
+    "errorDescription": "The service is under development, so access is currently unavailable.",
+    "signOut": "Sign out"
   },
   "nav": {
     "newChat": "New Chat",
@@ -68,7 +69,8 @@
     "streaming": "I'm on it! Please wait...",
     "processingReview": "View Processing Steps",
     "queryUpdatedManually": "Query has been updated manually.",
-    "setTo": " set to "
+    "setTo": " set to ",
+    "loading": "I'm on it! Please wait..."
   },
   "conversation": {
     "delete": "Delete",
@@ -79,7 +81,12 @@
     "clickNewChat": "Click \"New Chat\" above to start",
     "allChats": "All Chats",
     "shared": "Shared",
-    "chat": "Chat"
+    "chat": "Chat",
+    "cancel": "Cancel",
+    "send": "Submit",
+    "rename": "Rename",
+    "renameTitle": "Rename conversation",
+    "save": "Save"
   },
   "attachments": {
     "download": "Download",

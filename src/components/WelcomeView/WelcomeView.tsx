@@ -1,14 +1,19 @@
 'use client';
 
+import { FormSchemaButtonOption } from '@epam/ai-dial-shared';
 import {
   ConversationViewTitles,
   ConversationWelcome,
-} from '@dev-statgpt/conversation-view';
-import { getConversationNavPath } from '@dev-statgpt/shared-toolkit';
-import { FormSchemaButtonOption } from '@epam/ai-dial-shared';
+  UserInfo,
+} from '@epam/statgpt-conversation-view';
+import {
+  ApiResponse,
+  getConversationNavPath,
+} from '@epam/statgpt-shared-toolkit';
 import { IconSend } from '@tabler/icons-react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FC } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import WelcomeTitleIcon from '../../../public/images/logo-small.svg';
 import { getBucket } from '../../app/actions/bucket';
 import {
@@ -16,14 +21,17 @@ import {
   getConversations,
   getSharedConversations,
 } from '../../app/actions/conversations';
+import { SIGN_IN_LINK } from '../../constants/auth';
 import {
   AppI18nKeys,
+  AuthI18nKeys,
   NavI18nKeys,
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
 import { useConversationList } from '../../context/ConversationListContext';
 import { useCurrentLocale, useI18n } from '../../locales/client';
 import { ApplicationRoute } from '../../types/application-routes';
+import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 
 interface Props {
   suggestionsList: FormSchemaButtonOption[];
@@ -35,13 +43,28 @@ const WelcomeView: FC<Props> = ({ suggestionsList, welcomeText }) => {
   const router = useRouter();
   const { setConversations, setSharedConversations } = useConversationList();
   const locale = useCurrentLocale();
+  const { data: session } = useSession();
 
-  const serverActions = {
-    getBucket,
-    createConversation,
-    getConversations,
-    getSharedConversations,
-  };
+  const authHandler = useCallback(
+    function <Args extends any[], T>(
+      action: (...args: Args) => Promise<ApiResponse<T>>,
+    ): (...args: Args) => Promise<T> {
+      return wrapWithAuthHandler(action, () => {
+        router.push(SIGN_IN_LINK);
+      });
+    },
+    [router],
+  );
+
+  const serverActions = useMemo(
+    () => ({
+      getBucket: authHandler(getBucket),
+      createConversation: authHandler(createConversation),
+      getConversations: authHandler(getConversations),
+      getSharedConversations: authHandler(getSharedConversations),
+    }),
+    [authHandler],
+  );
 
   const handleConversationSelect = (
     folderId: string,
@@ -56,6 +79,11 @@ const WelcomeView: FC<Props> = ({ suggestionsList, welcomeText }) => {
     welcomeTitle: t(WelcomeI18nKeys.TITLE),
     askAnything: t(WelcomeI18nKeys.ASK_ANYTHING),
     close: t(AppI18nKeys.CLOSE),
+    signOut: t(AuthI18nKeys.SIGN_OUT),
+  };
+
+  const signOutAction = () => {
+    signOut();
   };
 
   return (
@@ -73,6 +101,8 @@ const WelcomeView: FC<Props> = ({ suggestionsList, welcomeText }) => {
       }}
       setConversations={setConversations}
       setSharedConversations={setSharedConversations}
+      userInfo={session?.user as UserInfo}
+      signOutAction={signOutAction}
     />
   );
 };

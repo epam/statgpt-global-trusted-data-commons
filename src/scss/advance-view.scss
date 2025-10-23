@@ -94,6 +94,12 @@
     &-icon {
       @apply body-3;
     }
+
+    &-settings {
+      .base-icon-button {
+        @apply h-[20px] w-[20px] p-0;
+      }
+    }
   }
 
   &-time-period {

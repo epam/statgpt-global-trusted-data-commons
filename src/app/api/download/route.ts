@@ -3,7 +3,7 @@ import { datasetApi } from '../api';
 import {
   FileColumnsAttribute,
   SdmxDataFormat,
-} from '@dev-statgpt/sdmx-toolkit';
+} from '@epam/statgpt-sdmx-toolkit';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

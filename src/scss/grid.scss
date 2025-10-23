@@ -28,6 +28,14 @@
 
       .ag-cell {
         @apply body-3 flex items-center;
+
+        .ag-cell-wrapper {
+          @apply w-full;
+
+          .base-icon-button {
+            @apply h-[32px] w-[32px];
+          }
+        }
       }
     }
 

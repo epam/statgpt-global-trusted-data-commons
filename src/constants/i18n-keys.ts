@@ -18,6 +18,7 @@ export enum AuthI18nKeys {
   AUTHORIZATION = 'auth.authorization',
   ERROR_TITLE = 'auth.errorTitle',
   ERROR_DESCRIPTION = 'auth.errorDescription',
+  SIGN_OUT = 'auth.signOut',
 }
 
 export enum NavI18nKeys {
@@ -78,6 +79,7 @@ export enum MessageI18nKeys {
   PROCESSING_REVIEW = 'message.processingReview',
   QUERY_UPDATED_MANUALLY = 'message.queryUpdatedManually',
   SET_TO = 'message.setTo',
+  LOADING = 'message.loading',
 }
 
 export enum ConversationI18nKeys {
@@ -90,6 +92,11 @@ export enum ConversationI18nKeys {
   ALL_CHATS = 'conversation.allChats',
   SHARED = 'conversation.shared',
   CHAT = 'conversation.chat',
+  CANCEL = 'conversation.cancel',
+  SEND = 'conversation.send',
+  RENAME = 'conversation.rename',
+  RENAME_TITLE = 'conversation.renameTitle',
+  SAVE = 'conversation.save',
 }
 
 export enum AttachmentsI18nKeys {

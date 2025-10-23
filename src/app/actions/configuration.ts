@@ -1,6 +1,6 @@
 'use server';
 
-import { DIAL_API_ROUTES } from '@dev-statgpt/dial-toolkit';
+import { DIAL_API_ROUTES } from '@epam/statgpt-dial-toolkit';
 import {
   MessageFormSchema,
   FormSchemaButtonOption,
