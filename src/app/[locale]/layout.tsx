@@ -1,35 +1,34 @@
+'use client';
+
 import {
   AdvancedViewProvider,
   OnboardingProvider,
 } from '@epam/statgpt-conversation-view';
-import { cookies, headers } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import ConversationListWrapper from '../../components/ConversationList/ConversationListWrapper';
-import { SIGN_IN_LINK } from '../../constants/auth';
 import { ConversationListProvider } from '../../context/ConversationListContext';
 import { I18nProvider } from '../../locales/client';
-import { getUserToken } from '../../utils/auth/auth-request';
-import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';
-import { getIsInvalidSession } from '../../utils/auth/is-valid-session';
 
-export default async function LocaleLayout({
+export default function LocaleLayout({
   children,
   params,
 }: {
   children: ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const isEnableAuth = getIsEnableAuthToggle();
-  const token = await getUserToken(isEnableAuth, headers(), cookies());
-  const isInvalidSession = await getIsInvalidSession(isEnableAuth, token);
+  let locale = 'en';
 
-  if (isInvalidSession) {
-    return redirect(SIGN_IN_LINK);
-  }
+  useEffect(() => {
+    const getLocale = async () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      locale = (await params).locale;
+    };
+
+    getLocale();
+  }, [params]);
   return (
-    <I18nProvider locale={(await params).locale}>
+    <I18nProvider locale={locale}>
       <div className="flex h-full flex-row w-full main-layout">
         <OnboardingProvider>
           <AdvancedViewProvider>
