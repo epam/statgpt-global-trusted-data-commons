@@ -17,22 +17,26 @@ import {
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
 import { Button } from '@epam/statgpt-ui-components';
-import Delete from '../../../public/images/chat/delete.svg';
-import Export from '../../../public/images/chat/export.svg';
-import Rename from '../../../public/images/chat/rename.svg';
-import Share from '../../../public/images/chat/share.svg';
+import MessageIcon from '../../../public/images/message-dots.svg';
 import Logo from '../../../public/images/logo.svg';
 import Collapse from '../../../public/images/menu/collapse.svg';
+import Share from '../../../public/images/chat/share.svg';
+import Delete from '../../../public/images/chat/delete.svg';
+import Export from '../../../public/images/chat/export.svg';
 import Expand from '../../../public/images/menu/expand.svg';
-import MessageIcon from '../../../public/images/message-dots.svg';
+import Rename from '../../../public/images/chat/rename.svg';
+
+import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { getFileBlob } from '../../app/actions/attachments';
 import {
   deleteConversation,
-  getConversation,
   getConversations,
+  getConversation,
   getSharedConversations,
   renameConversation,
 } from '../../app/actions/conversations';
+import { ApplicationRoute } from '../../types/application-routes';
+import { useCurrentLocale, useI18n } from '../../locales/client';
 import {
   AppI18nKeys,
   ChatI18nKeys,
@@ -40,12 +44,9 @@ import {
   DateGroupsI18nKeys,
   I18nKeys,
 } from '../../constants/i18n-keys';
-import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { useConversationList } from '../../context/ConversationListContext';
-import { useCurrentLocale, useI18n } from '../../locales/client';
-import { ApplicationRoute } from '../../types/application-routes';
-import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import { SIGN_IN_LINK } from '../../constants/auth';
+import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 
 const ConversationListWrapper = () => {
   const t = useI18n();
@@ -80,9 +81,15 @@ const ConversationListWrapper = () => {
       deleteConversation: authHandler(deleteConversation),
       getConversation: authHandler(getConversation),
       getFileBlob: authHandler(getFileBlob),
-      renameConversation: authHandler(renameConversation),
+      renameConversation: authHandler(
+        (source: string, destination: string): any => {
+          renameConversation(source, destination).then(() =>
+            router.push(`/${destination.replace(locale, '')}`),
+          );
+        },
+      ),
     }),
-    [authHandler],
+    [authHandler, locale, router],
   );
 
   const titles: ConversationListTitles = {

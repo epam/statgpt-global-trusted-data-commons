@@ -63,7 +63,15 @@
     "metadata": "Metadata",
     "observation": "Observation",
     "noMetadata": "No metadata to preview",
-    "chartingNoData": "No data"
+    "chartingNoData": "No data",
+    "largeQuery": "Large Query",
+    "showingLimit": "Showing first {limit} timeseries.",
+    "downloadMessage": "The file will only contain the first {limit} rows",
+    "showInAdvancedView": "Refine in advanced mode",
+    "dataExplorer": "Data explorer",
+    "excelFormatTitle": "Excel format",
+    "excelFormatText": "is available in data explorer",
+    "fullLimitMessage": "Full dataset is available in data explorer"
   },
   "message": {
     "streaming": "I'm on it! Please wait...",
@@ -71,6 +79,7 @@
     "queryUpdatedManually": "Query has been updated manually.",
     "setTo": " set to ",
     "loading": "I'm on it! Please wait..."
+
   },
   "conversation": {
     "delete": "Delete",
@@ -82,8 +91,8 @@
     "allChats": "All Chats",
     "shared": "Shared",
     "chat": "Chat",
-    "cancel": "Cancel",
-    "send": "Submit",
+    "cancel" : "Cancel",
+    "send" : "Submit",
     "rename": "Rename",
     "renameTitle": "Rename conversation",
     "save": "Save"

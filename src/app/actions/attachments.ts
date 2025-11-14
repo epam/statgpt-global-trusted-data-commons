@@ -2,15 +2,14 @@
 
 import { GridAttachmentContent } from '@epam/statgpt-dial-toolkit';
 import { ApiResponse } from '@epam/statgpt-shared-toolkit';
-import { cookies, headers } from 'next/headers';
-
-import { apiLogger } from '../../core/logger';
-import { getIsInvalidSession } from '../../utils/auth';
-import { getUserToken } from '../../utils/auth/auth-request';
-import { INVALID_SESSION_RESPONSE } from '../../utils/auth/check-session';
-import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';
-import { makeSuccessResponse } from '../../utils/auth/success-response';
 import { conversationApi } from '../api/api';
+import { apiLogger } from '../../core/logger';
+import { cookies, headers } from 'next/headers';
+import { getUserToken } from '../../utils/auth/auth-request';
+import { getIsEnableAuthToggle } from '../../utils/auth/get-auth-toggle';
+import { getIsInvalidSession } from '../../utils/auth';
+import { INVALID_SESSION_RESPONSE } from '../../utils/auth/check-session';
+import { makeSuccessResponse } from '../../utils/auth/success-response';
 
 export async function getFile(
   filePath: string,

@@ -72,6 +72,14 @@ export enum AdvancedViewI18nKeys {
   OBSERVATION = 'advancedView.observation',
   NO_METADATA = 'advancedView.noMetadata',
   CHART_NO_DATA = 'advancedView.chartingNoData',
+  LARGE_QUERY = 'advancedView.largeQuery',
+  SHOWING_LIMIT = 'advancedView.showingLimit',
+  DOWNLOAD_MESSAGE = 'advancedView.downloadMessage',
+  REFINE_IN_ADVANCED_VIEW = 'advancedView.showInAdvancedView',
+  DATA_EXPLORER = 'advancedView.dataExplorer',
+  EXCEL_FORMAT_TITLE = 'advancedView.excelFormatTitle',
+  EXCEL_FORMAT_TEXT = 'advancedView.excelFormatText',
+  FULL_LIMIT_MESSAGE = 'advancedView.fullLimitMessage',
 }
 
 export enum MessageI18nKeys {

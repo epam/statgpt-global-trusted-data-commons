@@ -9,13 +9,12 @@ import {
   sendRequest,
   getConversationUrlWithoutLocale,
 } from '@epam/statgpt-shared-toolkit';
-import { cookies, headers } from 'next/headers';
-import { redirect } from 'next/navigation';
-
 import { getIsInvalidSession } from '../../../../utils/auth/is-valid-session';
 import { SIGN_IN_LINK } from '../../../../constants/auth';
 import { getUserToken } from '../../../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../../../utils/auth/get-auth-toggle';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
