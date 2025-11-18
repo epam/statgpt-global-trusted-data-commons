@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { conversationApi } from '../api';
 import { chatLogger } from '../../../core/logger';
 import { getToken } from 'next-auth/jwt';
+import { HTTP_ERROR_CODES } from '@epam/statgpt-shared-toolkit';
 
 // Enable streaming for this route
 export const runtime = 'nodejs';
@@ -9,6 +10,13 @@ export const runtime = 'nodejs';
 export async function POST(request: NextRequest) {
   try {
     const token = await getToken({ req: request });
+    if (!token) {
+      console.warn('No token found');
+      return NextResponse.json(
+        { error: 'Failed to process chat request' },
+        { status: HTTP_ERROR_CODES.UNAUTHORIZED },
+      );
+    }
     const body = await request.json();
     const { conversationId, messages, model } = body;
 

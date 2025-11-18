@@ -10,10 +10,6 @@ import {
   ApiResponse,
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
-import { IconSend } from '@tabler/icons-react';
-import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { FC, useCallback, useMemo } from 'react';
 import WelcomeTitleIcon from '../../../public/images/logo-small.svg';
 import { getBucket } from '../../app/actions/bucket';
 import {
@@ -21,16 +17,20 @@ import {
   getConversations,
   getSharedConversations,
 } from '../../app/actions/conversations';
-import { SIGN_IN_LINK } from '../../constants/auth';
+import { ApplicationRoute } from '../../types/application-routes';
+import { useRouter } from 'next/navigation';
+import { FC, useCallback, useMemo } from 'react';
+import { useConversationList } from '../../context/ConversationListContext';
+import { IconSend } from '@tabler/icons-react';
+import { useCurrentLocale, useI18n } from '../../locales/client';
 import {
   AppI18nKeys,
   AuthI18nKeys,
   NavI18nKeys,
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
-import { useConversationList } from '../../context/ConversationListContext';
-import { useCurrentLocale, useI18n } from '../../locales/client';
-import { ApplicationRoute } from '../../types/application-routes';
+import { signOut, useSession } from 'next-auth/react';
+import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 
 interface Props {
@@ -96,7 +96,7 @@ const WelcomeView: FC<Props> = ({ suggestionsList, welcomeText }) => {
       handleConversationClick={handleConversationSelect}
       actions={serverActions}
       inputMessageStyles={{
-        inputContainerClass: 'max-w-[784px]',
+        inputContainerClass: 'max-w-[784px] mb-6',
         sendMessageIcon: <IconSend />,
       }}
       setConversations={setConversations}

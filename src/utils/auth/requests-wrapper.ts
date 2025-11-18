@@ -10,6 +10,9 @@ export function wrapWithAuthHandler<Args extends any[], T>(
 ): (...args: Args) => Promise<T> {
   return async (...args: Args) => {
     const response = await apiReqFn(...args);
+    if (!response) {
+      return {} as T;
+    }
     if (!response.success) {
       if (response.statusCode === HTTP_ERROR_CODES.UNAUTHORIZED) {
         redirectToSignIn();
