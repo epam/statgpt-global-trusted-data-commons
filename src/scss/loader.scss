@@ -1,5 +1,14 @@
 .loader {
+  animation: spin 1s infinite linear;
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
   &::before {
+    content: '';
+    @apply block;
     width: 44px;
     height: 44px;
     background: {
