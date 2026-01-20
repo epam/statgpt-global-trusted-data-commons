@@ -11,12 +11,12 @@
     "format:write": "prettier --write ."
   },
   "dependencies": {
-    "@epam/statgpt-shared-toolkit": "0.2.0-rc.3",
-    "@epam/statgpt-dial-toolkit": "0.2.0-rc.3",
-    "@epam/statgpt-sdmx-toolkit": "0.2.0-rc.3",
-    "@epam/statgpt-conversation-list": "0.2.0-rc.3",
-    "@epam/statgpt-conversation-view": "0.2.0-rc.3",
-    "@epam/statgpt-ui-components": "0.2.0-rc.3",
+    "@epam/statgpt-shared-toolkit": "0.2.0-rc.17",
+    "@epam/statgpt-dial-toolkit": "0.2.0-rc.17",
+    "@epam/statgpt-sdmx-toolkit": "0.2.0-rc.17",
+    "@epam/statgpt-conversation-list": "0.2.0-rc.17",
+    "@epam/statgpt-conversation-view": "0.2.0-rc.17",
+    "@epam/statgpt-ui-components": "0.2.0-rc.17",
     "@epam/ai-dial-chat-visualizer-connector": "^0.32.0",
     "@epam/ai-dial-shared": "^0.32.0",
     "@epam/ai-dial-visualizer-connector": "^0.32.0",
