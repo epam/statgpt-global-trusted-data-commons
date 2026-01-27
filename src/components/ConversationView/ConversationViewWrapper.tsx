@@ -10,7 +10,7 @@ import {
   ConversationViewTitles,
   MessageActionIcons,
   useAdvancedView,
-  UserInfo,
+  DatasetInfoOptions,
 } from '@epam/statgpt-conversation-view';
 import { Dataflow, openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
 import {
@@ -302,6 +302,10 @@ const ConversationViewWrapper: FC<Props> = ({
     excelFormatText: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TEXT),
   };
 
+  const datasetInfoOptions: DatasetInfoOptions = {
+    isShowAgency: true,
+  };
+
   const signOutAction = () => {
     signOut();
   };
@@ -334,7 +338,7 @@ const ConversationViewWrapper: FC<Props> = ({
             titles={conversationViewTitles}
             actions={conversationViewActions}
             locale={locale}
-            userInfo={session?.user as UserInfo}
+            userInfo={session?.user}
             isShowUserInfo={true}
             handleInvalidStreaming={handleInvalidStreaming}
             signOutAction={signOutAction}
@@ -392,7 +396,6 @@ const ConversationViewWrapper: FC<Props> = ({
         <AdvancedView
           advanceViewStyles={{
             isShowShare: true,
-            isShowAgency: true,
           }}
           actions={attachmentsActions}
           filtersProps={{
@@ -438,6 +441,7 @@ const ConversationViewWrapper: FC<Props> = ({
             isMetadataDescription: true,
           }}
           locale={locale}
+          datasetInfoOptions={datasetInfoOptions}
         />
       )}
     </div>

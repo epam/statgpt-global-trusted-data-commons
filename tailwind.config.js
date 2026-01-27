@@ -3,6 +3,7 @@ module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     '../../libs/**/src/**/*!(*.stories|*.spec).{ts,tsx,html}',
+    './node_modules/@epam/statgpt-conversation-view/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
