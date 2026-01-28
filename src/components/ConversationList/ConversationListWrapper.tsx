@@ -286,7 +286,7 @@ const ConversationListWrapper = () => {
         </ConversationList>
       </div>
       {isUserBlockShown ? (
-        <div className="absolute bottom-0 h-[80px] left-0 w-[100%] bg-neutrals-200 flex items-center p-8 sm:p-4 pt-0 sm:pt-0 sm:h-[48px]">
+        <div className="absolute bottom-0 h-[80px] left-0 w-full bg-neutrals-200 flex items-center p-8 sm:p-4 pt-0 sm:pt-0 sm:h-[48px]">
           <div className="border border-neutrals-500 p-2 rounded-[100px] w-full flex">
             <User
               userInfo={session?.user as UserInfo}
@@ -294,7 +294,7 @@ const ConversationListWrapper = () => {
               locale={locale}
               styles={{
                 initialStyles:
-                  'border-none bg-hues-800 text-white lg:h2 sm:body-2 border-accent-700 border-[1px]',
+                  'border-none bg-hues-800 text-white lg:h2 sm:body-2 border-accent-700 border',
                 userNameStyles: '',
                 signOutIcon: <SignOut />,
                 dropdownButtonStyles: 'hover:bg-hues-100',
