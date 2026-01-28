@@ -160,6 +160,11 @@ const ConversationListWrapper = () => {
     signOut();
   }, []);
 
+  const isUserBlockShown = useMemo(
+    () => session?.user && !isCollapsed,
+    [isCollapsed, session?.user],
+  );
+
   const signOutTitles: SignOutTitles = {
     signOut: t(LogOutI18nKeys.SIGN_OUT),
     settings: t(LogOutI18nKeys.SETTINGS),
@@ -188,9 +193,7 @@ const ConversationListWrapper = () => {
       className={classNames(
         'bg-neutrals-200 h-full flex flex-col min-w-0 ',
         isCollapsed ? 'w-[64px]' : 'w-[362px]',
-        session?.user && !isCollapsed
-          ? 'relative pb-[104px] sm:pb-[60px] '
-          : '',
+        isUserBlockShown && 'relative pb-[104px] sm:pb-[60px]',
       )}
     >
       <div
@@ -282,7 +285,7 @@ const ConversationListWrapper = () => {
           ) : null}
         </ConversationList>
       </div>
-      {session?.user && !isCollapsed ? (
+      {isUserBlockShown ? (
         <div className="absolute bottom-0 h-[80px] left-0 w-[100%] bg-neutrals-200 flex items-center p-8 sm:p-4 pt-0 sm:pt-0 sm:h-[48px]">
           <div className="border border-neutrals-500 p-2 rounded-[100px] w-full flex">
             <User
