@@ -52,7 +52,7 @@ import {
 import { useConversationList } from '../../context/ConversationListContext';
 import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
-import { signOut, useSession } from 'next-auth/react';
+import { useLogout } from '../../hooks/use-logout';
 
 const ConversationListWrapper = () => {
   const t = useI18n();
@@ -66,7 +66,8 @@ const ConversationListWrapper = () => {
     setSharedConversations,
   } = useConversationList();
   const locale = useCurrentLocale();
-  const { data: session } = useSession();
+
+  const { session, handleLogout } = useLogout();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -157,12 +158,12 @@ const ConversationListWrapper = () => {
   }, [isOpenedAdvancedView, router, setIsOpenedAdvancedView]);
 
   const signOutAction = useCallback(() => {
-    signOut();
-  }, []);
+    handleLogout();
+  }, [handleLogout]);
 
   const isUserBlockShown = useMemo(
-    () => session?.user && !isCollapsed,
-    [isCollapsed, session?.user],
+    () => session.data?.user && !isCollapsed,
+    [isCollapsed, session],
   );
 
   const signOutTitles: SignOutTitles = {
@@ -289,7 +290,7 @@ const ConversationListWrapper = () => {
         <div className="absolute bottom-0 h-[80px] left-0 w-full bg-neutrals-200 flex items-center p-8 sm:p-4 pt-0 sm:pt-0 sm:h-[48px]">
           <div className="border border-neutrals-500 p-2 rounded-[100px] w-full flex">
             <User
-              userInfo={session?.user as UserInfo}
+              userInfo={session.data?.user as UserInfo}
               signOutAction={signOutAction}
               locale={locale}
               styles={{
