@@ -10,6 +10,7 @@ import {
   ConversationViewTitles,
   MessageActionIcons,
   useAdvancedView,
+  DatasetInfoOptions,
 } from '@epam/statgpt-conversation-view';
 import { Dataflow, openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
 import {
@@ -300,6 +301,10 @@ const ConversationViewWrapper: FC<Props> = ({
     excelFormatText: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TEXT),
   };
 
+  const datasetInfoOptions: DatasetInfoOptions = {
+    isShowAgency: true,
+  };
+
   const signOutAction = () => {
     signOut();
   };
@@ -430,6 +435,7 @@ const ConversationViewWrapper: FC<Props> = ({
           shareConversationProps={shareConversationProps}
           formattingSettings={formatNumbers}
           limitMessages={limitMessages}
+          datasetInfoOptions={datasetInfoOptions}
           metadataSettings={{
             isMetadataDescription: true,
           }}
