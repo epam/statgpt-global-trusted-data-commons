@@ -10,7 +10,6 @@ import {
   ConversationViewTitles,
   MessageActionIcons,
   useAdvancedView,
-  UserInfo,
 } from '@epam/statgpt-conversation-view';
 import { Dataflow, openDownloadWindow } from '@epam/statgpt-sdmx-toolkit';
 import {
@@ -81,7 +80,7 @@ import classNames from 'classnames';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 
@@ -110,7 +109,6 @@ const ConversationViewWrapper: FC<Props> = ({
     [ChartingIcon.NEXT]: <ChevronRight width={20} height={20} />,
     [ChartingIcon.PREVIOUS]: <ChevronLeft width={20} height={20} />,
   };
-  const { data: session } = useSession();
 
   const t = useI18n() as (
     key: string,
@@ -334,8 +332,6 @@ const ConversationViewWrapper: FC<Props> = ({
             titles={conversationViewTitles}
             actions={conversationViewActions}
             locale={locale}
-            userInfo={session?.user as UserInfo}
-            isShowUserInfo={true}
             handleInvalidStreaming={handleInvalidStreaming}
             signOutAction={signOutAction}
             messageStyles={{

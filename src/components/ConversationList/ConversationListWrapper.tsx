@@ -9,6 +9,9 @@ import {
   ActionMenuItem,
   ConversationList,
   ConversationListTitles,
+  SignOutTitles,
+  User,
+  UserInfo,
 } from '@epam/statgpt-conversation-list';
 import { useAdvancedView } from '@epam/statgpt-conversation-view';
 import {
@@ -25,6 +28,7 @@ import Delete from '../../../public/images/chat/delete.svg';
 import Export from '../../../public/images/chat/export.svg';
 import Expand from '../../../public/images/menu/expand.svg';
 import Rename from '../../../public/images/chat/rename.svg';
+import SignOut from '../../../public/images/sign-out.svg';
 
 import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { getFileBlob } from '../../app/actions/attachments';
@@ -43,10 +47,12 @@ import {
   ConversationI18nKeys,
   DateGroupsI18nKeys,
   I18nKeys,
+  LogOutI18nKeys,
 } from '../../constants/i18n-keys';
 import { useConversationList } from '../../context/ConversationListContext';
 import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
+import { signOut, useSession } from 'next-auth/react';
 
 const ConversationListWrapper = () => {
   const t = useI18n();
@@ -60,6 +66,7 @@ const ConversationListWrapper = () => {
     setSharedConversations,
   } = useConversationList();
   const locale = useCurrentLocale();
+  const { data: session } = useSession();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -149,6 +156,24 @@ const ConversationListWrapper = () => {
     }
   }, [isOpenedAdvancedView, router, setIsOpenedAdvancedView]);
 
+  const signOutAction = useCallback(() => {
+    signOut();
+  }, []);
+
+  const isUserBlockShown = useMemo(
+    () => session?.user && !isCollapsed,
+    [isCollapsed, session?.user],
+  );
+
+  const signOutTitles: SignOutTitles = {
+    signOut: t(LogOutI18nKeys.SIGN_OUT),
+    settings: t(LogOutI18nKeys.SETTINGS),
+    popupTitle: t(LogOutI18nKeys.POPUP_TITLE),
+    popupText: t(LogOutI18nKeys.POPUP_TEXT),
+    popupApply: t(LogOutI18nKeys.POPUP_APPLY),
+    popupCancel: t(LogOutI18nKeys.POPUP_CANCEL),
+  };
+
   const shareTitles = {
     share: t(ChatI18nKeys.SHARE),
     shareLink: t(ChatI18nKeys.SHARE_LINK_TITLE),
@@ -168,6 +193,7 @@ const ConversationListWrapper = () => {
       className={classNames(
         'bg-neutrals-200 h-full flex flex-col min-w-0',
         isCollapsed ? 'w-[64px]' : 'w-[362px]',
+        isUserBlockShown && 'relative pb-[104px] sm:pb-[60px]',
       )}
     >
       <div
@@ -259,6 +285,25 @@ const ConversationListWrapper = () => {
           ) : null}
         </ConversationList>
       </div>
+      {isUserBlockShown ? (
+        <div className="absolute bottom-0 h-[80px] left-0 w-full bg-neutrals-200 flex items-center p-8 sm:p-4 pt-0 sm:pt-0 sm:h-[48px]">
+          <div className="border border-neutrals-500 p-2 rounded-[100px] w-full flex">
+            <User
+              userInfo={session?.user as UserInfo}
+              signOutAction={signOutAction}
+              locale={locale}
+              styles={{
+                initialStyles:
+                  'border-none bg-hues-800 text-white lg:h2 sm:body-2 border-accent-700 border',
+                userNameStyles: '',
+                signOutIcon: <SignOut />,
+                dropdownButtonStyles: 'hover:bg-hues-100',
+              }}
+              titles={signOutTitles}
+            />
+          </div>
+        </div>
+      ) : null}
     </aside>
   );
 };
