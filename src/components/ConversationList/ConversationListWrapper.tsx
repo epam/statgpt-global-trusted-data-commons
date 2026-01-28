@@ -191,7 +191,7 @@ const ConversationListWrapper = () => {
   return (
     <aside
       className={classNames(
-        'bg-neutrals-200 h-full flex flex-col min-w-0 ',
+        'bg-neutrals-200 h-full flex flex-col min-w-0',
         isCollapsed ? 'w-[64px]' : 'w-[362px]',
         isUserBlockShown && 'relative pb-[104px] sm:pb-[60px]',
       )}
