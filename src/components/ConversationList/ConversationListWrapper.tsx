@@ -52,7 +52,7 @@ import {
 import { useConversationList } from '../../context/ConversationListContext';
 import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
-import { signOut, useSession } from 'next-auth/react';
+import { useLogout } from '../../hooks/use-logout';
 
 const ConversationListWrapper = () => {
   const t = useI18n();
@@ -66,7 +66,8 @@ const ConversationListWrapper = () => {
     setSharedConversations,
   } = useConversationList();
   const locale = useCurrentLocale();
-  const { data: session } = useSession();
+
+  const { session, handleLogout } = useLogout();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -157,8 +158,8 @@ const ConversationListWrapper = () => {
   }, [isOpenedAdvancedView, router, setIsOpenedAdvancedView]);
 
   const signOutAction = useCallback(() => {
-    signOut();
-  }, []);
+    handleLogout();
+  }, [handleLogout]);
 
   const signOutTitles: SignOutTitles = {
     signOut: t(LogOutI18nKeys.SIGN_OUT),
@@ -285,7 +286,7 @@ const ConversationListWrapper = () => {
         </div>
       </div>
 
-      {session?.user && (
+      {session.data?.user && (
         <div
           className={classNames(
             'w-full bg-neutrals-200 flex items-center p-6 sm:p-4 pt-0 sm:pt-0',
@@ -294,7 +295,7 @@ const ConversationListWrapper = () => {
         >
           <div className="border border-neutrals-500 p-[7px] rounded-[100px] w-full flex">
             <User
-              userInfo={session?.user as UserInfo}
+              userInfo={session.data?.user as UserInfo}
               signOutAction={signOutAction}
               locale={locale}
               styles={{

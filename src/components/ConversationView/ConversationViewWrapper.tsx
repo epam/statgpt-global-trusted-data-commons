@@ -81,9 +81,9 @@ import classNames from 'classnames';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
-import { signOut } from 'next-auth/react';
 import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
+import { useLogout } from '../../hooks/use-logout';
 
 interface Props {
   bucketId: string;
@@ -110,6 +110,8 @@ const ConversationViewWrapper: FC<Props> = ({
     [ChartingIcon.NEXT]: <ChevronRight width={20} height={20} />,
     [ChartingIcon.PREVIOUS]: <ChevronLeft width={20} height={20} />,
   };
+
+  const { handleLogout } = useLogout();
 
   const t = useI18n() as (
     key: string,
@@ -305,16 +307,19 @@ const ConversationViewWrapper: FC<Props> = ({
     isShowAgency: true,
   };
 
-  const signOutAction = () => {
-    signOut();
-  };
+  const signOutAction = useCallback(() => {
+    handleLogout();
+  }, [handleLogout]);
 
-  const handleInvalidStreaming = useCallback((error: string) => {
-    const status = JSON.parse(error).status;
-    if (status === HTTP_ERROR_CODES.UNAUTHORIZED) {
-      signOut();
-    }
-  }, []);
+  const handleInvalidStreaming = useCallback(
+    (error: string) => {
+      const status = JSON.parse(error).status;
+      if (status === HTTP_ERROR_CODES.UNAUTHORIZED) {
+        signOutAction();
+      }
+    },
+    [signOutAction],
+  );
 
   return (
     <div
