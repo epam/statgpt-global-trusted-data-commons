@@ -1,6 +1,5 @@
-import { Inter, Open_Sans } from 'next/font/google';
-import '@epam/statgpt-ui-components/index.css';
 import './globals.scss';
+import { Inter, Open_Sans } from 'next/font/google';
 import classNames from 'classnames';
 import { ReactNode } from 'react';
 import { getServerSession } from 'next-auth';

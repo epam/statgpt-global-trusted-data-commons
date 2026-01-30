@@ -21,6 +21,8 @@
 @use 'chart-attachment.scss';
 @use 'colors.scss';
 
+@import "@epam/statgpt-ui-components/styles-tailwind.scss";
+
 body {
   font-family: var(--open-sans);
 }
