@@ -1,7 +1,7 @@
 {
   "app": {
     "titleGlobal": "Global",
-    "title": "Trusted Data Commons",
+    "title": "Official Stat Commons",
     "footer": "Powered by StatGPT Portals.",
     "collapse": "Collapse",
     "expand": "Expand",
@@ -49,7 +49,7 @@
     "displayOrder": "Display order",
     "list": "Flat List",
     "hierarchy": "Hierarchy",
-    "settings": "Filters",
+    "settings": "Settings",
     "applied": "Applied",
     "apply": "Apply",
     "cancel": "Cancel",
