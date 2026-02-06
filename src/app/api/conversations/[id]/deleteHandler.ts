@@ -13,11 +13,8 @@ export const deleteHandler = async (
     const conversationId = decodeURIComponent(params.id);
     const body = await req.json();
 
-    console.log('🚀 ~ deleteHandler ~ conversationId:', conversationId);
-
-    // TODO: pass conversation id when libs are merged and published
     await conversationApi.deleteConversation(
-      // conversationId,
+      conversationId,
       body,
       token.access_token as string,
     );
