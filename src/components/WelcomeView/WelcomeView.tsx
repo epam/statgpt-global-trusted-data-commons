@@ -10,12 +10,6 @@ import {
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
 import WelcomeTitleIcon from '../../../public/images/logo-small.svg';
-import { getBucket } from '../../app/actions/bucket';
-import {
-  createConversation,
-  getConversations,
-  getSharedConversations,
-} from '../../app/actions/conversations';
 import { ApplicationRoute } from '../../types/application-routes';
 import { useRouter } from 'next/navigation';
 import { FC, useCallback, useMemo } from 'react';
@@ -30,6 +24,12 @@ import {
 } from '../../constants/i18n-keys';
 import { SIGN_IN_LINK } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
+import { getBucketApi } from '../../app/api/bucket/client';
+import {
+  createConversationApi,
+  getConversationsApi,
+} from '../../app/api/conversations/client';
+import { getSharedConversationsApi } from '../../app/api/share/client';
 
 interface Props {
   suggestionsList: FormSchemaButtonOption[];
@@ -55,10 +55,10 @@ const WelcomeView: FC<Props> = ({ suggestionsList, welcomeText }) => {
 
   const serverActions = useMemo(
     () => ({
-      getBucket: authHandler(getBucket),
-      createConversation: authHandler(createConversation),
-      getConversations: authHandler(getConversations),
-      getSharedConversations: authHandler(getSharedConversations),
+      getBucket: authHandler(getBucketApi),
+      createConversation: authHandler(createConversationApi),
+      getConversations: authHandler(getConversationsApi),
+      getSharedConversations: authHandler(getSharedConversationsApi),
     }),
     [authHandler],
   );
