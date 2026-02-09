@@ -21,6 +21,7 @@
 @use 'chart-attachment.scss';
 @use 'colors.scss';
 
+@import 'flatpickr/dist/themes/light.css';
 @import '@epam/statgpt-ui-components/styles-tailwind.scss';
 
 body {
