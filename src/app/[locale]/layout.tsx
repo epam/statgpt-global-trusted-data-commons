@@ -2,6 +2,7 @@
 
 import {
   AdvancedViewProvider,
+  ChatMessagesProvider,
   OnboardingProvider,
 } from '@epam/statgpt-conversation-view';
 import { ReactNode, useEffect } from 'react';
@@ -33,8 +34,10 @@ export default function LocaleLayout({
         <OnboardingProvider>
           <AdvancedViewProvider>
             <ConversationListProvider>
-              <ConversationListWrapper />
-              <main className="flex-1 h-full min-w-0">{children}</main>
+              <ChatMessagesProvider>
+                <ConversationListWrapper />
+                <main className="flex-1 h-full min-w-0">{children}</main>
+              </ChatMessagesProvider>
             </ConversationListProvider>
           </AdvancedViewProvider>
         </OnboardingProvider>
