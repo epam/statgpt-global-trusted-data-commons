@@ -1,44 +1,18 @@
-'use client';
-
-import {
-  AdvancedViewProvider,
-  OnboardingProvider,
-} from '@epam/statgpt-conversation-view';
-import { ReactNode, useEffect } from 'react';
-
-import ConversationListWrapper from '../../components/ConversationList/ConversationListWrapper';
-import { ConversationListProvider } from '../../context/ConversationListContext';
+import { ReactNode } from 'react';
 import { I18nProvider } from '../../locales/client';
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
   children: ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  let locale = 'en';
+  const { locale } = await params;
 
-  useEffect(() => {
-    const getLocale = async () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      locale = (await params).locale;
-    };
-
-    getLocale();
-  }, [params]);
   return (
     <I18nProvider locale={locale}>
-      <div className="flex h-full flex-row w-full main-layout">
-        <OnboardingProvider>
-          <AdvancedViewProvider>
-            <ConversationListProvider>
-              <ConversationListWrapper />
-              <main className="flex-1 h-full min-w-0">{children}</main>
-            </ConversationListProvider>
-          </AdvancedViewProvider>
-        </OnboardingProvider>
-      </div>
+      <div className="flex h-full flex-row w-full main-layout">{children}</div>
     </I18nProvider>
   );
 }

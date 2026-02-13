@@ -51,7 +51,9 @@ module.exports = {
         },
         semantic: {
           error: 'var(--semantic-error)',
+          'error-light': 'var(--semantic-error-light)',
           warning: 'var(--semantic-warning)',
+          'warning-light': 'var(--semantic-warning-light)',
           success: 'var(--semantic-success)',
         },
         gradients: {
