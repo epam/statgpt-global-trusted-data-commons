@@ -13,7 +13,10 @@ import {
   User,
   UserInfo,
 } from '@epam/statgpt-conversation-list';
-import { useAdvancedView } from '@epam/statgpt-conversation-view';
+import {
+  useAdvancedView,
+  useChatMessages,
+} from '@epam/statgpt-conversation-view';
 import {
   ApiResponse,
   getConversationId,
@@ -66,6 +69,7 @@ const ConversationListWrapper = () => {
     setSharedConversations,
   } = useConversationList();
   const locale = useCurrentLocale();
+  const { isStreaming } = useChatMessages();
 
   const { session, handleLogout } = useLogout();
 
@@ -102,6 +106,7 @@ const ConversationListWrapper = () => {
 
   const titles: ConversationListTitles = {
     noConversation: t(ConversationI18nKeys.NO_CONVERSATIONS),
+    noActionsAllowed: t(ConversationI18nKeys.NO_ACTIONS_ALLOWED),
     clickNewChat: t(ConversationI18nKeys.CLICK_NEW_CHAT),
     allChats: t(ConversationI18nKeys.ALL_CHATS),
     share: t(ChatI18nKeys.SHARE),
@@ -246,10 +251,12 @@ const ConversationListWrapper = () => {
             <Button
               iconBefore={<IconPlus width={20} height={20} />}
               title={isCollapsed ? '' : t(I18nKeys.Nav.NEW_CHAT)}
+              disabled={isStreaming}
               onClick={handleOpeningOfNewConversation}
               buttonClassName={classNames(
                 'text-button-client',
                 isCollapsed && 'p-2',
+                isStreaming && 'cursor-not-allowed',
               )}
             />
           </div>
@@ -264,6 +271,7 @@ const ConversationListWrapper = () => {
               ...shareTitles,
               id,
             }}
+            isStreaming={isStreaming}
             conversations={conversations}
             sharedConversations={sharedConversations}
             setConversations={setConversations}

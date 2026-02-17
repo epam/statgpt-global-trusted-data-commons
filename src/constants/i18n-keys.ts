@@ -114,6 +114,7 @@ export enum ConversationI18nKeys {
   RENAME = 'conversation.rename',
   RENAME_TITLE = 'conversation.renameTitle',
   SAVE = 'conversation.save',
+  NO_ACTIONS_ALLOWED = 'conversation.noActionsAllowed',
 }
 
 export enum StatusMessagesI18nKeys {
