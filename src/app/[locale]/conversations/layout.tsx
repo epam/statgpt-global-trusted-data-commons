@@ -12,8 +12,8 @@ import { DIAL_API_ROUTES } from '@epam/statgpt-dial-toolkit';
 import { DeploymentConfigProvider } from '../../../context/DeploymentConfigProvider';
 import { ClientProvidersWrapper } from '../../../components/ClientProvidersWrapper/ClientProvidersWrapper';
 import { NoAccessView } from '../../../components/NoAccessView';
-import { ComponentsConfig } from '../../../components/ComponentsConfig/ComponentsConfig';
-import { TextsConfig } from '../../../components/TextsConfig/TextsConfig';
+import { ComponentsConfig } from '../../../components/configs/ComponentsConfig/ComponentsConfig';
+import { TextsConfig } from '../../../components/configs/TextsConfig/TextsConfig';
 
 export default async function ConversationLayout({
   children,
