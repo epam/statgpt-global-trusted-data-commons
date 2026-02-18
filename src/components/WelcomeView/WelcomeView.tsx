@@ -1,6 +1,5 @@
 'use client';
 
-import { FormSchemaButtonOption } from '@epam/ai-dial-shared';
 import {
   ConversationViewTitles,
   ConversationWelcome,
@@ -30,17 +29,15 @@ import {
   getConversationsApi,
 } from '../../app/api/conversations/client';
 import { getSharedConversationsApi } from '../../app/api/share/client';
+import { useDeploymentConfig } from '../../context/DeploymentConfigProvider';
 
-interface Props {
-  suggestionsList: FormSchemaButtonOption[];
-  welcomeText: string;
-}
-
-const WelcomeView: FC<Props> = ({ suggestionsList, welcomeText }) => {
+const WelcomeView: FC = () => {
   const t = useI18n();
   const router = useRouter();
   const { setConversations, setSharedConversations } = useConversationList();
   const locale = useCurrentLocale();
+
+  const { suggestionsList, welcomeText } = useDeploymentConfig();
 
   const authHandler = useCallback(
     function <Args extends any[], T>(

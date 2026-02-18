@@ -117,6 +117,13 @@ export enum ConversationI18nKeys {
   NO_ACTIONS_ALLOWED = 'conversation.noActionsAllowed',
 }
 
+export enum StatusMessagesI18nKeys {
+  AGENT_UNAVAILABLE_TITLE = 'statusMessages.agentUnavailable.title',
+  AGENT_UNAVAILABLE_TEXT = 'statusMessages.agentUnavailable.text',
+  AGENT_UNAVAILABLE_ALERT = 'statusMessages.agentUnavailable.alert',
+  CONTACT_SUPPORT = 'statusMessages.contactSupport',
+}
+
 export enum AttachmentsI18nKeys {
   DOWNLOAD = 'attachments.download',
   OPEN_URL = 'attachments.openUrl',
