@@ -8,6 +8,9 @@ on:
     types:
       - completed
 
+permissions:
+  contents: read
+
 jobs:
   gitlab-dev-deploy:
     if: |
