@@ -84,17 +84,20 @@ import {
 } from '../../app/api/conversations/client';
 import { rateResponseApi } from '../../app/api/rate/client';
 import { getDataSetApi, getDataSetDataApi } from '../../app/api/dataset/client';
+import { WarnBanner } from '../Footer/WarnBanner';
 
 interface Props {
   bucketId: string;
   conversationId: string;
   token: JWT | null;
+  bannerMessage?: string;
 }
 
 const ConversationViewWrapper: FC<Props> = ({
   bucketId,
   conversationId,
   token,
+  bannerMessage,
 }) => {
   const router = useRouter();
   const { isOpenedAdvancedView } = useAdvancedView();
@@ -393,6 +396,7 @@ const ConversationViewWrapper: FC<Props> = ({
           />
         </div>
         <Footer />
+        {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
       </div>
       {isOpenedAdvancedView && (
         <AdvancedView

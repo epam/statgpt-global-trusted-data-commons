@@ -11,24 +11,27 @@ It's build using the shared libraries of [StatGPT portals frontend](https://gith
 
 ## Table of Contents
 
-- [✨ Main Features](#-main-features)
-- [🏗️ Architecture Overview](#-architecture-overview)
-- [🚀 Quick Start](#-quick-start)
-  - [Prerequisites](#prerequisites)
-  - [Start](#start)
-- [💻 Development](#-development)
-  - [Prerequisites](#prerequisites-1)
-  - [Development Setup](#development-setup)
-- [🔨 Build](#-build)
-- [🧪 Test](#-test)
-- [🧑‍💻 Environment Variables](#-Environment-Variables)
-  - [Environment Variables for the Application](#environment-variables-for-the-application)
-  - [Environment Variables for the CSP](#environment-variables-for-the-csp)
-  - [Environment Variables for the Configuration of Auth Providers](#environment-variables-for-the-configuration-of-auth-providers)
-- [🤝 Contributing](#-contributing)
-- [🔒 Security](#-security)
-- [📄 License](#-license)
-- [🌟 Related Projects](#-related-projects)
+- [Global Trusted Data Commons](#global-trusted-data-commons)
+  - [Table of Contents](#table-of-contents)
+  - [✨ Main Features](#-main-features)
+  - [🏗️ Architecture Overview](#️-architecture-overview)
+  - [🚀 Quick Start](#-quick-start)
+    - [Prerequisites](#prerequisites)
+    - [Start](#start)
+  - [💻 Development](#-development)
+    - [Prerequisites](#prerequisites-1)
+    - [Development Setup](#development-setup)
+  - [🔨 Build](#-build)
+  - [🧪 Test](#-test)
+  - [🧑‍💻 Environment Variables](#-environment-variables)
+    - [Environment Variables for the Application](#environment-variables-for-the-application)
+    - [Environment Variables for the CSP](#environment-variables-for-the-csp)
+    - [Environment Variables for the Configuration of Auth Providers](#environment-variables-for-the-configuration-of-auth-providers)
+    - [Content Configuration Environment Variables](#content-configuration-environment-variables)
+  - [🤝 Contributing](#-contributing)
+  - [🔒 Security](#-security)
+  - [📄 License](#-license)
+  - [🌟 Related Projects](#-related-projects)
 
 
 ## ✨ Main Features
@@ -241,7 +244,7 @@ The table below lists environment variables that control configurable content di
 | Variable                          |                         Required                         | Description                                                                                                                                                                                                                                                      | Available Values                                                                                                                | Default values                                  |
 |-----------------------------------| :------------------------------------------------------: |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `CLIENT_CONTACT_SUPPORT_URL`    |   No    | URL of the contact support page displayed to users within the application.                                                                                                                                                                                                                                                                                          | url                                                                                       |  |
-
+| `INFO_BANNER_MESSAGE`    |   No    | Plain text message displayed in the informational banner below the footer (e.g., maintenance notice or system alert). If not set, the banner is hidden.                                                                                                                                                                                                                                                                                           | Any string                                                                                       |  |
 
 ## 🤝 Contributing
 
