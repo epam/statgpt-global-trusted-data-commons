@@ -1,4 +1,5 @@
 import Footer from '../../../components/Footer/Footer';
+import { WarnBanner } from '../../../components/Footer/WarnBanner';
 import WelcomeView from '../../../components/WelcomeView/WelcomeView';
 import { SIGN_IN_LINK } from '../../../constants/auth';
 import { getUserToken } from '../../../utils/auth/auth-request';
@@ -18,12 +19,15 @@ export default async function Page() {
     return redirect(SIGN_IN_LINK);
   }
 
+  const bannerMessage = process.env.INFO_BANNER_MESSAGE;
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 min-h-0">
         <WelcomeView />
       </div>
       <Footer />
+      {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
     </div>
   );
 }
