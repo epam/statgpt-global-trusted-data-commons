@@ -19,6 +19,7 @@ import {
   HTTP_ERROR_CODES,
   DataQuery,
   TimeRangeOptions,
+  HttpError,
 } from '@epam/statgpt-shared-toolkit';
 import { LimitMessages } from '@epam/statgpt-ui-components';
 import { useConversationList } from '../../context/ConversationListContext';
@@ -315,9 +316,8 @@ const ConversationViewWrapper: FC<Props> = ({
   }, [handleLogout]);
 
   const handleInvalidStreaming = useCallback(
-    (error: string) => {
-      const status = JSON.parse(error).status;
-      if (status === HTTP_ERROR_CODES.UNAUTHORIZED) {
+    (error: HttpError) => {
+      if (error.status === HTTP_ERROR_CODES.UNAUTHORIZED) {
         signOutAction();
       }
     },
@@ -373,6 +373,7 @@ const ConversationViewWrapper: FC<Props> = ({
                 ? 'pl-[15%] pr-[8%]'
                 : 'px-4',
               sendMessageIcon: <IconSend />,
+              retryIcon: <Regenerate />,
             }}
             shareConversationProps={shareConversationProps}
             formattingSettings={formatNumbers}
