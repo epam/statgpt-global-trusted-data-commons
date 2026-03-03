@@ -26,11 +26,14 @@ export default async function Page({
     return redirect(SIGN_IN_LINK);
   }
 
+  const bannerMessage = process.env.INFO_BANNER_MESSAGE;
+
   return (
     <ConversationViewWrapper
       bucketId={bucketId}
       conversationId={conversationId}
       token={token}
+      bannerMessage={bannerMessage}
     />
   );
 }
