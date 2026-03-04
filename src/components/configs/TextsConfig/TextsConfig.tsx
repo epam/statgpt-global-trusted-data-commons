@@ -11,9 +11,11 @@ import { StatusMessagesI18nKeys } from '../../../constants/i18n-keys';
 export const TextsConfig = ({
   children,
   clientContactSupportUrl,
+  contentManagementPolicyUrl,
 }: {
   children: ReactNode;
   clientContactSupportUrl?: string;
+  contentManagementPolicyUrl?: string;
 }) => {
   const t = useI18n() as TranslateI18nFn;
 
@@ -34,8 +36,14 @@ export const TextsConfig = ({
     });
   }, [clientContactSupportUrl, t]);
 
+  const contentFilterError = useMemo(() => {
+    const href = contentManagementPolicyUrl || '#';
+    return t(StatusMessagesI18nKeys.CONTENT_FILTER_ERROR, { link: href });
+  }, [contentManagementPolicyUrl, t]);
+
   const conversationViewMessagesCustomConfig: ConversationViewMessages = {
     statusMessages: {
+      contentFilterError,
       assistantUnavailable,
       serverError: t(StatusMessagesI18nKeys.SERVER_ERROR),
       serverOverloaded: t(StatusMessagesI18nKeys.SERVER_OVERLOADED),
