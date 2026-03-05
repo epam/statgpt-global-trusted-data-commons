@@ -60,9 +60,14 @@ export default async function ConversationLayout({
     return <NoAccessView clientContactSupportUrl={clientContactSupportUrl} />;
   }
 
+  const contentManagementPolicyUrl = process.env.CONTENT_MANAGEMENT_POLICY_URL;
+
   return (
     <ComponentsConfig>
-      <TextsConfig clientContactSupportUrl={clientContactSupportUrl}>
+      <TextsConfig
+        clientContactSupportUrl={clientContactSupportUrl}
+        contentManagementPolicyUrl={contentManagementPolicyUrl}
+      >
         <DeploymentConfigProvider config={configuration.data}>
           <ClientProvidersWrapper isAgentAvailable={configuration.success}>
             <ConversationListProvider>
