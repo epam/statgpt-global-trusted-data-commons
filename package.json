@@ -1,6 +1,6 @@
 {
   "name": "statgpt-global-trusted-data-commons",
-  "version": "0.3.0",
+  "version": "0.4.0-rc",
   "private": true,
   "scripts": {
     "start": "next dev --port=4200",
