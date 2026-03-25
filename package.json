@@ -5,8 +5,8 @@
   "scripts": {
     "start": "next dev --port=4200",
     "build": "next build",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint .",
+    "test": "eslint .",
     "format": "prettier --check .",
     "format:write": "prettier --write ."
   },
