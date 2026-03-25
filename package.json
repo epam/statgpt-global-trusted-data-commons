@@ -5,8 +5,8 @@
   "scripts": {
     "start": "next dev --port=4200",
     "build": "next build",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint .",
+    "test": "eslint .",
     "format": "prettier --check .",
     "format:write": "prettier --write ."
   },
@@ -79,5 +79,8 @@
     "typescript": "~5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.3"
+  },
+  "overrides": {
+    "minimatch": "10.2.3"
   }
 }
