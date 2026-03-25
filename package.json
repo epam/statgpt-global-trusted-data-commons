@@ -5,8 +5,8 @@
   "scripts": {
     "start": "next dev --port=4200",
     "build": "next build",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "test": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "eslint .",
+    "test": "eslint .",
     "format": "prettier --check .",
     "format:write": "prettier --write ."
   },
@@ -14,12 +14,12 @@
     "@epam/ai-dial-chat-visualizer-connector": "^0.32.0",
     "@epam/ai-dial-shared": "^0.43.3",
     "@epam/ai-dial-visualizer-connector": "^0.32.0",
-    "@epam/statgpt-conversation-list": "0.3.0-rc.19",
-    "@epam/statgpt-conversation-view": "0.3.0-rc.19",
-    "@epam/statgpt-dial-toolkit": "0.3.0-rc.19",
-    "@epam/statgpt-sdmx-toolkit": "0.3.0-rc.19",
-    "@epam/statgpt-shared-toolkit": "0.3.0-rc.19",
-    "@epam/statgpt-ui-components": "0.3.0-rc.19",
+    "@epam/statgpt-conversation-list": "0.3.1",
+    "@epam/statgpt-conversation-view": "0.3.1",
+    "@epam/statgpt-dial-toolkit": "0.3.1",
+    "@epam/statgpt-sdmx-toolkit": "0.3.1",
+    "@epam/statgpt-shared-toolkit": "0.3.1",
+    "@epam/statgpt-ui-components": "0.3.1",
     "@floating-ui/react": "^0.27.16",
     "@monaco-editor/react": "^4.7.0",
     "@tabler/icons-react": "^3.34.0",
@@ -79,5 +79,8 @@
     "typescript": "~5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.3"
+  },
+  "overrides": {
+    "minimatch": "10.2.3"
   }
 }
