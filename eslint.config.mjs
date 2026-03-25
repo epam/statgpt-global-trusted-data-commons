@@ -1,12 +1,14 @@
 import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
+import nextPlugin from '@next/eslint-plugin-next';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
-import globals from 'globals';
+import tsParser from '@typescript-eslint/parser';
+import importPlugin from 'eslint-plugin-import';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import nextPlugin from '@next/eslint-plugin-next';
-import prettierPlugin from 'eslint-plugin-prettier';
+import tailwindPlugin from 'eslint-plugin-tailwindcss';
+import globals from 'globals';
 
 export default [
   {
@@ -45,6 +47,8 @@ export default [
       '@typescript-eslint': tsPlugin,
       '@next/next': nextPlugin,
       prettier: prettierPlugin,
+      import: importPlugin,
+      tailwindcss: tailwindPlugin,
     },
     settings: {
       react: {
@@ -56,6 +60,8 @@ export default [
       ...tsPlugin.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
+      ...importPlugin.configs.recommended.rules,
+      ...tailwindPlugin.configs.recommended.rules,
 
       '@next/next/no-html-link-for-pages': 'off',
       'no-undef': 'off',
