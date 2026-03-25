@@ -2,7 +2,6 @@ import js from '@eslint/js';
 import nextPlugin from '@next/eslint-plugin-next';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import importPlugin from 'eslint-plugin-import';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
@@ -47,7 +46,6 @@ export default [
       '@typescript-eslint': tsPlugin,
       '@next/next': nextPlugin,
       prettier: prettierPlugin,
-      import: importPlugin,
       tailwindcss: tailwindPlugin,
     },
     settings: {
@@ -60,7 +58,6 @@ export default [
       ...tsPlugin.configs.recommended.rules,
       ...nextPlugin.configs.recommended.rules,
       ...prettierPlugin.configs.recommended.rules,
-      ...importPlugin.configs.recommended.rules,
       ...tailwindPlugin.configs.recommended.rules,
 
       '@next/next/no-html-link-for-pages': 'off',
