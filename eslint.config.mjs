@@ -1,78 +1,74 @@
-import { defineConfig, globalIgnores } from 'eslint/config';
-import globals from 'globals';
-import tsParser from '@typescript-eslint/parser';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import globals from 'globals';
+import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import nextPlugin from '@next/eslint-plugin-next';
+import prettierPlugin from 'eslint-plugin-prettier';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-});
-
-export default defineConfig([
-  globalIgnores([
-    '**/node_modules',
-    '**/**.config.js',
-    '**/**.config.mjs',
-    '**/vitest.config.ts',
-    '**/**.spec.ts',
-    '**/*.next/**/*',
-  ]),
+export default [
   {
-    extends: compat.extends('eslint:recommended', 'prettier', 'next'),
+    ignores: [
+      '**/node_modules',
+      '**/.next',
+      '**/next-env.d.ts',
+      '**/*.config.js',
+      '**/*.config.mjs',
+      '**/jest.config.ts',
+      '**/*.spec.ts',
+      '**/*.spec.tsx',
+    ],
+  },
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
-      globals: {
-        ...globals.node,
-      },
-
       parser: tsParser,
-      ecmaVersion: 5,
-      sourceType: 'commonjs',
-
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       parserOptions: {
         project: ['tsconfig.json'],
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
       },
     },
-  },
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-    rules: {
-      '@next/next/no-html-link-for-pages': 'off',
-      'react-hooks/exhaustive-deps': 'error',
-      'no-empty': 'error',
-      'no-console': [
-        'error',
-        {
-          allow: ['warn', 'error', 'info'],
-        },
-      ],
-
-      'no-constant-condition': 'error',
-
-      'no-multiple-empty-lines': [
-        'warn',
-        {
-          max: 1,
-          maxBOF: 0,
-        },
-      ],
+    plugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      'jsx-a11y': jsxA11yPlugin,
+      '@typescript-eslint': tsPlugin,
+      '@next/next': nextPlugin,
+      prettier: prettierPlugin,
     },
-  },
-  {
-    files: ['**/*.ts', '**/*.tsx'],
-
-    extends: compat.extends(
-      'plugin:@typescript-eslint/recommended',
-      'plugin:@typescript-eslint/stylistic',
-      'plugin:prettier/recommended',
-    ),
-
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
+      ...js.configs.recommended.rules,
+      ...tsPlugin.configs.recommended.rules,
+      ...nextPlugin.configs.recommended.rules,
+      ...prettierPlugin.configs.recommended.rules,
+
+      '@next/next/no-html-link-for-pages': 'off',
+      'no-undef': 'off',
+      'no-redeclare': 'off',
+      '@typescript-eslint/triple-slash-reference': 'off',
+
+      'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
+      'no-empty': 'error',
+      'no-constant-condition': 'error',
+      'no-multiple-empty-lines': ['warn', { max: 1, maxBOF: 0 }],
+
+      'react-hooks/exhaustive-deps': 'error',
+
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -80,9 +76,9 @@ export default defineConfig([
           varsIgnorePattern: '^__',
         },
       ],
-
       '@typescript-eslint/no-explicit-any': 'warn',
+
       'prettier/prettier': 'error',
     },
   },
-]);
+];

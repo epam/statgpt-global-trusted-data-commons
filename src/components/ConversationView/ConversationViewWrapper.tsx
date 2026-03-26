@@ -77,6 +77,7 @@ import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import { useLogout } from '../../hooks/use-logout';
 import { getFileApi } from '../../app/api/files/client';
 import { getBucketApi } from '../../app/api/bucket/client';
+import { getFileBlobApi, putFileApi } from '../../app/api/files/client';
 import { getConstraintsApi } from '../../app/api/constraints/client';
 import {
   createConversationApi,
@@ -234,7 +235,9 @@ const ConversationViewWrapper: FC<Props> = ({
       getConversations: authHandler(getConversationsApi),
       updateConversation: authHandler(updateConversationApi),
       getBucket: authHandler(getBucketApi),
+      getFileBlob: authHandler(getFileBlobApi),
       createConversation: authHandler(createConversationApi),
+      putFile: authHandler(putFileApi),
       rateResponse: authHandler(rateResponseApi),
       ...attachmentsActions,
     }),
