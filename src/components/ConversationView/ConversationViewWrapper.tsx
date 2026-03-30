@@ -414,9 +414,9 @@ const ConversationViewWrapper: FC<Props> = ({
             scrollBottomIcon={<Down width={20} height={20} />}
             limitMessages={limitMessages}
           />
+          <Footer />
+          {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
         </div>
-        <Footer />
-        {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
       </div>
       {isOpenedAdvancedView && (
         <AdvancedView
