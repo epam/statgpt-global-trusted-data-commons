@@ -15,6 +15,8 @@ import { ClientProvidersWrapper } from '../../../components/ClientProvidersWrapp
 import { NoAccessView } from '../../../components/NoAccessView';
 import { ComponentsConfig } from '../../../components/configs/ComponentsConfig/ComponentsConfig';
 import { TextsConfig } from '../../../components/configs/TextsConfig/TextsConfig';
+import { buildDatasetDimensionsMetadataMap } from '@epam/statgpt-sdmx-toolkit';
+import { getDatasetsMetadata } from '../../actions/datasets-metadata';
 
 export default async function ConversationLayout({
   children,
@@ -61,6 +63,11 @@ export default async function ConversationLayout({
     return <NoAccessView clientContactSupportUrl={clientContactSupportUrl} />;
   }
 
+  const metadata = await getDatasetsMetadata();
+  const datasetDimensionsMetadataMap = metadata.data
+    ? buildDatasetDimensionsMetadataMap(metadata.data)
+    : {};
+
   const contentManagementPolicyUrl = process.env.CONTENT_MANAGEMENT_POLICY_URL;
   const isCrossDatasetModeOn = parseBoolean(process.env.CROSS_DATASET_MODE);
   const isMetadataInSidePanel = isCrossDatasetModeOn;
@@ -74,6 +81,7 @@ export default async function ConversationLayout({
       >
         <DeploymentConfigProvider config={configuration.data}>
           <ClientProvidersWrapper
+            datasetDimensionsMetadataMap={datasetDimensionsMetadataMap}
             isAgentAvailable={configuration.success}
             isCrossDatasetModeOn={isCrossDatasetModeOn}
             isMetadataInSidePanel={isMetadataInSidePanel}
