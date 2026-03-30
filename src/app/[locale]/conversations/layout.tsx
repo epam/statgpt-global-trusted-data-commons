@@ -14,6 +14,7 @@ import { ClientProvidersWrapper } from '../../../components/ClientProvidersWrapp
 import { NoAccessView } from '../../../components/NoAccessView';
 import { ComponentsConfig } from '../../../components/configs/ComponentsConfig/ComponentsConfig';
 import { TextsConfig } from '../../../components/configs/TextsConfig/TextsConfig';
+import { parseBoolean } from '@epam/statgpt-shared-toolkit';
 
 export default async function ConversationLayout({
   children,
@@ -61,6 +62,9 @@ export default async function ConversationLayout({
   }
 
   const contentManagementPolicyUrl = process.env.CONTENT_MANAGEMENT_POLICY_URL;
+  const isCrossDatasetModeOn = parseBoolean(process.env.CROSS_DATASET_MODE);
+  const isMetadataInSidePanel = isCrossDatasetModeOn;
+  const isTableSettingsFeatureEnabled = isCrossDatasetModeOn;
 
   return (
     <ComponentsConfig>
@@ -69,10 +73,15 @@ export default async function ConversationLayout({
         contentManagementPolicyUrl={contentManagementPolicyUrl}
       >
         <DeploymentConfigProvider config={configuration.data}>
-          <ClientProvidersWrapper isAgentAvailable={configuration.success}>
+          <ClientProvidersWrapper
+            isAgentAvailable={configuration.success}
+            isCrossDatasetModeOn={isCrossDatasetModeOn}
+            isMetadataInSidePanel={isMetadataInSidePanel}
+            isTableSettingsFeatureEnabled={isTableSettingsFeatureEnabled}
+          >
             <ConversationListProvider>
               <ConversationListWrapper />
-              <main className="flex-1 h-full min-w-0">{children}</main>
+              <main className="h-full min-w-0 flex-1">{children}</main>
             </ConversationListProvider>
           </ClientProvidersWrapper>
         </DeploymentConfigProvider>
