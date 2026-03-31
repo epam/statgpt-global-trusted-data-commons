@@ -11,12 +11,13 @@ export const POST = withAuth(
   async (request: NextRequest, { token }: AuthParams) => {
     try {
       const body = await request.json();
-      const { conversationId, messages, model } = body;
+      const { conversationId, messages, model, custom_fields } = body;
 
       chatLogger.info('Chat request received', {
         conversationId,
         messageCount: messages?.length,
         model: model?.id,
+        custom_fields,
       });
 
       // Stream response from DIAL API
