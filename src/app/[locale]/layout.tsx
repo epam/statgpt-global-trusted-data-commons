@@ -12,7 +12,7 @@ export default async function LocaleLayout({
 
   return (
     <I18nProvider locale={locale}>
-      <div className="flex h-full flex-row w-full main-layout">{children}</div>
+      <div className="main-layout flex size-full flex-row">{children}</div>
     </I18nProvider>
   );
 }
