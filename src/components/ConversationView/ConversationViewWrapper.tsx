@@ -30,7 +30,7 @@ import { formatNumbers } from '../../constants/format-numbers';
 import { SHARE_CONVERSATION_PROPS } from '../../constants/share-conversation';
 import { ApplicationRoute } from '../../types/application-routes';
 import Dataset from '../../../public/images/chat/data-set.svg';
-import { useI18n } from '../../locales/client';
+import { TranslateI18nFn, useI18n } from '../../locales/client';
 import {
   AdvancedViewI18nKeys,
   AppI18nKeys,
@@ -121,10 +121,7 @@ const ConversationViewWrapper: FC<Props> = ({
 
   const { handleLogout } = useLogout();
 
-  const t = useI18n() as (
-    key: string,
-    options?: Record<string, number>,
-  ) => string;
+  const t = useI18n() as TranslateI18nFn;
 
   const conversationKey = useMemo(
     () => `${bucketId}/${locale}/${conversationId}`,
@@ -196,6 +193,12 @@ const ConversationViewWrapper: FC<Props> = ({
     clearAllFilters: t(AdvancedViewI18nKeys.CLEAR_ALL_FILTERS),
     appliedFilters: t(AdvancedViewI18nKeys.APPLIED_FILTERS),
     otherResults: t(AdvancedViewI18nKeys.OTHER_RESULTS),
+    searchMinCharsCaption: t(AdvancedViewI18nKeys.SEARCH_MIN_CHARS_CAPTION),
+    noResultsInSection: (sectionName) =>
+      t(AdvancedViewI18nKeys.NO_RESULTS_IN_SECTION, { sectionName }),
+    noResultsInOtherDimensions: t(
+      AdvancedViewI18nKeys.NO_RESULTS_IN_OTHER_DIMENSIONS,
+    ),
     settings: t(AdvancedViewI18nKeys.SETTINGS),
     content: t(AdvancedViewI18nKeys.CONTENT),
     advanceViewTitle: t(AdvancedViewI18nKeys.TITLE),
