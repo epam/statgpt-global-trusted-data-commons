@@ -208,6 +208,13 @@ const ConversationViewWrapper: FC<Props> = ({
     quarterly: t(TimeI18nKeys.QUARTERLY),
     monthly: t(TimeI18nKeys.MONTHLY),
     dataGrid: t(AttachmentsI18nKeys.DATA_GRID),
+    countryDimensions: t(AttachmentsI18nKeys.COUNTRY_DIMENSIONS),
+    indicatorDimensions: t(AttachmentsI18nKeys.INDICATOR_DIMENSIONS),
+    frequency: t(AttachmentsI18nKeys.FREQUENCY),
+    timeseriesMetadataPanel: t(AttachmentsI18nKeys.TIMESERIES_METADATA_PANEL),
+    datasetMetadataPanel: t(AttachmentsI18nKeys.DATASET_METADATA_PANEL),
+    countryMetadataPanel: t(AttachmentsI18nKeys.COUNTRY_METADATA_PANEL),
+    indicatorMetadataPanel: t(AttachmentsI18nKeys.INDICATOR_METADATA_PANEL),
     queryUpdatedManually: t(MessageI18nKeys.QUERY_UPDATED_MANUALLY),
     setTo: t(MessageI18nKeys.SET_TO),
     signOut: t(AuthI18nKeys.SIGN_OUT),
@@ -258,17 +265,19 @@ const ConversationViewWrapper: FC<Props> = ({
 
   const attachmentsStyles: AttachmentsStyles = {
     showTabIcon: true,
-    downloadIcon: <DownloadIcon className="w-5 h-5" />,
-    downloadChevronIcon: <ChevronSolidDownIcon className="w-6 h-6" />,
+    downloadIcon: <DownloadIcon className="size-5" />,
+    downloadChevronIcon: <ChevronSolidDownIcon className="size-6" />,
     successDownloadIcon: (
-      <SuccessIcon className="w-6 h-6 text-semantic-success" />
+      <SuccessIcon className="size-6 text-semantic-success" />
     ),
     closeTitle: t(AppI18nKeys.CLOSE),
     downloadTitle: t(DownloadI18nKeys.DOWNLOAD),
+    columnsTitle: t(AttachmentsI18nKeys.COLUMNS),
+    columnsResetTitle: t(AttachmentsI18nKeys.COLUMNS_RESET),
     openLinkTitle: t(AttachmentsI18nKeys.OPEN_URL),
     dataGridTitle: t(AttachmentsI18nKeys.DATA_GRID),
-    errorDownloadIcon: <ErrorIcon className="w-6 h-6 text-semantic-error" />,
-    datasetIcon: <Dataset className="w-5 h-5" />,
+    errorDownloadIcon: <ErrorIcon className="size-6 text-semantic-error" />,
+    datasetIcon: <Dataset className="size-5" />,
     chartingIcons,
     copyTitle: t(ChatI18nKeys.COPY),
     copiedTitle: t(ChatI18nKeys.SHARE_COPIED_LINK),
@@ -361,7 +370,7 @@ const ConversationViewWrapper: FC<Props> = ({
             handleInvalidStreaming={handleInvalidStreaming}
             signOutAction={signOutAction}
             messageStyles={{
-              advanceViewIcon: <AdvancedModeIcon className="w-4 h-4" />,
+              advanceViewIcon: <AdvancedModeIcon className="size-4" />,
               processingTitle: t(MessageI18nKeys.PROCESSING_REVIEW),
               openAdvanceViewTitle: t(
                 AdvancedViewI18nKeys.OPENED_IN_ADVANCED_VIEW,
@@ -399,7 +408,7 @@ const ConversationViewWrapper: FC<Props> = ({
             metadataSettings={{
               isMetadataDescription: true,
             }}
-            expandStagesIcon={<IconChevronRight className="w-5 h-5" />}
+            expandStagesIcon={<IconChevronRight className="size-5" />}
             conversationsRoute={ApplicationRoute.Conversations}
             token={token?.access_token as string}
             dataQuery={currentDataQuery}
@@ -413,9 +422,10 @@ const ConversationViewWrapper: FC<Props> = ({
             }}
             scrollBottomIcon={<Down width={20} height={20} />}
             limitMessages={limitMessages}
-          />
-          <Footer />
-          {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
+          >
+            <Footer />
+            {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
+          </ConversationView>
         </div>
       </div>
       {isOpenedAdvancedView && (
@@ -445,8 +455,8 @@ const ConversationViewWrapper: FC<Props> = ({
                     className="absolute"
                   />
                 ),
-                calendarIcon: <IconCalendarWeek className="w-4 h-4" />,
-                radioIcon: <IconCircleFilled className="w-3 h-3" />,
+                calendarIcon: <IconCalendarWeek className="size-4" />,
+                radioIcon: <IconCircleFilled className="size-3" />,
                 dateFormat: 'm-d-Y',
               },
               resetIcon: <Reset />,
@@ -472,6 +482,7 @@ const ConversationViewWrapper: FC<Props> = ({
             isMetadataDescription: true,
           }}
           locale={locale}
+          titles={conversationViewTitles}
         />
       )}
     </div>

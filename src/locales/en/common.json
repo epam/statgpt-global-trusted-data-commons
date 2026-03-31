@@ -102,6 +102,8 @@
   },
   "attachments": {
     "download": "Download",
+    "columns": "Columns",
+    "columnsReset": "Reset",
     "openUrl": "Open",
     "dataGrid": "Data",
     "chart": "Chart",
@@ -117,7 +119,14 @@
     "limitInfo_p2_part3": "your request, or",
     "limitInfo_p2_part4": "refine",
     "limitInfo_p2_part5": "it in the chat.",
-    "limitInfo_link": "Open Advanced Mode"
+    "limitInfo_link": "Open Advanced Mode",
+    "countryDimensionsColumnTitle": "Country dimensions",
+    "indicatorDimensionsColumnTitle": "Indicator dimensions",
+    "frequencyColumnTitle": "Frequency",
+    "timeseriesMetadataPanel": "Timeseries Metadata",
+    "datasetMetadataPanel": "Dataset Metadata",
+    "countryMetadataPanel": "Country dimension details",
+    "indicatorMetadataPanel": "Indicator dimension details"
   },
   "time": {
     "quarterly": "Q",
