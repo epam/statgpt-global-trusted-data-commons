@@ -296,7 +296,7 @@ const ConversationListWrapper = () => {
               titles,
               isSmallModalButton: true,
               conversationItemIcon: (
-                <i className="mr-4 size-[20px]">
+                <i className="mr-4 size-5">
                   <MessageIcon width={20} height={20} />
                 </i>
               ),
