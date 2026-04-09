@@ -26,6 +26,7 @@ export const POST = withAuth(
           conversationId,
           messages,
           model,
+          custom_fields,
         },
         token?.access_token as string,
       );
