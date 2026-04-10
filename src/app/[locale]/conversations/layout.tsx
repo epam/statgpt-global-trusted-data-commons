@@ -88,7 +88,9 @@ export default async function ConversationLayout({
             isTableSettingsFeatureEnabled={isTableSettingsFeatureEnabled}
           >
             <ConversationListProvider>
-              <ConversationListWrapper />
+              <ConversationListWrapper
+                clientContactSupportUrl={clientContactSupportUrl}
+              />
               <main className="h-full min-w-0 flex-1">{children}</main>
             </ConversationListProvider>
           </ClientProvidersWrapper>
