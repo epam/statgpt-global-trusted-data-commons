@@ -71,8 +71,10 @@ export default async function ConversationLayout({
         <DeploymentConfigProvider config={configuration.data}>
           <ClientProvidersWrapper isAgentAvailable={configuration.success}>
             <ConversationListProvider>
-              <ConversationListWrapper />
-              <main className="flex-1 h-full min-w-0">{children}</main>
+              <ConversationListWrapper
+                clientContactSupportUrl={clientContactSupportUrl}
+              />
+              <main className="h-full min-w-0 flex-1">{children}</main>
             </ConversationListProvider>
           </ClientProvidersWrapper>
         </DeploymentConfigProvider>
