@@ -208,7 +208,7 @@ const ConversationViewWrapper: FC<Props> = ({
     noResultsInOtherDimensions: t(
       AdvancedViewI18nKeys.NO_RESULTS_IN_OTHER_DIMENSIONS,
     ),
-    settings: t(AdvancedViewI18nKeys.SETTINGS),
+    settings: t(AdvancedViewI18nKeys.FILTERS),
     content: t(AdvancedViewI18nKeys.CONTENT),
     advanceViewTitle: t(AdvancedViewI18nKeys.TITLE),
     metadata: t(AdvancedViewI18nKeys.METADATA),
