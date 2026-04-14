@@ -79,6 +79,8 @@ import { useLogout } from '../../hooks/use-logout';
 import { getFileApi } from '../../app/api/files/client';
 import { getBucketApi } from '../../app/api/bucket/client';
 import { getFileBlobApi, putFileApi } from '../../app/api/files/client';
+import { getAvailableHierarchiesApi } from '../../app/api/codelist/client';
+import { getHierarchyApi } from '../../app/api/hierarchy/client';
 import { getConstraintsApi } from '../../app/api/constraints/client';
 import {
   createConversationApi,
@@ -458,6 +460,11 @@ const ConversationViewWrapper: FC<Props> = ({
           }}
           actions={attachmentsActions}
           filtersProps={{
+            actions: {
+              getConstraints: authHandler(getConstraintsApi),
+              getAvailableHierarchies: authHandler(getAvailableHierarchiesApi),
+              getHierarchy: authHandler(getHierarchyApi),
+            },
             buttonProps: {
               title: t(AdvancedViewI18nKeys.FILTERS),
               isShowBadge: true,
