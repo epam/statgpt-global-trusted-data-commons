@@ -23,6 +23,7 @@ It's build using the shared libraries of [StatGPT portals frontend](https://gith
 - [🧪 Test](#-test)
 - [🧑‍💻 Environment Variables](#-Environment-Variables)
   - [Environment Variables for the Application](#environment-variables-for-the-application)
+  - [Feature Toggles Environment Variables](#feature-toggles-environment-variables)
   - [Environment Variables for the CSP](#environment-variables-for-the-csp)
   - [Environment Variables for the Configuration of Auth Providers](#environment-variables-for-the-configuration-of-auth-providers)
 - [🤝 Contributing](#-contributing)
@@ -146,7 +147,14 @@ Global Trusted Data Commons uses environment variables for configuration. All en
 | `SDMX_API_URL`                     |   No    | SDMX+ api url. If not set, SDMX requests will be proxied through `DIAL_API_URL`.                                                                                                                                                                              | URL              |  |
 | `CONSTRAINS_SDMX_API_URL`          |    No    | SDMX+ Constrains api url                                                                                                                                                                                                                                     | URL              |  |
 | `SDMX_PROXY_URL`          |    No    | SDMX 3.0 constrains api url                                                                                                                                                                                                                                  | URL              |  |
-| `CROSS_DATASET_MODE`      |    No    | Enables cross-dataset mode, which allows view, filtering & configure grid view across multiple datasets                                                                                         | `true`, `false`  | `false` |
+
+### Feature Toggles Environment Variables
+
+The table below lists boolean environment variables that enable or disable specific application features.
+
+| Variable               | Required | Description                                                                                                                                                                          | Available Values  | Default values |
+|------------------------|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------| -------------- |
+| `CROSS_DATASET_MODE`   |    No    | Enables cross-dataset mode, which allows view, filtering & configure grid view across multiple datasets | `true`, `false` | `false`        |
 
 ### Environment Variables for the CSP
 
