@@ -23,6 +23,7 @@ It's build using the shared libraries of [StatGPT portals frontend](https://gith
 - [🧪 Test](#-test)
 - [🧑‍💻 Environment Variables](#-Environment-Variables)
   - [Environment Variables for the Application](#environment-variables-for-the-application)
+  - [Feature Toggles Environment Variables](#feature-toggles-environment-variables)
   - [Environment Variables for the CSP](#environment-variables-for-the-csp)
   - [Environment Variables for the Configuration of Auth Providers](#environment-variables-for-the-configuration-of-auth-providers)
 - [🤝 Contributing](#-contributing)
@@ -100,7 +101,7 @@ mpn run start
    DIAL_API_KEY="ADD_VALUE_HERE"
    DEFAULT_MODEL="ADD_VALUE_HERE"
 
-    # SDMX API Configuration
+    # SDMX API Configuration (optional — if not set, SDMX requests are proxied through DIAL_API_URL)
    SDMX_API_URL="ADD_VALUE_HERE"
    CONSTRAINS_SDMX_API_URL="ADD_VALUE_HERE"
    ```
@@ -141,11 +142,19 @@ Global Trusted Data Commons uses environment variables for configuration. All en
 | ----------------------------------- |:--------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------| ---------------------------------------------------------------------------------------------------------------------------------- |
 | `DIAL_API_URL`                     |   Yes    | AI DIAL Core API Url.<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings).                                                                                                                                 | URL              |                                                                                                                                    |
 | `DIAL_API_KEY`                      | No | AI DIAL Core API Key.<br />Define this variable if authorization using JWT is not configured.<br />Refer to [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) to learn how to set up AI DIAL Core and define API keys. | Any string       |                                                                                                                                    |
-| `DIAL_API_VERSION`                  |    No    | AI DIAL API Version                                                                                                                                                                                                                                           | Any string       | `2024-02-01`                                                                                                                       |
-| `DEFAULT_MODEL`                     |    No    | A model that will be used for the new conversation. `Reference` or `ID` of the agent.                                                                                                                                                                         | Any string       | First available model from [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) config listing |
-| `SDMX_API_URL`                     |   Yes    | SDMX+ api url                                                                                                                                                                                                                                                 | URL              |  |
-| `CONSTRAINS_SDMX_API_URL`          |    No    | SDMX+ Constrains api url                                                                                                                                                                                                                                      | URL              |  |
-| `SDMX_PROXY_URL`          |    No    | SDMX 3.0 constrains api url                                                                                                                                                                                                                                   | URL              |  |
+| `DIAL_API_VERSION`                  |    No    | AI DIAL API Version                                                                                                                                                                                                                                          | Any string       | `2024-02-01`                                                                                                                       |
+| `DEFAULT_MODEL`                     |    No    | A model that will be used for the new conversation. `Reference` or `ID` of the agent.                                                                                                                                                                        | Any string       | First available model from [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) config listing |
+| `SDMX_API_URL`                     |   No    | SDMX+ api url. If not set, SDMX requests will be proxied through `DIAL_API_URL`.                                                                                                                                                                              | URL              |  |
+| `CONSTRAINS_SDMX_API_URL`          |    No    | SDMX+ Constrains api url                                                                                                                                                                                                                                     | URL              |  |
+| `SDMX_PROXY_URL`          |    No    | SDMX 3.0 constrains api url                                                                                                                                                                                                                                  | URL              |  |
+
+### Feature Toggles Environment Variables
+
+The table below lists boolean environment variables that enable or disable specific application features.
+
+| Variable               | Required | Description                                                                                                                                                                          | Available Values  | Default values |
+|------------------------|:--------:|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------| -------------- |
+| `CROSS_DATASET_MODE`   |    No    | Enables cross-dataset mode, which allows view, filtering & configure grid view across multiple datasets | `true`, `false` | `false`        |
 
 ### Environment Variables for the CSP
 
