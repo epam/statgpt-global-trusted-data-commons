@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { datasetApi } from '../api';
 import {
   FileColumnsAttribute,
@@ -6,27 +6,36 @@ import {
 } from '@epam/statgpt-sdmx-toolkit';
 import { withAuth } from '../../../utils/auth/withAuth';
 import { AuthParams } from '../../../models/auth';
+import { apiLogger } from '../../../core/logger';
 
 export const GET = withAuth(
   async (request: NextRequest, { token }: AuthParams) => {
-    const { searchParams } = new URL(request.url);
-    const urn = searchParams.get('urn') as string;
-    const format = searchParams.get('format') as SdmxDataFormat;
-    const language = searchParams.get('language') as string;
-    const attribute = searchParams.get('attribute') as FileColumnsAttribute;
-    const filename = searchParams.get('filename') as string;
-    const filters = JSON.parse(searchParams.get('filters') || '{}');
-    const isMetadata = searchParams.get('isMetadata') === 'true';
+    try {
+      const { searchParams } = new URL(request.url);
+      const urn = searchParams.get('urn') as string;
+      const format = searchParams.get('format') as SdmxDataFormat;
+      const language = searchParams.get('language') as string;
+      const attribute = searchParams.get('attribute') as FileColumnsAttribute;
+      const filename = searchParams.get('filename') as string;
+      const filters = JSON.parse(searchParams.get('filters') || '{}');
+      const isMetadata = searchParams.get('isMetadata') === 'true';
 
-    return datasetApi.downloadDataSet(
-      urn,
-      format,
-      language,
-      attribute,
-      filters,
-      filename,
-      isMetadata,
-      token?.access_token as string,
-    );
+      return datasetApi.downloadDataSet(
+        urn,
+        format,
+        language,
+        attribute,
+        filters,
+        filename,
+        isMetadata,
+        token?.access_token as string,
+      );
+    } catch (error) {
+      apiLogger.error('Download API error:', error);
+      return NextResponse.json(
+        { error: 'Failed to process download request' },
+        { status: 500 },
+      );
+    }
   },
 );
