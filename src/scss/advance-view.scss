@@ -85,7 +85,15 @@
   }
 
   &-settings {
-    @apply pl-6 pt-2;
+    @apply pl-6 pt-2 divide-neutrals-400 divide-x gap-0;
+    & > div {
+      &:first-child {
+        @apply pr-2.5;
+      }
+      &:last-child {
+        @apply pl-2.5;
+      }
+    }
   }
 
   &-facet {

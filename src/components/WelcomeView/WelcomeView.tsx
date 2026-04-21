@@ -86,7 +86,7 @@ const WelcomeView: FC = () => {
       handleConversationClick={handleConversationSelect}
       actions={serverActions}
       inputMessageStyles={{
-        inputContainerClass: 'max-w-[784px] mb-6',
+        inputContainerClass: 'max-w-[784px] mb-6 shadow-drop',
         sendMessageIcon: <IconSend />,
       }}
       setConversations={setConversations}

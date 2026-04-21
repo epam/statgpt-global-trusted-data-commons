@@ -351,6 +351,7 @@ const ConversationViewWrapper: FC<Props> = ({
     fullLimitMessage: t(AdvancedViewI18nKeys.FULL_LIMIT_MESSAGE),
     excelFormatTitle: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TITLE),
     excelFormatText: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TEXT),
+    largeQueryClassName: 'h4 !text-neutrals-1000',
   };
 
   const datasetInfoOptions: DatasetInfoOptions = {
@@ -422,8 +423,8 @@ const ConversationViewWrapper: FC<Props> = ({
             }}
             inputMessageStyles={{
               inputContainerClass: !isOpenedAdvancedView
-                ? 'pl-[15%] pr-[8%]'
-                : 'px-4',
+                ? 'pl-[15%] pr-[8%] shadow-drop [&>.input]:shadow-drop'
+                : 'px-4 shadow-drop [&>.input]:shadow-drop',
               sendMessageIcon: <IconSend />,
               retryIcon: <Regenerate />,
             }}
