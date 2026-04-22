@@ -8,7 +8,10 @@ export const useLogout = () => {
     if (session.data != null) {
       return customSignOut();
     } else {
-      return signIn('azure-ad', { redirect: true });
+      return signIn('azure-ad', {
+        callbackUrl: window.location.href,
+        redirect: true,
+      });
     }
   }, [session]);
   return {
