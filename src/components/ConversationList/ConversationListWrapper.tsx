@@ -46,7 +46,7 @@ import {
   LogOutI18nKeys,
 } from '../../constants/i18n-keys';
 import { useConversationList } from '../../context/ConversationListContext';
-import { SIGN_IN_LINK } from '../../constants/auth';
+import { getSignInLink } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import { useLogout } from '../../hooks/use-logout';
 import { getFileBlobApi } from '../../app/api/files/client';
@@ -87,7 +87,7 @@ const ConversationListWrapper = ({
       action: (...args: Args) => Promise<ApiResponse<T>>,
     ): ((...args: Args) => Promise<T>) => {
       return wrapWithAuthHandler(action, () => {
-        router.push(SIGN_IN_LINK);
+        router.push(getSignInLink(window.location.href));
       });
     },
     [router],
