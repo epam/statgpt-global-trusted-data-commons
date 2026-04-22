@@ -73,7 +73,7 @@ import classNames from 'classnames';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
-import { SIGN_IN_LINK } from '../../constants/auth';
+import { getSignInLink } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import { useLogout } from '../../hooks/use-logout';
 import { getFileApi } from '../../app/api/files/client';
@@ -137,7 +137,7 @@ const ConversationViewWrapper: FC<Props> = ({
       action: (...args: Args) => Promise<ApiResponse<T>>,
     ): (...args: Args) => Promise<T> {
       return wrapWithAuthHandler(action, () => {
-        openUrl(SIGN_IN_LINK);
+        openUrl(getSignInLink(window.location.href));
       });
     },
     [openUrl],
