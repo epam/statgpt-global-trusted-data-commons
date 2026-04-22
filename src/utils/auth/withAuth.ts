@@ -14,20 +14,20 @@ export function withAuth<TContext>(
   ) => Promise<NextResponse | Response>,
 ) {
   return async (req: NextRequest, context: TContext) => {
-    const token = await getToken({ req });
-    const isEnableAuth = getIsEnableAuthToggle();
-    const isInvalidSession = await getIsInvalidSession(isEnableAuth, token);
-
-    if (isInvalidSession) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: HTTP_ERROR_CODES.UNAUTHORIZED },
-      );
-    }
-
-    const authParams = { token: token ?? {} };
-
     try {
+      const token = await getToken({ req });
+      const isEnableAuth = getIsEnableAuthToggle();
+      const isInvalidSession = await getIsInvalidSession(isEnableAuth, token);
+
+      if (isInvalidSession) {
+        return NextResponse.json(
+          { error: 'Unauthorized' },
+          { status: HTTP_ERROR_CODES.UNAUTHORIZED },
+        );
+      }
+
+      const authParams = { token: token ?? {} };
+
       return await handler(req, authParams, context);
     } catch (error) {
       apiLogger.error('Error in withAuth middleware: ${}', { error });
