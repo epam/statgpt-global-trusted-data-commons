@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@epam/statgpt-ui-components';
-import { signOut } from 'next-auth/react';
 import { TranslateI18nFn, useI18n } from '../locales/client';
 import {
   AuthI18nKeys,
@@ -9,6 +8,7 @@ import {
   StatusMessagesI18nKeys,
 } from '../constants/i18n-keys';
 import LogoIcon from '../../public/images/logo.svg';
+import { useLogout } from '../hooks/use-logout';
 
 export const NoAccessView = ({
   clientContactSupportUrl,
@@ -16,6 +16,7 @@ export const NoAccessView = ({
   clientContactSupportUrl?: string;
 }) => {
   const t = useI18n() as TranslateI18nFn;
+  const { handleLogout } = useLogout();
 
   return (
     <div className="size-full flex">
@@ -56,7 +57,7 @@ export const NoAccessView = ({
           <Button
             buttonClassName="text-button-secondary w-fit !py-[14px] !px-[45px]"
             title={t(AuthI18nKeys.SIGN_OUT)}
-            onClick={() => signOut()}
+            onClick={handleLogout}
           />
         </div>
       </div>
