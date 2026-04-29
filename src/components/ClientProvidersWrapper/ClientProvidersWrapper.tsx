@@ -5,6 +5,7 @@ import {
   ChatMessagesProvider,
   ConversationViewFeatureTogglesProvider,
   ConversationViewSidePanelProvider,
+  CrossDatasetAttachmentsProvider,
   DatasetDimensionsMetadataMapProvider,
   OnboardingProvider,
 } from '@epam/statgpt-conversation-view';
@@ -38,9 +39,11 @@ export const ClientProvidersWrapper = ({
         >
           <OnboardingProvider>
             <AdvancedViewProvider>
-              <ConversationViewSidePanelProvider>
-                <ChatMessagesProvider>{children}</ChatMessagesProvider>
-              </ConversationViewSidePanelProvider>
+              <CrossDatasetAttachmentsProvider>
+                <ConversationViewSidePanelProvider>
+                  <ChatMessagesProvider>{children}</ChatMessagesProvider>
+                </ConversationViewSidePanelProvider>
+              </CrossDatasetAttachmentsProvider>
             </AdvancedViewProvider>
           </OnboardingProvider>
         </DatasetDimensionsMetadataMapProvider>
