@@ -93,6 +93,7 @@ import {
 import { rateResponseApi } from '../../app/api/rate/client';
 import { getDataSetApi, getDataSetDataApi } from '../../app/api/dataset/client';
 import { WarnBanner } from '../Footer/WarnBanner';
+import { getPythonAttachmentApi } from '../../app/api/python-attachment/client';
 
 interface Props {
   bucketId: string;
@@ -244,6 +245,7 @@ const ConversationViewWrapper: FC<Props> = ({
         getDataSetData: authHandler(getDataSetDataApi),
         downloadDataSet: openDownloadWindow,
         getConstraints: authHandler(getConstraintsApi),
+        getPythonAttachment: authHandler(getPythonAttachmentApi),
         updateCurrentDataQuery: (dataQuery?: DataQuery) => {
           setCurrentDataQuery(dataQuery);
         },
