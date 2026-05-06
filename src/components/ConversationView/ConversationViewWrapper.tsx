@@ -458,8 +458,8 @@ const ConversationViewWrapper: FC<Props> = ({
             }}
             inputMessageStyles={{
               inputContainerClass: !isOpenedAdvancedView
-                ? 'pl-[15%] pr-[8%] shadow-drop [&>.input]:shadow-drop'
-                : 'px-4 shadow-drop [&>.input]:shadow-drop',
+                ? 'pl-[15%] pr-[8%] [&>.input]:shadow-drop'
+                : 'px-4 [&>.input]:shadow-drop',
               sendMessageIcon: <IconSend />,
               retryIcon: <Regenerate />,
             }}

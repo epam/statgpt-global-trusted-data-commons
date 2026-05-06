@@ -85,8 +85,9 @@
   }
 
   &-settings {
-    @apply pl-6 pt-2 divide-neutrals-400 divide-x gap-0;
+    @apply pl-6 divide-neutrals-400 divide-x gap-0;
     & > div {
+      @apply pt-2;
       &:first-child {
         @apply pr-2.5;
       }
