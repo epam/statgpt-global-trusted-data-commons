@@ -21,7 +21,7 @@ import {
   NavI18nKeys,
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
-import { SIGN_IN_LINK } from '../../constants/auth';
+import { getSignInLink } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import { getBucketApi } from '../../app/api/bucket/client';
 import {
@@ -44,7 +44,7 @@ const WelcomeView: FC = () => {
       action: (...args: Args) => Promise<ApiResponse<T>>,
     ): (...args: Args) => Promise<T> {
       return wrapWithAuthHandler(action, () => {
-        router.push(SIGN_IN_LINK);
+        router.push(getSignInLink(window.location.href));
       });
     },
     [router],
