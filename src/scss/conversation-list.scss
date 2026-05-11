@@ -24,6 +24,6 @@
 
 .rename-conversation-popup {
   input {
-    @apply border-[1px] border-neutrals-500 rounded-[4px] px-3 py-2 body-2;
+    @apply border-[1px] border-neutrals-500 rounded-[4px] px-3 py-2 body-2 active:border-primary focus:border-primary;
   }
 }
