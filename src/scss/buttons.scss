@@ -38,8 +38,9 @@
 }
 
 .text-button-secondary {
-  &:hover {
-    @apply text-white bg-primary;
+  &:hover,
+  &:focus {
+    @apply text-white bg-primary outline-none;
   }
 
   &:disabled {
@@ -51,6 +52,10 @@
   &:hover {
     @apply text-hues-800;
   }
+}
+
+.cancel-button {
+  @apply text-button-secondary;
 }
 
 .text-button-client {
