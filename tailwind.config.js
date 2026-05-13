@@ -70,6 +70,7 @@ module.exports = {
       zIndex: {
         tooltip: '100000',
         modal: '100001',
+        dropdown: '100002',
       },
     },
   },
