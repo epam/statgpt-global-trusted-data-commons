@@ -41,6 +41,8 @@ export enum ChatI18nKeys {
   CHAT_WARNING = 'chat.chatWarning',
   DUPLICATE_CHAT = 'chat.duplicateChat',
   EXPLORE_DATA = 'chart.exploreData',
+  CONVERSATION_ACCESS_ERROR_TITLE = 'chat.conversationAccessErrorTitle',
+  CONVERSATION_ACCESS_ERROR_TEXT = 'chat.conversationAccessErrorText',
 }
 
 export enum LogOutI18nKeys {
@@ -204,6 +206,19 @@ export enum DownloadI18nKeys {
   CANCEL = 'download.cancel',
   DATASETS_TO_DOWNLOAD = 'download.datasetsToDownload',
   ROWS = 'download.rows',
+  DOWNLOAD_STARTED_TITLE = 'download.alert.startedTitle',
+  DOWNLOAD_STARTED_TEXT = 'download.alert.startedText',
+  DOWNLOAD_IN_PROGRESS_TITLE = 'download.alert.inProgressTitle',
+  DOWNLOAD_IN_PROGRESS_TEXT = 'download.alert.inProgressText',
+  DOWNLOAD_SUCCESS_TITLE = 'download.alert.successTitle',
+  DOWNLOAD_SUCCESS_MULTIPLE_TITLE = 'download.alert.successMultipleTitle',
+  DOWNLOAD_SUCCESS_TEXT = 'download.alert.successText',
+  DOWNLOAD_SUCCESS_MULTIPLE_TEXT = 'download.alert.successMultipleText',
+  DOWNLOAD_FAILED_TITLE = 'download.alert.failedTitle',
+  DOWNLOAD_FAILED_TEXT = 'download.alert.failedText',
+  DOWNLOAD_FAILED_MULTIPLE_TEXT = 'download.alert.failedMultipleText',
+  DOWNLOAD_CANCEL_ACTION_TEXT = 'download.alert.cancelActionText',
+  DOWNLOAD_RETRY_ACTION_TEXT = 'download.alert.retryActionText',
 }
 
 // Aggregate all keys for convenience

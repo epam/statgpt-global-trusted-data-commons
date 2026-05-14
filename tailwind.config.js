@@ -64,9 +64,13 @@ module.exports = {
           neutrals300: 'var(--neutrals-300-10)',
         },
       },
+      boxShadow: {
+        drop: '0px 4px 4px 0px #BBBBBB40',
+      },
       zIndex: {
         tooltip: '100000',
         modal: '100001',
+        dropdown: '100002',
       },
     },
   },

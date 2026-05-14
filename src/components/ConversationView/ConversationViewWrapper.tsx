@@ -22,7 +22,6 @@ import {
   TimeRangeOptions,
   HttpError,
 } from '@epam/statgpt-shared-toolkit';
-import { LimitMessages } from '@epam/statgpt-ui-components';
 import { useConversationList } from '../../context/ConversationListContext';
 import MessageIcon from '../../../public/images/chat/message-icon.svg';
 import Footer from '../Footer/Footer';
@@ -45,6 +44,7 @@ import {
   WelcomeI18nKeys,
 } from '../../constants/i18n-keys';
 import AdvancedModeIcon from '../../../public/images/advanced-mode.svg';
+import InfoIcon from '../../../public/images/statuses/info.svg';
 import UnfoldIcon from '../../../public/images/unfold.svg';
 import DownloadIcon from '../../../public/images/chat/download.svg';
 import SuccessIcon from '../../../public/images/chat/success.svg';
@@ -61,6 +61,7 @@ import Edit from '../../../public/images/messages/edit.svg';
 import Down from '../../../public/images/chat/down.svg';
 import ThumbPressed from '../../../public/images/messages/thumb-filled.svg';
 import Reset from '../../../public/images/reset.svg';
+import ExternalLink from '../../../public/images/external-link.svg';
 
 import {
   IconCalendarWeek,
@@ -70,7 +71,7 @@ import {
   IconSquareCheckFilled,
 } from '@tabler/icons-react';
 import classNames from 'classnames';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { getSignInLink } from '../../constants/auth';
@@ -91,6 +92,9 @@ import {
 import { rateResponseApi } from '../../app/api/rate/client';
 import { getDataSetApi, getDataSetDataApi } from '../../app/api/dataset/client';
 import { WarnBanner } from '../Footer/WarnBanner';
+import { getPythonAttachmentApi } from '../../app/api/python-attachment/client';
+import { Alert, AlertType, LimitMessages } from '@epam/statgpt-ui-components';
+import WelcomeView from '../WelcomeView/WelcomeView';
 
 interface Props {
   bucketId: string;
@@ -115,6 +119,8 @@ const ConversationViewWrapper: FC<Props> = ({
   >();
   const [dataQueries, setDataQueries] = useState<DataQuery[]>();
   const [datasets, setDatasets] = useState<Dataflow[]>();
+  const [isConversationNotFound, setIsConversationNotFound] = useState(false);
+  const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
   const { locale, id }: { locale: string; id: string[] } = useParams();
   const chartingIcons = {
     [ChartingIcon.NEXT]: <ChevronRight width={20} height={20} />,
@@ -129,6 +135,16 @@ const ConversationViewWrapper: FC<Props> = ({
     () => `${bucketId}/${locale}/${conversationId}`,
     [locale, bucketId, conversationId],
   );
+
+  useEffect(() => {
+    setIsConversationNotFound(false);
+    setShowNotFoundAlert(false);
+  }, [conversationKey]);
+
+  const handleConversationNotFound = useCallback(() => {
+    setIsConversationNotFound(true);
+    setShowNotFoundAlert(true);
+  }, []);
 
   const openUrl = useCallback((url: string) => router.push(url), [router]);
 
@@ -167,73 +183,76 @@ const ConversationViewWrapper: FC<Props> = ({
     [id, shareConversationApiProps, t],
   );
 
-  const conversationViewTitles: ConversationViewTitles = {
-    newChat: t(NavI18nKeys.NEW_CHAT),
-    welcomeTitle: t(WelcomeI18nKeys.TITLE),
-    askAnything: t(WelcomeI18nKeys.ASK_ANYTHING),
-    duplicate: t(ChatI18nKeys.DUPLICATE_CHAT),
-    close: t(AppI18nKeys.CLOSE),
-    chart: t(AttachmentsI18nKeys.CHART),
-    codeSamples: t(AttachmentsI18nKeys.CODE_SAMPLES),
-    noMetadata: t(AdvancedViewI18nKeys.NO_METADATA),
-    explore: t(ChatI18nKeys.EXPLORE_DATA),
-    apply: t(AdvancedViewI18nKeys.APPLY),
-    cancel: t(AppI18nKeys.CANCEL),
-    from: t(AdvancedViewI18nKeys.FROM),
-    to: t(AdvancedViewI18nKeys.TO),
-    all: t(AdvancedViewI18nKeys.ALL),
-    displayOrder: t(AdvancedViewI18nKeys.DISPLAY_ORDER),
-    hierarchy: t(AdvancedViewI18nKeys.HIERARCHY),
-    flatList: t(AdvancedViewI18nKeys.FLAT_LIST),
-    reset: t(AdvancedViewI18nKeys.RESET_SELECTED_VALUES),
-    chartInfo: t(AttachmentsI18nKeys.CHART_INFO),
-    chartNoData: t(AdvancedViewI18nKeys.CHART_NO_DATA),
-    limitLinkInfoLink: t(AttachmentsI18nKeys.LIMITS_INFO_LINK),
-    limitLinkInfoP1_1: t(AttachmentsI18nKeys.LIMITS_INFO_P1_1),
-    limitLinkInfoP1_2: t(AttachmentsI18nKeys.LIMITS_INFO_P1_2),
-    limitLinkInfoP1_3: t(AttachmentsI18nKeys.LIMITS_INFO_P1_3),
-    limitLinkInfoP2_1: t(AttachmentsI18nKeys.LIMITS_INFO_P2_1),
-    limitLinkInfoP2_2: t(AttachmentsI18nKeys.LIMITS_INFO_P2_2),
-    limitLinkInfoP2_3: t(AttachmentsI18nKeys.LIMITS_INFO_P2_3),
-    limitLinkInfoP2_4: t(AttachmentsI18nKeys.LIMITS_INFO_P2_4),
-    limitLinkInfoP2_5: t(AttachmentsI18nKeys.LIMITS_INFO_P2_5),
-    limits: t(AttachmentsI18nKeys.LIMITS),
-    timeseriesLimit: t(AttachmentsI18nKeys.TIME_SERIES_LIMIT),
-    searchPlaceholder: t(AppI18nKeys.SEARCH),
-    clearAll: t(AdvancedViewI18nKeys.CLEAR_ALL),
-    clearAllFilters: t(AdvancedViewI18nKeys.CLEAR_ALL_FILTERS),
-    appliedFilters: t(AdvancedViewI18nKeys.APPLIED_FILTERS),
-    otherResults: t(AdvancedViewI18nKeys.OTHER_RESULTS),
-    searchMinCharsCaption: t(AdvancedViewI18nKeys.SEARCH_MIN_CHARS_CAPTION),
-    noResultsInSection: (sectionName) =>
-      t(AdvancedViewI18nKeys.NO_RESULTS_IN_SECTION, { sectionName }),
-    noResultsInOtherDimensions: t(
-      AdvancedViewI18nKeys.NO_RESULTS_IN_OTHER_DIMENSIONS,
-    ),
-    settings: t(AdvancedViewI18nKeys.FILTERS),
-    content: t(AdvancedViewI18nKeys.CONTENT),
-    advanceViewTitle: t(AdvancedViewI18nKeys.TITLE),
-    metadata: t(AdvancedViewI18nKeys.METADATA),
-    timeSeries: t(AdvancedViewI18nKeys.TIMESERIES),
-    observation: t(AdvancedViewI18nKeys.OBSERVATION),
-    dataset: t(AdvancedViewI18nKeys.DATASET),
-    agency: t(AdvancedViewI18nKeys.AGENCY),
-    lastUpdated: t(AdvancedViewI18nKeys.LAST_UPDATED),
-    quarterly: t(TimeI18nKeys.QUARTERLY),
-    monthly: t(TimeI18nKeys.MONTHLY),
-    dataGrid: t(AttachmentsI18nKeys.DATA_GRID),
-    countryDimensions: t(AttachmentsI18nKeys.COUNTRY_DIMENSIONS),
-    indicatorDimensions: t(AttachmentsI18nKeys.INDICATOR_DIMENSIONS),
-    frequency: t(AttachmentsI18nKeys.FREQUENCY),
-    timeseriesMetadataPanel: t(AttachmentsI18nKeys.TIMESERIES_METADATA_PANEL),
-    datasetMetadataPanel: t(AttachmentsI18nKeys.DATASET_METADATA_PANEL),
-    countryMetadataPanel: t(AttachmentsI18nKeys.COUNTRY_METADATA_PANEL),
-    indicatorMetadataPanel: t(AttachmentsI18nKeys.INDICATOR_METADATA_PANEL),
-    queryUpdatedManually: t(MessageI18nKeys.QUERY_UPDATED_MANUALLY),
-    setTo: t(MessageI18nKeys.SET_TO),
-    signOut: t(AuthI18nKeys.SIGN_OUT),
-    loading: t(MessageI18nKeys.LOADING),
-  };
+  const conversationViewTitles = useMemo<ConversationViewTitles>(
+    () => ({
+      newChat: t(NavI18nKeys.NEW_CHAT),
+      welcomeTitle: t(WelcomeI18nKeys.TITLE),
+      askAnything: t(WelcomeI18nKeys.ASK_ANYTHING),
+      duplicate: t(ChatI18nKeys.DUPLICATE_CHAT),
+      close: t(AppI18nKeys.CLOSE),
+      chart: t(AttachmentsI18nKeys.CHART),
+      codeSamples: t(AttachmentsI18nKeys.CODE_SAMPLES),
+      noMetadata: t(AdvancedViewI18nKeys.NO_METADATA),
+      explore: t(ChatI18nKeys.EXPLORE_DATA),
+      apply: t(AdvancedViewI18nKeys.APPLY),
+      cancel: t(AppI18nKeys.CANCEL),
+      from: t(AdvancedViewI18nKeys.FROM),
+      to: t(AdvancedViewI18nKeys.TO),
+      all: t(AdvancedViewI18nKeys.ALL),
+      displayOrder: t(AdvancedViewI18nKeys.DISPLAY_ORDER),
+      hierarchy: t(AdvancedViewI18nKeys.HIERARCHY),
+      flatList: t(AdvancedViewI18nKeys.FLAT_LIST),
+      reset: t(AdvancedViewI18nKeys.RESET_SELECTED_VALUES),
+      chartInfo: t(AttachmentsI18nKeys.CHART_INFO),
+      chartNoData: t(AdvancedViewI18nKeys.CHART_NO_DATA),
+      limitLinkInfoLink: t(AttachmentsI18nKeys.LIMITS_INFO_LINK),
+      limitLinkInfoP1_1: t(AttachmentsI18nKeys.LIMITS_INFO_P1_1),
+      limitLinkInfoP1_2: t(AttachmentsI18nKeys.LIMITS_INFO_P1_2),
+      limitLinkInfoP1_3: t(AttachmentsI18nKeys.LIMITS_INFO_P1_3),
+      limitLinkInfoP2_1: t(AttachmentsI18nKeys.LIMITS_INFO_P2_1),
+      limitLinkInfoP2_2: t(AttachmentsI18nKeys.LIMITS_INFO_P2_2),
+      limitLinkInfoP2_3: t(AttachmentsI18nKeys.LIMITS_INFO_P2_3),
+      limitLinkInfoP2_4: t(AttachmentsI18nKeys.LIMITS_INFO_P2_4),
+      limitLinkInfoP2_5: t(AttachmentsI18nKeys.LIMITS_INFO_P2_5),
+      limits: t(AttachmentsI18nKeys.LIMITS),
+      timeseriesLimit: t(AttachmentsI18nKeys.TIME_SERIES_LIMIT),
+      searchPlaceholder: t(AppI18nKeys.SEARCH),
+      clearAll: t(AdvancedViewI18nKeys.CLEAR_ALL),
+      clearAllFilters: t(AdvancedViewI18nKeys.CLEAR_ALL_FILTERS),
+      appliedFilters: t(AdvancedViewI18nKeys.APPLIED_FILTERS),
+      otherResults: t(AdvancedViewI18nKeys.OTHER_RESULTS),
+      searchMinCharsCaption: t(AdvancedViewI18nKeys.SEARCH_MIN_CHARS_CAPTION),
+      noResultsInSection: (sectionName) =>
+        t(AdvancedViewI18nKeys.NO_RESULTS_IN_SECTION, { sectionName }),
+      noResultsInOtherDimensions: t(
+        AdvancedViewI18nKeys.NO_RESULTS_IN_OTHER_DIMENSIONS,
+      ),
+      settings: t(AdvancedViewI18nKeys.FILTERS),
+      content: t(AdvancedViewI18nKeys.CONTENT),
+      advanceViewTitle: t(AdvancedViewI18nKeys.TITLE),
+      metadata: t(AdvancedViewI18nKeys.METADATA),
+      timeSeries: t(AdvancedViewI18nKeys.TIMESERIES),
+      observation: t(AdvancedViewI18nKeys.OBSERVATION),
+      dataset: t(AdvancedViewI18nKeys.DATASET),
+      agency: t(AdvancedViewI18nKeys.AGENCY),
+      lastUpdated: t(AdvancedViewI18nKeys.LAST_UPDATED),
+      quarterly: t(TimeI18nKeys.QUARTERLY),
+      monthly: t(TimeI18nKeys.MONTHLY),
+      dataGrid: t(AttachmentsI18nKeys.DATA_GRID),
+      countryDimensions: t(AttachmentsI18nKeys.COUNTRY_DIMENSIONS),
+      indicatorDimensions: t(AttachmentsI18nKeys.INDICATOR_DIMENSIONS),
+      frequency: t(AttachmentsI18nKeys.FREQUENCY),
+      timeseriesMetadataPanel: t(AttachmentsI18nKeys.TIMESERIES_METADATA_PANEL),
+      datasetMetadataPanel: t(AttachmentsI18nKeys.DATASET_METADATA_PANEL),
+      countryMetadataPanel: t(AttachmentsI18nKeys.COUNTRY_METADATA_PANEL),
+      indicatorMetadataPanel: t(AttachmentsI18nKeys.INDICATOR_METADATA_PANEL),
+      queryUpdatedManually: t(MessageI18nKeys.QUERY_UPDATED_MANUALLY),
+      setTo: t(MessageI18nKeys.SET_TO),
+      signOut: t(AuthI18nKeys.SIGN_OUT),
+      loading: t(MessageI18nKeys.LOADING),
+    }),
+    [t],
+  );
   const attachmentsActions = useMemo(
     () =>
       ({
@@ -242,6 +261,7 @@ const ConversationViewWrapper: FC<Props> = ({
         getDataSetData: authHandler(getDataSetDataApi),
         downloadDataSet: openDownloadWindow,
         getConstraints: authHandler(getConstraintsApi),
+        getPythonAttachment: authHandler(getPythonAttachmentApi),
         updateCurrentDataQuery: (dataQuery?: DataQuery) => {
           setCurrentDataQuery(dataQuery);
         },
@@ -285,9 +305,12 @@ const ConversationViewWrapper: FC<Props> = ({
     hideDownloadTextInConversationView: true,
     hideDownloadIconInAdvancedView: true,
     downloadChevronIcon: <ChevronSolidDownIcon className="size-6" />,
+    infoDownloadIcon: <InfoIcon className="size-6 text-primary" />,
     successDownloadIcon: (
       <SuccessIcon className="size-6 text-semantic-success" />
     ),
+    downloadInProgressActionIcon: <Reset className="size-4" />,
+    downloadErrorActionIcon: <ExternalLink className="size-4" />,
     closeTitle: t(AppI18nKeys.CLOSE),
     downloadTitle: t(DownloadI18nKeys.DOWNLOAD),
     columnsTitle: t(AttachmentsI18nKeys.COLUMNS),
@@ -299,6 +322,7 @@ const ConversationViewWrapper: FC<Props> = ({
     chartingIcons,
     copyTitle: t(ChatI18nKeys.COPY),
     copiedTitle: t(ChatI18nKeys.SHARE_COPIED_LINK),
+    copyHoverTooltip: t(ChatI18nKeys.COPY),
     copyIcon: <Copy className="size-4" />,
     copiedIcon: <CheckIcon className="size-4" />,
     downloadTitles: {
@@ -326,6 +350,34 @@ const ConversationViewWrapper: FC<Props> = ({
       oneFilePerDataset: t(DownloadI18nKeys.ONE_FILE_PER_DATASET),
       datasetsToDownload: t(DownloadI18nKeys.DATASETS_TO_DOWNLOAD),
       rows: t(DownloadI18nKeys.ROWS),
+      downloadStartedTitle: t(DownloadI18nKeys.DOWNLOAD_STARTED_TITLE),
+      downloadStartedText: (dataFormat: string) =>
+        t(DownloadI18nKeys.DOWNLOAD_STARTED_TEXT, { dataFormat }),
+      downloadInProgressTitle: (current: number, total: number) =>
+        t(DownloadI18nKeys.DOWNLOAD_IN_PROGRESS_TITLE, {
+          current,
+          total,
+        }),
+      downloadInProgressText: (datasetName: string, dataFormat: string) =>
+        t(DownloadI18nKeys.DOWNLOAD_IN_PROGRESS_TEXT, {
+          dataFormat,
+          datasetName,
+        }),
+      downloadSuccessTitle: (dataFormat: string) =>
+        t(DownloadI18nKeys.DOWNLOAD_SUCCESS_TITLE, { dataFormat }),
+      downloadSuccessMultipleTitle: (count: number) =>
+        t(DownloadI18nKeys.DOWNLOAD_SUCCESS_MULTIPLE_TITLE, { count }),
+      downloadSuccessText: (fileName: string, rows: number) =>
+        t(DownloadI18nKeys.DOWNLOAD_SUCCESS_TEXT, { fileName, rows }),
+      downloadSuccessMultipleText: (count: number) =>
+        t(DownloadI18nKeys.DOWNLOAD_SUCCESS_MULTIPLE_TEXT, { count }),
+      downloadFailedTitle: t(DownloadI18nKeys.DOWNLOAD_FAILED_TITLE),
+      downloadFailedText: (datasetName: string) =>
+        t(DownloadI18nKeys.DOWNLOAD_FAILED_TEXT, { datasetName }),
+      downloadFailedMultipleText: (count: number) =>
+        t(DownloadI18nKeys.DOWNLOAD_FAILED_MULTIPLE_TEXT, { count }),
+      downloadCancelActionText: t(DownloadI18nKeys.DOWNLOAD_CANCEL_ACTION_TEXT),
+      downloadRetryActionText: t(DownloadI18nKeys.DOWNLOAD_RETRY_ACTION_TEXT),
     },
   };
 
@@ -351,7 +403,19 @@ const ConversationViewWrapper: FC<Props> = ({
     fullLimitMessage: t(AdvancedViewI18nKeys.FULL_LIMIT_MESSAGE),
     excelFormatTitle: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TITLE),
     excelFormatText: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TEXT),
+    largeQueryClassName: 'h4 !text-neutrals-1000',
   };
+
+  const metadataSettings = useMemo(() => ({ isMetadataDescription: true }), []);
+
+  const filtersActions = useMemo(
+    () => ({
+      getConstraints: authHandler(getConstraintsApi),
+      getAvailableHierarchies: authHandler(getAvailableHierarchiesApi),
+      getHierarchy: authHandler(getHierarchyApi),
+    }),
+    [authHandler],
+  );
 
   const datasetInfoOptions: DatasetInfoOptions = {
     isShowAgency: true,
@@ -369,6 +433,25 @@ const ConversationViewWrapper: FC<Props> = ({
     },
     [signOutAction],
   );
+
+  if (isConversationNotFound) {
+    return (
+      <>
+        <WelcomeView />
+        {showNotFoundAlert && (
+          <Alert
+            alertDetails={{
+              type: AlertType.ERROR,
+              title: t(ChatI18nKeys.CONVERSATION_ACCESS_ERROR_TITLE),
+              text: t(ChatI18nKeys.CONVERSATION_ACCESS_ERROR_TEXT),
+            }}
+            errorIcon={<ErrorIcon className="size-6 text-semantic-error" />}
+            onClose={() => setShowNotFoundAlert(false)}
+          />
+        )}
+      </>
+    );
+  }
 
   return (
     <div
@@ -392,6 +475,7 @@ const ConversationViewWrapper: FC<Props> = ({
             actions={conversationViewActions}
             locale={locale}
             handleInvalidStreaming={handleInvalidStreaming}
+            onConversationNotFound={handleConversationNotFound}
             signOutAction={signOutAction}
             messageStyles={{
               advanceViewIcon: <AdvancedModeIcon className="size-4" />,
@@ -422,16 +506,14 @@ const ConversationViewWrapper: FC<Props> = ({
             }}
             inputMessageStyles={{
               inputContainerClass: !isOpenedAdvancedView
-                ? 'pl-[15%] pr-[8%]'
-                : 'px-4',
+                ? 'pl-[15%] pr-[8%] [&>.input]:shadow-drop'
+                : 'px-4 [&>.input]:shadow-drop',
               sendMessageIcon: <IconSend />,
               retryIcon: <Regenerate />,
             }}
             shareConversationProps={shareConversationProps}
             formattingSettings={formatNumbers}
-            metadataSettings={{
-              isMetadataDescription: true,
-            }}
+            metadataSettings={metadataSettings}
             expandStagesIcon={<IconChevronRight className="size-5" />}
             conversationsRoute={ApplicationRoute.Conversations}
             token={token?.access_token as string}
@@ -460,11 +542,7 @@ const ConversationViewWrapper: FC<Props> = ({
           }}
           actions={attachmentsActions}
           filtersProps={{
-            actions: {
-              getConstraints: authHandler(getConstraintsApi),
-              getAvailableHierarchies: authHandler(getAvailableHierarchiesApi),
-              getHierarchy: authHandler(getHierarchyApi),
-            },
+            actions: filtersActions,
             buttonProps: {
               title: t(AdvancedViewI18nKeys.FILTERS),
               isShowBadge: true,
@@ -495,7 +573,7 @@ const ConversationViewWrapper: FC<Props> = ({
             conversation,
             conversationKey,
             setConversation,
-            updateConversation: authHandler(updateConversationApi),
+            updateConversation: conversationViewActions.updateConversation,
           }}
           attachmentsProps={{
             currentDataQuery,
@@ -507,9 +585,7 @@ const ConversationViewWrapper: FC<Props> = ({
           formattingSettings={formatNumbers}
           limitMessages={limitMessages}
           datasetInfoOptions={datasetInfoOptions}
-          metadataSettings={{
-            isMetadataDescription: true,
-          }}
+          metadataSettings={metadataSettings}
           locale={locale}
           titles={conversationViewTitles}
         />
