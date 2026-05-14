@@ -322,6 +322,7 @@ const ConversationViewWrapper: FC<Props> = ({
     chartingIcons,
     copyTitle: t(ChatI18nKeys.COPY),
     copiedTitle: t(ChatI18nKeys.SHARE_COPIED_LINK),
+    copyHoverTooltip: t(ChatI18nKeys.COPY),
     copyIcon: <Copy className="size-4" />,
     copiedIcon: <CheckIcon className="size-4" />,
     downloadTitles: {
