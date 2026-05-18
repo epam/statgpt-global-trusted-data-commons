@@ -45,6 +45,7 @@ import {
 } from '../../constants/i18n-keys';
 import AdvancedModeIcon from '../../../public/images/advanced-mode.svg';
 import InfoIcon from '../../../public/images/statuses/info.svg';
+import WarningIcon from '../../../public/images/statuses/warning.svg';
 import UnfoldIcon from '../../../public/images/unfold.svg';
 import DownloadIcon from '../../../public/images/chat/download.svg';
 import SuccessIcon from '../../../public/images/chat/success.svg';
@@ -408,19 +409,22 @@ const ConversationViewWrapper: FC<Props> = ({
   };
 
   const limitMessages: LimitMessages = {
+    warningIcon: <WarningIcon className="size-4 text-semantic-warning" />,
     largeQuery: t(AdvancedViewI18nKeys.LARGE_QUERY),
     showingLimit: (limit: number) =>
       t(AdvancedViewI18nKeys.SHOWING_LIMIT, { limit }),
     downloadMessage: (limit: number) =>
       t(AdvancedViewI18nKeys.DOWNLOAD_MESSAGE, { limit }),
     refineInAdvancedView: t(AdvancedViewI18nKeys.REFINE_IN_ADVANCED_VIEW),
-    editIcon: <Edit />,
+    editIcon: <Edit className="size-4" />,
     externalLink: currentDataQuery?.metadata?.datasetUrl,
     dataExplorer: t(AdvancedViewI18nKeys.DATA_EXPLORER),
     fullLimitMessage: t(AdvancedViewI18nKeys.FULL_LIMIT_MESSAGE),
     excelFormatTitle: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TITLE),
     excelFormatText: t(AdvancedViewI18nKeys.EXCEL_FORMAT_TEXT),
-    largeQueryClassName: 'h4 !text-neutrals-1000',
+    containerClassName: 'rounded border-l-[2px] border-semantic-warning py-2',
+    largeQueryClassName: '!text-neutrals-1000 h4 text-xs',
+    limitMessageClassName: 'font-normal',
   };
 
   const metadataSettings = useMemo(() => ({ isMetadataDescription: true }), []);
