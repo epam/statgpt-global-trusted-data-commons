@@ -6,6 +6,7 @@ import {
   AttachmentsActions,
   AttachmentsStyles,
   ChartingIcon,
+  CollapsedChatPanel,
   ConversationView,
   ConversationViewTitles,
   MessageActionIcons,
@@ -62,6 +63,8 @@ import Edit from '../../../public/images/messages/edit.svg';
 import Down from '../../../public/images/chat/down.svg';
 import ThumbPressed from '../../../public/images/messages/thumb-filled.svg';
 import Reset from '../../../public/images/reset.svg';
+import Collapse from '../../../public/images/menu/collapse.svg';
+import Expand from '../../../public/images/menu/expand.svg';
 import ExternalLink from '../../../public/images/external-link.svg';
 import GearIcon from '../../../public/images/gear.svg';
 import ResetArrowIcon from '../../../public/images/reset-arrow.svg';
@@ -125,6 +128,7 @@ const ConversationViewWrapper: FC<Props> = ({
   const [datasets, setDatasets] = useState<Dataflow[]>();
   const [isConversationNotFound, setIsConversationNotFound] = useState(false);
   const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
+  const [isChatCollapsed, setIsChatCollapsed] = useState(false);
   const { locale, id }: { locale: string; id: string[] } = useParams();
   const chartingIcons = {
     [ChartingIcon.NEXT]: <ChevronRight width={20} height={20} />,
@@ -144,6 +148,10 @@ const ConversationViewWrapper: FC<Props> = ({
     setIsConversationNotFound(false);
     setShowNotFoundAlert(false);
   }, [conversationKey]);
+
+  useEffect(() => {
+    if (!isOpenedAdvancedView) setIsChatCollapsed(false);
+  }, [isOpenedAdvancedView]);
 
   const handleConversationNotFound = useCallback(() => {
     setIsConversationNotFound(true);
@@ -483,12 +491,21 @@ const ConversationViewWrapper: FC<Props> = ({
         'flex flex-row justify-center h-full w-full bg-white',
       )}
     >
+      {isOpenedAdvancedView && isChatCollapsed && (
+        <CollapsedChatPanel
+          conversationName={conversation?.name}
+          expandTitle={t(AppI18nKeys.EXPAND)}
+          expandIcon={<Expand width={20} height={20} />}
+          onExpand={() => setIsChatCollapsed(false)}
+        />
+      )}
       <div
         className={classNames(
           'flex flex-col h-full',
           isOpenedAdvancedView
             ? 'w-[422px] border border-neutrals-400'
             : 'w-full',
+          isOpenedAdvancedView && isChatCollapsed && 'hidden',
         )}
       >
         <div className={classNames('flex-1 min-h-0')}>
@@ -552,6 +569,18 @@ const ConversationViewWrapper: FC<Props> = ({
             }}
             scrollBottomIcon={<Down width={20} height={20} />}
             limitMessages={limitMessages}
+            headerRightSlot={
+              isOpenedAdvancedView ? (
+                <button
+                  type="button"
+                  className="cursor-pointer text-primary"
+                  aria-label={t(AppI18nKeys.COLLAPSE)}
+                  onClick={() => setIsChatCollapsed(true)}
+                >
+                  <Collapse width={20} height={20} />
+                </button>
+              ) : undefined
+            }
           >
             <Footer />
             {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
