@@ -23,7 +23,7 @@ import {
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
 import { Button } from '@epam/statgpt-ui-components';
-import MessageIcon from '../../../public/images/message-dots.svg';
+import MessageIcon from '../../../public/images/message.svg';
 import Logo from '../../../public/images/logo.svg';
 import Collapse from '../../../public/images/menu/collapse.svg';
 import Share from '../../../public/images/chat/share.svg';
@@ -255,6 +255,12 @@ const ConversationListWrapper = ({
                   {t(I18nKeys.App.TITLE_GLOBAL)}
                 </p>
                 <p className="inline">{t(I18nKeys.App.TITLE)}</p>
+                {t(I18nKeys.App.SUBTITLE) &&
+                  t(I18nKeys.App.SUBTITLE) !== AppI18nKeys.SUBTITLE && (
+                    <p className="logo-subtitle text-hues-800">
+                      {t(I18nKeys.App.SUBTITLE)}
+                    </p>
+                  )}
               </span>
             ) : null}
           </div>
@@ -316,7 +322,7 @@ const ConversationListWrapper = ({
               titles,
               isSmallModalButton: true,
               conversationItemIcon: (
-                <i className="mr-4 size-5">
+                <i className="mr-3 size-5">
                   <MessageIcon width={20} height={20} />
                 </i>
               ),

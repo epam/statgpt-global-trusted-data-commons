@@ -8,7 +8,6 @@ import {
   ApiResponse,
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
-import WelcomeTitleIcon from '../../../public/images/logo-small.svg';
 import { ApplicationRoute } from '../../types/application-routes';
 import { useRouter } from 'next/navigation';
 import { FC, useCallback, useMemo } from 'react';
@@ -37,7 +36,12 @@ const WelcomeView: FC = () => {
   const { setConversations, setSharedConversations } = useConversationList();
   const locale = useCurrentLocale();
 
-  const { suggestionsList, welcomeText } = useDeploymentConfig();
+  const {
+    suggestionsList,
+    welcomeText,
+    welcomeDescription,
+    welcomeInputPlaceholder,
+  } = useDeploymentConfig();
 
   const authHandler = useCallback(
     function <Args extends any[], T>(
@@ -82,7 +86,8 @@ const WelcomeView: FC = () => {
       titles={conversationViewTitles}
       suggestionsList={suggestionsList}
       welcomeText={welcomeText}
-      titleIcon={<WelcomeTitleIcon className="mr-4 size-9" />}
+      welcomeDescription={welcomeDescription}
+      welcomeInputPlaceholder={welcomeInputPlaceholder}
       handleConversationClick={handleConversationSelect}
       actions={serverActions}
       inputMessageStyles={{
