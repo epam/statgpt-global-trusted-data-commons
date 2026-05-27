@@ -1,7 +1,8 @@
 {
   "app": {
     "titleGlobal": "Global",
-    "title": "Official Stat Commons",
+    "title": "Trusted Data Commons",
+    "subtitle": "Talk to Official Statistics",
     "footer": "Powered by StatGPT Portals.",
     "collapse": "Collapse",
     "expand": "Expand",
@@ -27,6 +28,10 @@
     "copyLink": "Copy Link",
     "duplicateChat": "Duplicate Chat",
     "copy": "Copy",
+    "copyText": "Copy text",
+    "regenerateResponse": "Regenerate response",
+    "like": "Like",
+    "dislike": "Dislike",
     "copied": "Copied",
     "removeAccessToUsers": "Remove access to all users",
     "exploreData": "Explore Data",
@@ -39,6 +44,7 @@
   },
   "advancedView": {
     "title": "Advanced view",
+    "advancedView": "Advanced view",
     "dataset": "Dataset",
     "agency": "Agency",
     "lastUpdated": "Last Updated",
