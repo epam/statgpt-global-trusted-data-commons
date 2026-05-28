@@ -7,3 +7,7 @@ excludes:
     - pattern: 'devDependencies'
       reason: 'DEV_DEPENDENCY_OF'
       comment: 'Packages for development only.'
+license_choices:
+  repository_license_choices:
+    - given: 'GPL-3.0-or-later OR MIT'
+      choice: 'MIT'
