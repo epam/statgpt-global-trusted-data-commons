@@ -72,11 +72,16 @@ h5 {
   @apply font-normal;
 }
 
+.logo-icon {
+  filter: drop-shadow(2px 4px 8px rgba(104, 67, 233, 0.4))
+    drop-shadow(-1px -2px 4px rgba(115, 225, 229, 0.4));
+}
+
 .logo {
   font-family: var(--font-inter);
   font-size: 15px;
   line-height: 16px;
-  @apply font-bold;
+  @apply font-semibold;
 }
 
 .logo-subtitle {

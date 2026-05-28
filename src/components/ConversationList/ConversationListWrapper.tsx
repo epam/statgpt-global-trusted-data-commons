@@ -248,7 +248,7 @@ const ConversationListWrapper = ({
             className="flex cursor-pointer flex-row items-center"
             onClick={redirectToMainView}
           >
-            <Logo width={34} height={34} />
+            <Logo width={34} height={34} className="logo-icon" />
             {!isCollapsed ? (
               <span className="logo ml-3 text-start text-hues-900">
                 <p className="mb-1 mr-1 inline font-semibold">
