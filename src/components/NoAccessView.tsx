@@ -27,7 +27,7 @@ export const NoAccessView = ({
           aria-hidden="true"
         />
         <div className="flex flex-row items-center px-6 py-5 ">
-          <LogoIcon width={34} height={34} />
+          <LogoIcon width={34} height={34} className="logo-icon" />
           <span className="logo ml-3 text-start text-hues-900">
             <p className="mb-1 mr-1 inline font-semibold">
               {t(I18nKeys.App.TITLE_GLOBAL)}
