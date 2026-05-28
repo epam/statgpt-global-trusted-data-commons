@@ -90,6 +90,7 @@ const WelcomeView: FC = () => {
       welcomeInputPlaceholder={welcomeInputPlaceholder}
       handleConversationClick={handleConversationSelect}
       actions={serverActions}
+      suggestionsContainerClass={'max-w-[784px]'}
       inputMessageStyles={{
         inputContainerClass: 'max-w-[784px] mb-6 shadow-drop',
         sendMessageIcon: <IconSend />,
