@@ -21,9 +21,9 @@
 @use 'alert.scss';
 @use 'chart-attachment.scss';
 @use 'colors.scss';
+@use '@epam/statgpt-ui-components/styles-tailwind.scss';
 
 @import 'flatpickr/dist/themes/light.css';
-@import '@epam/statgpt-ui-components/styles-tailwind.scss';
 
 body {
   font-family: var(--font-open-sans);
