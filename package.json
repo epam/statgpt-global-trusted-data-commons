@@ -1,6 +1,6 @@
 {
   "name": "statgpt-global-trusted-data-commons",
-  "version": "0.5.0-rc",
+  "version": "0.6.0-rc",
   "private": true,
   "scripts": {
     "start": "next dev --webpack --port=4200",
