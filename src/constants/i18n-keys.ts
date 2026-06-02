@@ -107,7 +107,6 @@ export enum AdvancedViewI18nKeys {
 }
 
 export enum MessageI18nKeys {
-  STREAMING = 'message.streaming',
   PROCESSING_REVIEW = 'message.processingReview',
   QUERY_UPDATED_MANUALLY = 'message.queryUpdatedManually',
   SET_TO = 'message.setTo',
