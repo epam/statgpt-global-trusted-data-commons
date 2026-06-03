@@ -1,4 +1,5 @@
 import ConversationViewWrapper from '../../../../components/ConversationView/ConversationViewWrapper';
+import { getBannerConfig } from '../../../../utils/banner';
 import { getSignInLink } from '../../../../constants/auth';
 import { ApplicationRoute } from '../../../../types/application-routes';
 import { getUserToken } from '../../../../utils/auth/auth-request';
@@ -31,14 +32,14 @@ export default async function Page({
     );
   }
 
-  const bannerMessage = process.env.INFO_BANNER_MESSAGE;
+  const bannerConfig = getBannerConfig();
 
   return (
     <ConversationViewWrapper
       bucketId={bucketId}
       conversationId={conversationId}
       token={token}
-      bannerMessage={bannerMessage}
+      bannerConfig={bannerConfig}
     />
   );
 }
