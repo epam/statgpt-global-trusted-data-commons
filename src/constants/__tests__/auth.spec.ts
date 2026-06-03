@@ -1,4 +1,5 @@
 import { getSignInLink, SIGN_IN_LINK } from '../auth';
+import { describe, expect, it, vi } from 'vitest';
 
 describe('getSignInLink', () => {
   it('returns base sign-in link when callbackUrl is not provided', () => {
