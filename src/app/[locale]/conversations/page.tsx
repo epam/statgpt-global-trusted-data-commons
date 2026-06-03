@@ -6,6 +6,7 @@ import { ApplicationRoute } from '../../../types/application-routes';
 import { getUserToken } from '../../../utils/auth/auth-request';
 import { getIsEnableAuthToggle } from '../../../utils/auth/get-auth-toggle';
 import { getIsInvalidSession } from '../../../utils/auth/is-valid-session';
+import { getBannerConfig } from '../../../utils/banner';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -27,7 +28,7 @@ export default async function Page({
     );
   }
 
-  const bannerMessage = process.env.INFO_BANNER_MESSAGE;
+  const bannerConfig = getBannerConfig();
 
   return (
     <div className="flex h-full flex-col">
@@ -35,7 +36,7 @@ export default async function Page({
         <WelcomeView />
       </div>
       <Footer />
-      {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
+      {bannerConfig && <WarnBanner {...bannerConfig} />}
     </div>
   );
 }

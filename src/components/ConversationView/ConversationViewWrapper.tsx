@@ -103,19 +103,20 @@ import { WarnBanner } from '../Footer/WarnBanner';
 import { getPythonAttachmentApi } from '../../app/api/python-attachment/client';
 import { Alert, AlertType, LimitMessages } from '@epam/statgpt-ui-components';
 import WelcomeView from '../WelcomeView/WelcomeView';
+import { BannerConfig } from '../../types/banner-config';
 
 interface Props {
   bucketId: string;
   conversationId: string;
   token: JWT | null;
-  bannerMessage?: string;
+  bannerConfig?: BannerConfig;
 }
 
 const ConversationViewWrapper: FC<Props> = ({
   bucketId,
   conversationId,
   token,
-  bannerMessage,
+  bannerConfig,
 }) => {
   const router = useRouter();
   const { isOpenedAdvancedView } = useAdvancedView();
@@ -594,7 +595,7 @@ const ConversationViewWrapper: FC<Props> = ({
             }
           >
             <Footer />
-            {bannerMessage && <WarnBanner>{bannerMessage}</WarnBanner>}
+            {bannerConfig && <WarnBanner {...bannerConfig} />}
           </ConversationView>
         </div>
       </div>
