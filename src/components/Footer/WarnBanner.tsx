@@ -23,7 +23,7 @@ export const WarnBanner = ({
           {message}{' '}
           {linkText && (
             <button
-              className="cursor-pointer text-blue-600 underline"
+              className="cursor-pointer text-blue-600"
               onClick={() => setIsOpen(true)}
             >
               {linkText}
