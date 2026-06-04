@@ -8,11 +8,7 @@ export const WarnBanner = ({
   message,
   linkText,
   modalTitle,
-  modalBody,
-  modalSectionTitle,
-  modalP1,
-  modalP2,
-  modalP3,
+  modalContent,
 }: BannerConfig) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,11 +32,7 @@ export const WarnBanner = ({
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
           title={modalTitle}
-          body={modalBody}
-          sectionTitle={modalSectionTitle}
-          p1={modalP1}
-          p2={modalP2}
-          p3={modalP3}
+          modalContent={modalContent}
         />
       )}
     </>
