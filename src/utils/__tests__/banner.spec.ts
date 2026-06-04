@@ -16,6 +16,11 @@ describe('getBannerConfig', () => {
     expect(getBannerConfig()).toBeUndefined();
   });
 
+  it('returns undefined when INFO_BANNER_MESSAGE is an empty string', () => {
+    process.env.INFO_BANNER_MESSAGE = '';
+    expect(getBannerConfig()).toBeUndefined();
+  });
+
   it('returns config with message only when no optional vars are set', () => {
     process.env.INFO_BANNER_MESSAGE = 'Test banner';
     delete process.env.INFO_BANNER_LINK_TEXT;
