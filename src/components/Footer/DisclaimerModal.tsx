@@ -11,7 +11,12 @@ interface Props {
   modalContent?: string;
 }
 
-export const DisclaimerModal = ({ isOpen, onClose, title, modalContent }: Props) => {
+export const DisclaimerModal = ({
+  isOpen,
+  onClose,
+  title,
+  modalContent,
+}: Props) => {
   return (
     <Popup
       portalId="disclaimer-modal"
@@ -27,7 +32,9 @@ export const DisclaimerModal = ({ isOpen, onClose, title, modalContent }: Props)
         >
           {modalContent && (
             <div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{modalContent}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {modalContent}
+              </ReactMarkdown>
             </div>
           )}
         </div>,
