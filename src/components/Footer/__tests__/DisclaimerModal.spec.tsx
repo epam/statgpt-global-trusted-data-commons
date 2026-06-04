@@ -30,7 +30,9 @@ describe('DisclaimerModal', () => {
         modalContent={'## Disclaimer\n\nSome paragraph.'}
       />,
     );
-    expect(screen.getByRole('heading', { level: 2, name: 'Disclaimer' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Disclaimer' }),
+    ).toBeInTheDocument();
   });
 
   it('renders markdown paragraphs as p elements when open', () => {
@@ -45,9 +47,7 @@ describe('DisclaimerModal', () => {
   });
 
   it('renders nothing inside popup when modalContent is undefined', () => {
-    render(
-      <DisclaimerModal isOpen={true} onClose={() => {}} />,
-    );
+    render(<DisclaimerModal isOpen={true} onClose={() => {}} />);
     expect(screen.getByTestId('popup')).toBeInTheDocument();
     expect(screen.queryByRole('heading')).toBeNull();
   });
