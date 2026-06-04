@@ -51,4 +51,16 @@ describe('DisclaimerModal', () => {
     expect(screen.getByTestId('popup')).toBeInTheDocument();
     expect(screen.queryByRole('heading')).toBeNull();
   });
+
+  it('renders markdown list items as a ul element when open', () => {
+    render(
+      <DisclaimerModal
+        isOpen={true}
+        onClose={() => {}}
+        modalContent={'- Item one\n- Item two'}
+      />,
+    );
+    expect(screen.getByRole('list')).toBeInTheDocument();
+    expect(screen.getByText('Item one')).toBeInTheDocument();
+  });
 });
