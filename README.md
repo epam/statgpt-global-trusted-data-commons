@@ -254,11 +254,7 @@ The table below lists environment variables that control configurable content di
 | `INFO_BANNER_MESSAGE`         | No | Plain text message displayed in the informational banner below the footer (e.g., maintenance notice or system alert). If not set, the banner is hidden. | Any string | |
 | `INFO_BANNER_LINK_TEXT`       | No | Label for the clickable link appended to the banner message. When set, clicking the link opens a modal. If not set, no link is shown. Requires `INFO_BANNER_MESSAGE`. | Any string | |
 | `INFO_BANNER_MODAL_TITLE`     | No | Heading of the modal dialog opened by the banner link. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
-| `INFO_BANNER_MODAL_BODY`      | No | Introductory paragraph displayed at the top of the modal body. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
-| `INFO_BANNER_MODAL_SECTION_TITLE` | No | Sub-heading displayed above the modal paragraphs (e.g. "Disclaimer"). Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
-| `INFO_BANNER_MODAL_P1`        | No | First paragraph in the modal body section. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
-| `INFO_BANNER_MODAL_P2`        | No | Second paragraph in the modal body section. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
-| `INFO_BANNER_MODAL_P3`        | No | Third paragraph in the modal body section. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
+| `INFO_BANNER_MODAL_CONTENT`   | No | Body of the modal dialog, rendered as Markdown. Supports headings (`##`, `###`), paragraphs, bold/italic, and lists. Multi-line values are supported using backtick quoting in `.env` files. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Markdown string | |
 | `CONTENT_MANAGEMENT_POLICY_URL` | No | URL of the page describing the content management policy. Displayed in a warning message when a user's prompt triggers the content filtering policy. | URL |
 
 
