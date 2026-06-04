@@ -31,7 +31,7 @@ export const DisclaimerModal = ({
           className="body-1 flex flex-col gap-2 overflow-y-auto p-6"
         >
           {modalContent && (
-            <div className="[&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5">
+            <div className="space-y-3 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {modalContent}
               </ReactMarkdown>
