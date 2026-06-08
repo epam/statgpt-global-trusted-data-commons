@@ -20,6 +20,7 @@ import {
 import {
   ApiResponse,
   getConversationId,
+  getConversationIdFromResourceUrl,
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
 import { Button } from '@epam/statgpt-ui-components';
@@ -77,6 +78,10 @@ const ConversationListWrapper = ({
   } = useConversationList();
   const locale = useCurrentLocale();
   const { isStreaming } = useChatMessages();
+  const selectedConversationId = useMemo(
+    () => getConversationId(id, locale),
+    [id, locale],
+  );
 
   const { session, handleLogout } = useLogout();
 
@@ -111,7 +116,14 @@ const ConversationListWrapper = ({
               destinationUrl,
             );
 
-          if (response.success && navPath) {
+          const sourceConversationId =
+            getConversationIdFromResourceUrl(sourceUrl);
+
+          if (
+            response.success &&
+            navPath &&
+            sourceConversationId === selectedConversationId
+          ) {
             router.replace(
               `/${locale}${ApplicationRoute.Conversations}/${navPath}`,
             );
@@ -121,7 +133,7 @@ const ConversationListWrapper = ({
         },
       ),
     }),
-    [authHandler, locale, router],
+    [authHandler, locale, router, selectedConversationId],
   );
 
   const titles: ConversationListTitles = {
@@ -323,7 +335,7 @@ const ConversationListWrapper = ({
             setConversations={setConversations}
             setSharedConversations={setSharedConversations}
             isCollapsed={isCollapsed}
-            selectedConversationId={getConversationId(id, locale)}
+            selectedConversationId={selectedConversationId}
             conversationStyles={{
               titles,
               isSmallModalButton: true,
