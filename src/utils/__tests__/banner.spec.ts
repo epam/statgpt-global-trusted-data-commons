@@ -23,13 +23,11 @@ describe('getBannerConfig', () => {
 
   it('returns config with message only when no optional vars are set', () => {
     process.env.INFO_BANNER_MESSAGE = 'Test banner';
-    delete process.env.INFO_BANNER_LINK_TEXT;
     delete process.env.INFO_BANNER_MODAL_TITLE;
     delete process.env.INFO_BANNER_MODAL_CONTENT;
 
     expect(getBannerConfig()).toEqual({
       message: 'Test banner',
-      linkText: undefined,
       modalTitle: undefined,
       modalContent: undefined,
     });
@@ -37,13 +35,11 @@ describe('getBannerConfig', () => {
 
   it('maps all env vars to config fields', () => {
     process.env.INFO_BANNER_MESSAGE = 'Banner text';
-    process.env.INFO_BANNER_LINK_TEXT = 'Click here';
     process.env.INFO_BANNER_MODAL_TITLE = 'Modal title';
     process.env.INFO_BANNER_MODAL_CONTENT = '## Heading\n\nParagraph text.';
 
     expect(getBannerConfig()).toEqual({
       message: 'Banner text',
-      linkText: 'Click here',
       modalTitle: 'Modal title',
       modalContent: '## Heading\n\nParagraph text.',
     });

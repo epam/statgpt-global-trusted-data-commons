@@ -65,7 +65,7 @@ This project uses:
 
 ```bash
 npm install
-mpn run start
+npm run start
 ```
 
 ## 💻 Development
@@ -82,7 +82,7 @@ mpn run start
 1. **Clone the repository**
    ```bash
    git clone https://github.com/epam/statgpt-global-trusted-data-commons.git
-   cd statgpt-portal-frontend
+   cd statgpt-global-trusted-data-commons
    ```
 
 2. **Install Dependencies**
@@ -251,10 +251,9 @@ The table below lists environment variables that control configurable content di
 | Variable                          |                         Required                         | Description                                                                                                                                                                                                                                                      | Available Values                                                                                                                | Default values                                  |
 |-----------------------------------| :------------------------------------------------------: |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `CLIENT_CONTACT_SUPPORT_URL`    |   No    | URL of the contact support page displayed to users within the application.                                                                                                                                                                                                                                                                                          | URL                                                                                       |  |
-| `INFO_BANNER_MESSAGE`         | No | Plain text message displayed in the informational banner below the footer (e.g., maintenance notice or system alert). If not set, the banner is hidden. | Any string | |
-| `INFO_BANNER_LINK_TEXT`       | No | Label for the clickable link appended to the banner message. When set, clicking the link opens a modal. If not set, no link is shown. Requires `INFO_BANNER_MESSAGE`. | Any string | |
-| `INFO_BANNER_MODAL_TITLE`     | No | Heading of the modal dialog opened by the banner link. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Any string | |
-| `INFO_BANNER_MODAL_CONTENT`   | No | Body of the modal dialog, rendered as Markdown. Supports headings (`##`, `###`), paragraphs, bold/italic, and lists. Requires `INFO_BANNER_MESSAGE` and `INFO_BANNER_LINK_TEXT`. | Markdown string | |
+| `INFO_BANNER_MESSAGE`         | No | Markdown message displayed in the informational banner below the footer (e.g., maintenance notice or system alert). If not set, the banner is hidden. Supports inline links: `mailto:` links render as external anchors; a `[link text](#popup)` link opens the modal configured via `INFO_BANNER_MODAL_TITLE` / `INFO_BANNER_MODAL_CONTENT`. | Markdown string | |
+| `INFO_BANNER_MODAL_TITLE`     | No | Heading of the modal dialog. Requires `INFO_BANNER_MESSAGE` containing a `[text](#popup)` link. | Any string | |
+| `INFO_BANNER_MODAL_CONTENT`   | No | Body of the modal dialog, rendered as Markdown. Supports headings (`##`, `###`), paragraphs, bold/italic, lists, tables, and other GFM features. Requires `INFO_BANNER_MESSAGE` containing a `[text](#popup)` link. | Markdown string | |
 | `CONTENT_MANAGEMENT_POLICY_URL` | No | URL of the page describing the content management policy. Displayed in a warning message when a user's prompt triggers the content filtering policy. | URL |
 
 
