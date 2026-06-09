@@ -21,11 +21,12 @@ It's built using the shared libraries of [StatGPT portals frontend](https://gith
   - [Development Setup](#development-setup)
 - [🔨 Build](#-build)
 - [🧪 Test](#-test)
-- [🧑‍💻 Environment Variables](#-Environment-Variables)
+- [🧑‍💻 Environment Variables](#-environment-variables)
   - [Environment Variables for the Application](#environment-variables-for-the-application)
   - [Feature Toggles Environment Variables](#feature-toggles-environment-variables)
   - [Environment Variables for the CSP](#environment-variables-for-the-csp)
   - [Environment Variables for the Configuration of Auth Providers](#environment-variables-for-the-configuration-of-auth-providers)
+  - [Content Configuration Environment Variables](#content-configuration-environment-variables)
 - [🤝 Contributing](#-contributing)
 - [🔒 Security](#-security)
 - [📄 License](#-license)
@@ -58,8 +59,8 @@ This project uses:
 
 ### Prerequisites
 
-- Node.js >= 22.19.0
-- npm >= 11.0.0
+- Node.js >= 24.14.0
+- npm >= 11.11.0
 
 ### Start
 
@@ -72,8 +73,8 @@ npm run start
 
 ### Prerequisites
 
-- Node.js >= 22.19.0
-- npm >= 11.0.0
+- Node.js >= 24.14.0
+- npm >= 11.11.0
 - DIAL API access (for backend integration)
 
 
