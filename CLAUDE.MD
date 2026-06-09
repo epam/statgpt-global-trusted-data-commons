@@ -26,7 +26,7 @@ This is a **Next.js 16 App Router** application (webpack mode, standalone output
 
 ```
 browser
-  → middleware.ts          (i18n prefix, optional NextAuth guard, CSP headers)
+  → proxy.ts              (i18n prefix, optional NextAuth guard, CSP headers)
   → /[locale]/layout.tsx   (I18nProvider, locale wrapper)
   → /[locale]/conversations/layout.tsx  (server: auth check, deployment config,
                                          dataset metadata, provider tree)
@@ -79,7 +79,7 @@ ComponentsConfig          (UI component overrides — InlineAlertProvider)
 
 ### Auth
 
-`middleware.ts` conditionally wraps with `withAuth` based on `ENABLE_AUTH`. Auth utilities live in `src/utils/auth/`. Route handlers use `withAuth` HOF from the same utils to extract the bearer token and pass it to API clients.
+`proxy.ts` conditionally wraps with `withAuth` based on `ENABLE_AUTH`. Auth utilities live in `src/utils/auth/`. Route handlers use `withAuth` HOF from the same utils to extract the bearer token and pass it to API clients.
 
 ### i18n
 
