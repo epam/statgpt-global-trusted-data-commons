@@ -3,7 +3,7 @@
 
 A React and Nx based web application with codebase for Global Trusted Data Commons portal.
 
-It's build using the shared libraries of [StatGPT portals frontend](https://github.com/epam/statgpt-portal-frontend).
+It's built using the shared libraries of [StatGPT portals frontend](https://github.com/epam/statgpt-portal-frontend).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/mit)
 [![React](https://img.shields.io/badge/React-19+-61dafb.svg)](https://reactjs.org/)
@@ -39,7 +39,7 @@ It's build using the shared libraries of [StatGPT portals frontend](https://gith
 - **Effortless SDMX data exploration**: powered by the SDMX API
 - **Advanced view**: filtering across datasets
 - **Charting**: view data in chart format
-- **Sharing**: share conversations via link or QH-code
+- **Sharing**: share conversations via link or QR-code
 - **Authentication Support**: NextAuth.js integration for secure user authentication (optional)
 
 
@@ -93,20 +93,15 @@ npm run start
 
 3. **Set up env variables**
 
-   Create `.env` file in the root of project directory and add the required variables with appropriate values. These are the only required environment variables. Refer to [Environment Variables](#-environment-variables) to learn more.
+   Copy the example file and fill in your values:
 
    ```bash
-    # DIAL API Configuration
-   DIAL_API_URL="ADD_VALUE_HERE"
-   DIAL_API_KEY="ADD_VALUE_HERE"
-   DEFAULT_MODEL="ADD_VALUE_HERE"
-
-    # SDMX API Configuration (optional — if not set, SDMX requests are proxied through DIAL_API_URL)
-   SDMX_API_URL="ADD_VALUE_HERE"
-   CONSTRAINS_SDMX_API_URL="ADD_VALUE_HERE"
+   cp .env.local.example .env.local
    ```
 
-3. **Start Development Environment**
+   Both `.env` and `.env.local` are supported. See `.env.local.example` for all available variables.
+
+4. **Start Development Environment**
    ```bash
    npm run start
    ```
@@ -126,7 +121,7 @@ After running the command, you will see a `dist` folder created in your project 
 To run the unit tests suite for your application, execute the following command:
 
 ```bash
-npm run nx test
+npm run test
 ```
 
 
@@ -145,8 +140,11 @@ Global Trusted Data Commons uses environment variables for configuration. All en
 | `DIAL_API_VERSION`                  |    No    | AI DIAL API Version                                                                                                                                                                                                                                          | Any string       | `2024-02-01`                                                                                                                       |
 | `DEFAULT_MODEL`                     |    No    | A model that will be used for the new conversation. `Reference` or `ID` of the agent.                                                                                                                                                                        | Any string       | First available model from [AI DIAL Core](https://github.com/epam/ai-dial-core?tab=readme-ov-file#dynamic-settings) config listing |
 | `SDMX_API_URL`                     |   No    | SDMX+ api url. If not set, SDMX requests will be proxied through `DIAL_API_URL`.                                                                                                                                                                              | URL              |  |
+| `SDMX_AUTH_KEY`                    |   No    | API key for authenticating requests to `SDMX_API_URL`.                                                                                                                                                                                                        | Any string       |  |
 | `CONSTRAINS_SDMX_API_URL`          |    No    | SDMX+ Constrains api url                                                                                                                                                                                                                                     | URL              |  |
-| `SDMX_PROXY_URL`          |    No    | SDMX 3.0 constrains api url                                                                                                                                                                                                                                  | URL              |  |
+| `SDMX_PROXY_URL`                   |    No    | SDMX 3.0 constraints proxy url                                                                                                                                                                                                                               | URL              |  |
+| `LOG_LEVEL`                        |    No    | Server-side log level.                                                                                                                                                                                                                                        | `trace` \| `debug` \| `info` \| `warn` \| `error` \| `fatal` | `info` |
+| `NEXT_PUBLIC_DEBUG`                |    No    | Enables verbose client-side logging in the browser console.                                                                                                                                                                                                   | `true` \| `false` | `false` |
 
 ### Feature Toggles Environment Variables
 
