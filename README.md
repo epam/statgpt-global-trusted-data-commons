@@ -12,7 +12,7 @@ It's built using the shared libraries of [StatGPT portals frontend](https://gith
 ## Table of Contents
 
 - [✨ Main Features](#-main-features)
-- [🏗️ Architecture Overview](#-architecture-overview)
+- [📐 Architecture Overview](#-architecture-overview)
 - [🚀 Quick Start](#-quick-start)
   - [Prerequisites](#prerequisites)
   - [Start](#start)
@@ -44,7 +44,7 @@ It's built using the shared libraries of [StatGPT portals frontend](https://gith
 - **Authentication Support**: NextAuth.js integration for secure user authentication (optional)
 
 
-## 🏗️ Architecture Overview
+## 📐 Architecture Overview
 
 This project uses:
 - **Next.js** with App Router for the frontend framework
