@@ -2,7 +2,6 @@
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
-    '../../libs/**/src/**/*!(*.stories|*.spec).{ts,tsx,html}',
     './node_modules/@epam/statgpt-*/**/*.{js,ts,jsx,tsx,mjs}',
   ],
   theme: {
