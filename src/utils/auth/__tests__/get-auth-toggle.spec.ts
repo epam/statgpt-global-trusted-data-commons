@@ -8,6 +8,7 @@ describe('getIsEnableAuthToggle', () => {
     process.env = { ...ORIGINAL_ENV };
     // Start from a clean slate so individual tests control the relevant vars,
     // independent of any auth env vars present in the ambient environment.
+    delete process.env.AUTH_URL;
     delete process.env.NEXTAUTH_URL;
     delete process.env.DIAL_API_KEY;
     for (const key of Object.keys(process.env)) {
@@ -44,6 +45,15 @@ describe('getIsEnableAuthToggle', () => {
     expect(getIsEnableAuthToggle()).toBe(true);
   });
 
+  it('enables auth when a provider is configured and AUTH_URL is set', async () => {
+    process.env.AUTH_URL = 'http://localhost:4200';
+    configureKeycloak();
+
+    const getIsEnableAuthToggle = await loadToggle();
+
+    expect(getIsEnableAuthToggle()).toBe(true);
+  });
+
   it('keeps auth enabled even when DIAL_API_KEY is also set', async () => {
     process.env.NEXTAUTH_URL = 'http://localhost:4001';
     process.env.DIAL_API_KEY = 'dial-api-key';
@@ -65,7 +75,7 @@ describe('getIsEnableAuthToggle', () => {
     expect(getIsEnableAuthToggle()).toBe(false);
   });
 
-  it('disables auth when a provider is configured but NEXTAUTH_URL is missing', async () => {
+  it('disables auth when a provider is configured but auth URL is missing', async () => {
     configureKeycloak();
 
     const getIsEnableAuthToggle = await loadToggle();

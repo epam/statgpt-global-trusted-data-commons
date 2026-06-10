@@ -5,6 +5,7 @@ import { HTTP_ERROR_CODES } from '@epam/statgpt-shared-toolkit';
 import { apiLogger } from '../../core/logger';
 import { getIsEnableAuthToggle } from './get-auth-toggle';
 import { getIsInvalidSession } from './is-valid-session';
+import { getAuthSecret, getSessionCookieName } from './auth-cookie';
 
 export function withAuth<TContext>(
   handler: (
@@ -15,7 +16,11 @@ export function withAuth<TContext>(
 ) {
   return async (req: NextRequest, context: TContext) => {
     try {
-      const token = await getToken({ req });
+      const token = await getToken({
+        req,
+        cookieName: getSessionCookieName(),
+        secret: getAuthSecret(),
+      });
       const isEnableAuth = getIsEnableAuthToggle();
       const isInvalidSession = await getIsInvalidSession(isEnableAuth, token);
 
