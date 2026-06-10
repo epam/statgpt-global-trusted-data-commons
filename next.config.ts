@@ -20,6 +20,14 @@ const ContentSecurityPolicy = `
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
   poweredByHeader: false,
   async rewrites() {
     const dialApiHost = process.env.DIAL_API_URL;
@@ -71,14 +79,6 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
-  },
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
-
-    return config;
   },
 };
 
