@@ -46,7 +46,7 @@ jobs:
       release-line: ${{ steps.semantic_versioning.outputs.release-line }}
       changelog-mode: ${{ steps.semantic_versioning.outputs.changelog-mode }}
     steps:
-      - uses: epam/ai-dial-ci/actions/semantic_versioning@4.4.0
+      - uses: epam/ai-dial-ci/actions/semantic_versioning@4.4.1
         id: semantic_versioning
         with:
           promote: true
@@ -87,7 +87,7 @@ jobs:
           docker-cleanup: "true"
           set-tmpdir: "true"
 
-      - uses: epam/ai-dial-ci/actions/generate_release_notes@4.4.0
+      - uses: epam/ai-dial-ci/actions/generate_release_notes@4.4.1
         with:
           latest-tag: ${{ needs.calculate_version.outputs.latest-stable-tag }}
           use-merge-base: ${{ needs.calculate_version.outputs.changelog-mode == 'merge-base' }}
@@ -97,7 +97,7 @@ jobs:
           lfs: true
           token: ${{ secrets.ACTIONS_BOT_TOKEN }}
 
-      - uses: epam/ai-dial-ci/actions/node_prepare@4.4.0
+      - uses: epam/ai-dial-ci/actions/node_prepare@4.4.1
         with:
           node-version: "24"
           clean-install: true
@@ -128,7 +128,7 @@ jobs:
             ${{ startsWith(github.ref, 'refs/heads/release-') && needs.calculate_version.outputs.is-latest == 'true' && format('{0}:{1}', env.IMAGE_NAME, 'latest') || '' }}
             ${{ startsWith(github.ref, 'refs/heads/release-') && needs.calculate_version.outputs.is-latest == 'true' && format('{0}/{1}:{2}', 'ghcr.io', env.IMAGE_NAME, 'latest') || '' }}
 
-      - uses: epam/ai-dial-ci/actions/publish_tag_release@4.4.0
+      - uses: epam/ai-dial-ci/actions/publish_tag_release@4.4.1
         if: ${{ startsWith(github.ref, 'refs/heads/release-') }}
         with:
           git-user-name: ${{ vars.ACTIONS_BOT_NAME || 'statgpt-actions' }}
