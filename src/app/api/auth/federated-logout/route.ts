@@ -1,15 +1,56 @@
 import { getToken } from 'next-auth/jwt';
-import NextClient from '../../../../utils/auth/nextauth-client';
 import { chatLogger } from '../../../../core/logger';
 import { NextRequest } from 'next/server';
 import { parseCommaSeparatedList } from '../../../../utils/auth/parse-providers-string';
+import {
+  discoverOidcMetadata,
+  getOidcIssuer,
+} from '../../../../utils/auth/oauth-refresh';
+import {
+  getAuthSecret,
+  getSessionCookieName,
+} from '../../../../utils/auth/auth-cookie';
 
 const DEFAULT_LOGOUT_REDIRECT_URI =
-  process.env.NEXTAUTH_URL || 'http://localhost:4200/';
+  process.env.AUTH_URL || process.env.NEXTAUTH_URL || 'http://localhost:4200/';
+
+const getFederatedLogoutUrl = async (
+  providerId: string,
+  idToken?: string,
+): Promise<string | null> => {
+  const issuer = getOidcIssuer(providerId);
+
+  if (!issuer) {
+    chatLogger.warn(`Issuer for providerId ${providerId} not found.`);
+    return null;
+  }
+
+  const metadata = await discoverOidcMetadata(issuer);
+
+  if (!metadata.end_session_endpoint) {
+    chatLogger.warn(
+      `End session endpoint for providerId ${providerId} not found.`,
+    );
+    return null;
+  }
+
+  const url = new URL(metadata.end_session_endpoint);
+  url.searchParams.set('post_logout_redirect_uri', DEFAULT_LOGOUT_REDIRECT_URI);
+
+  if (idToken) {
+    url.searchParams.set('id_token_hint', idToken);
+  }
+
+  return url.toString();
+};
 
 export async function GET(req: NextRequest) {
   try {
-    const token = await getToken({ req });
+    const token = await getToken({
+      req,
+      cookieName: getSessionCookieName(),
+      secret: getAuthSecret(),
+    });
 
     if (!token || typeof token.providerId !== 'string') {
       chatLogger.warn('Token is missing or providerId not found.');
@@ -24,17 +65,10 @@ export async function GET(req: NextRequest) {
       return Response.json({ url: null });
     }
 
-    const client = NextClient.getClient(token.providerId);
-
-    if (!client) {
-      chatLogger.warn(`Client for providerId ${token.providerId} not found.`);
-      return Response.json({ url: null });
-    }
-
-    const url = client.endSessionUrl({
-      post_logout_redirect_uri: DEFAULT_LOGOUT_REDIRECT_URI,
-      id_token_hint: token.idToken as string,
-    });
+    const url = await getFederatedLogoutUrl(
+      token.providerId,
+      typeof token.idToken === 'string' ? token.idToken : undefined,
+    );
 
     if (!url) {
       chatLogger.warn(
