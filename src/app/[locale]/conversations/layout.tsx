@@ -15,7 +15,10 @@ import { ClientProvidersWrapper } from '../../../components/ClientProvidersWrapp
 import { NoAccessView } from '../../../components/NoAccessView';
 import { ComponentsConfig } from '../../../components/configs/ComponentsConfig/ComponentsConfig';
 import { TextsConfig } from '../../../components/configs/TextsConfig/TextsConfig';
-import { buildDatasetDimensionsMetadataMap } from '@epam/statgpt-sdmx-toolkit';
+import {
+  buildDatasetDimensionsMetadataMap,
+  buildDatasetLastUpdatedMap,
+} from '@epam/statgpt-sdmx-toolkit';
 import { getDatasetsMetadata } from '../../actions/datasets-metadata';
 
 export default async function ConversationLayout({
@@ -67,6 +70,9 @@ export default async function ConversationLayout({
   const datasetDimensionsMetadataMap = metadata.data
     ? buildDatasetDimensionsMetadataMap(metadata.data)
     : {};
+  const datasetLastUpdatedMap = metadata.data
+    ? buildDatasetLastUpdatedMap(metadata.data)
+    : {};
 
   const contentManagementPolicyUrl = process.env.CONTENT_MANAGEMENT_POLICY_URL;
   const isCrossDatasetModeOn = parseBoolean(process.env.CROSS_DATASET_MODE);
@@ -82,6 +88,7 @@ export default async function ConversationLayout({
         <DeploymentConfigProvider config={configuration.data}>
           <ClientProvidersWrapper
             datasetDimensionsMetadataMap={datasetDimensionsMetadataMap}
+            datasetLastUpdatedMap={datasetLastUpdatedMap}
             isAgentAvailable={configuration.success}
             isCrossDatasetModeOn={isCrossDatasetModeOn}
             isMetadataInSidePanel={isMetadataInSidePanel}
