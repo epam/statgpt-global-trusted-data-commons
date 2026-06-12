@@ -10,7 +10,10 @@ import {
   OnboardingProvider,
 } from '@epam/statgpt-conversation-view';
 import { AgentAvailabilityProvider } from '@epam/statgpt-ui-components';
-import { DatasetDimensionsMetadataMap } from '@epam/statgpt-sdmx-toolkit';
+import {
+  DatasetDimensionsMetadataMap,
+  DatasetLastUpdatedMap,
+} from '@epam/statgpt-sdmx-toolkit';
 
 export const ClientProvidersWrapper = ({
   children,
@@ -19,6 +22,7 @@ export const ClientProvidersWrapper = ({
   isMetadataInSidePanel,
   isTableSettingsFeatureEnabled,
   datasetDimensionsMetadataMap,
+  datasetLastUpdatedMap,
 }: {
   children: React.ReactNode;
   isAgentAvailable: boolean;
@@ -26,6 +30,7 @@ export const ClientProvidersWrapper = ({
   isMetadataInSidePanel: boolean;
   isTableSettingsFeatureEnabled: boolean;
   datasetDimensionsMetadataMap: DatasetDimensionsMetadataMap;
+  datasetLastUpdatedMap: DatasetLastUpdatedMap;
 }) => {
   return (
     <ConversationViewFeatureTogglesProvider
@@ -36,6 +41,7 @@ export const ClientProvidersWrapper = ({
       <AgentAvailabilityProvider isAgentAvailable={isAgentAvailable}>
         <DatasetDimensionsMetadataMapProvider
           map={datasetDimensionsMetadataMap}
+          lastUpdatedMap={datasetLastUpdatedMap}
         >
           <OnboardingProvider>
             <AdvancedViewProvider>
