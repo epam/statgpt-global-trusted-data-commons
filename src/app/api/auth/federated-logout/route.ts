@@ -35,6 +35,19 @@ const getFederatedLogoutUrl = async (
   }
 
   const url = new URL(metadata.end_session_endpoint);
+
+  // Defense-in-depth: the end_session_endpoint comes from the IdP's discovery
+  // document. Reject it if its host does not match the configured, trusted
+  // issuer so a misconfigured or compromised discovery doc cannot turn this
+  // server-derived logout URL into an open redirect.
+
+  if (url.host !== new URL(issuer).host) {
+    chatLogger.warn(
+      `End session endpoint host ${url.host} does not match issuer host for providerId ${providerId}.`,
+    );
+    return null;
+  }
+
   url.searchParams.set('post_logout_redirect_uri', DEFAULT_LOGOUT_REDIRECT_URI);
 
   if (idToken) {
