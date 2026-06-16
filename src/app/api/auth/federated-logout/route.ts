@@ -74,8 +74,6 @@ export async function GET(req: NextRequest) {
       process.env.FEDERATED_LOGOUT_PROVIDERS,
     );
 
-    console.log('token.providerId', token.providerId);
-
     if (!federatedLogoutProviders.includes(token.providerId)) {
       return Response.json({ url: null });
     }
