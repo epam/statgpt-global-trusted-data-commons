@@ -23,7 +23,11 @@ import {
   getConversationIdFromResourceUrl,
   getConversationNavPath,
 } from '@epam/statgpt-shared-toolkit';
-import { Button } from '@epam/statgpt-ui-components';
+import {
+  Button,
+  MOBILE_BREAKPOINT,
+  useIsMobile,
+} from '@epam/statgpt-ui-components';
 import MessageIcon from '../../../public/images/message.svg';
 import Logo from '../../../public/images/logo.svg';
 import Collapse from '../../../public/images/menu/collapse.svg';
@@ -70,6 +74,7 @@ const ConversationListWrapper = ({
   const router = useRouter();
   const { id }: { id: string[] } = useParams();
   const { isOpenedAdvancedView, setIsOpenedAdvancedView } = useAdvancedView();
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
   const {
     conversations,
     sharedConversations,
@@ -163,8 +168,12 @@ const ConversationListWrapper = ({
   }, [isCollapsed, setIsCollapsed]);
 
   useEffect(() => {
-    setIsCollapsed(isOpenedAdvancedView);
-  }, [isOpenedAdvancedView]);
+    if (isOpenedAdvancedView) {
+      setIsCollapsed(true);
+    } else if (!isMobile) {
+      setIsCollapsed(false);
+    }
+  }, [isOpenedAdvancedView, isMobile, setIsCollapsed]);
 
   const handleConversationSelect = useCallback(
     (folderId: string, conversationKey: string) => {
@@ -247,7 +256,7 @@ const ConversationListWrapper = ({
     <aside
       className={classNames(
         'bg-neutrals-200 h-full flex flex-col justify-between min-w-0 relative',
-        isCollapsed ? 'w-[64px]' : 'w-[362px]',
+        isCollapsed ? 'w-[64px]' : 'w-[362px] mobile:w-full',
       )}
     >
       <div className="flex h-[calc(100%-108px)] flex-col sm:h-[calc(100%-80px)]">
