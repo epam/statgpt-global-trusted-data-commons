@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run start        # Dev server on port 4200 (webpack mode)
-npm run build        # Production build (webpack mode)
+npm run start        # Dev server on port 4200 (Turbopack)
+npm run build        # Production build (Turbopack)
 npm run lint         # ESLint
 npm run test         # Vitest (run all tests once)
 npm run format       # Check Prettier formatting
@@ -20,13 +20,13 @@ npx vitest run src/path/to/file.spec.ts
 
 ## Architecture
 
-This is a **Next.js 16 App Router** application (webpack mode, standalone output) serving as the "Global Trusted Data Commons" portal — a statistical data conversation platform built on EPAM's DIAL API.
+This is a **Next.js 16 App Router** application (Turbopack, standalone output) serving as the "Global Trusted Data Commons" portal — a statistical data conversation platform built on EPAM's DIAL API.
 
 ### Request / rendering flow
 
 ```
 browser
-  → middleware.ts          (i18n prefix, optional NextAuth guard, CSP headers)
+  → proxy.ts              (i18n prefix, optional NextAuth guard, CSP headers)
   → /[locale]/layout.tsx   (I18nProvider, locale wrapper)
   → /[locale]/conversations/layout.tsx  (server: auth check, deployment config,
                                          dataset metadata, provider tree)
@@ -79,7 +79,7 @@ ComponentsConfig          (UI component overrides — InlineAlertProvider)
 
 ### Auth
 
-`middleware.ts` conditionally wraps with `withAuth` based on `ENABLE_AUTH`. Auth utilities live in `src/utils/auth/`. Route handlers use `withAuth` HOF from the same utils to extract the bearer token and pass it to API clients.
+`proxy.ts` conditionally wraps with `withAuth` based on `ENABLE_AUTH`. Auth utilities live in `src/utils/auth/`. Route handlers use `withAuth` HOF from the same utils to extract the bearer token and pass it to API clients.
 
 ### i18n
 
@@ -94,7 +94,7 @@ CSS entry point: `src/app/globals.scss` → `src/scss/styles.scss`. That file:
 
 CSS custom properties (design tokens) are defined in `src/scss/colors.scss` as `:root` variables. Tailwind's `theme.colors` maps these tokens using `var(--token-name)`.
 
-Tailwind content scan includes `./node_modules/@epam/statgpt-*/**/*.{js,ts,jsx,tsx,mjs}` so utility classes used inside published packages are generated. SVG files in `public/` are imported as React components (default export) via the `@svgr/webpack` rule in `next.config.ts`.
+Tailwind content scan includes `./node_modules/@epam/statgpt-*/**/*.{js,ts,jsx,tsx,mjs}` so utility classes used inside published packages are generated. SVG files in `public/` are imported as React components (default export) via the Turbopack rule using the `@svgr/webpack` loader in `next.config.ts`.
 
 ### Testing
 

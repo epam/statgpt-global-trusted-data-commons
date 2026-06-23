@@ -101,7 +101,13 @@ import { rateResponseApi } from '../../app/api/rate/client';
 import { getDataSetApi, getDataSetDataApi } from '../../app/api/dataset/client';
 import { WarnBanner } from '../Footer/WarnBanner';
 import { getPythonAttachmentApi } from '../../app/api/python-attachment/client';
-import { Alert, AlertType, LimitMessages } from '@epam/statgpt-ui-components';
+import {
+  Alert,
+  AlertType,
+  LimitMessages,
+  MOBILE_BREAKPOINT,
+  useIsMobile,
+} from '@epam/statgpt-ui-components';
 import WelcomeView from '../WelcomeView/WelcomeView';
 import { BannerConfig } from '../../types/banner-config';
 
@@ -121,6 +127,7 @@ const ConversationViewWrapper: FC<Props> = ({
   const router = useRouter();
   const { isOpenedAdvancedView } = useAdvancedView();
   const { isCrossDatasetModeOn } = useConversationViewFeatureToggles();
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
   const { setConversations } = useConversationList();
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [currentDataQuery, setCurrentDataQuery] = useState<
@@ -152,8 +159,8 @@ const ConversationViewWrapper: FC<Props> = ({
   }, [conversationKey]);
 
   useEffect(() => {
-    if (!isOpenedAdvancedView) setIsChatCollapsed(false);
-  }, [isOpenedAdvancedView]);
+    setIsChatCollapsed(isOpenedAdvancedView && isMobile);
+  }, [isOpenedAdvancedView, isMobile]);
 
   const handleConversationNotFound = useCallback(() => {
     setIsConversationNotFound(true);

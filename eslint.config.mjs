@@ -70,6 +70,10 @@ export default [
       'no-constant-condition': 'error',
       'no-multiple-empty-lines': ['warn', { max: 1, maxBOF: 0 }],
 
+      // Guardrails for sonatype-2017-0717 (react-dom XSS via prop spreading):
+      // forbid raw HTML injection and flag prop spreading for review.
+      'react/no-danger': 'error',
+      'react/jsx-props-no-spreading': 'warn',
       'react-hooks/exhaustive-deps': 'error',
 
       '@typescript-eslint/no-unused-vars': [
