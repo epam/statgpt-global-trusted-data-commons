@@ -7,3 +7,6 @@ CVE-2026-45447 exp:2026-06-20
 
 # picomatch
 CVE-2026-33671 exp:2026-07-20
+
+# sigstore (bundled with npm in node:24-alpine / node:22-alpine)
+CVE-2026-48815 exp:2026-08-09
