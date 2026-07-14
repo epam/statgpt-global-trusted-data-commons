@@ -29,6 +29,13 @@ body {
   font-family: var(--font-open-sans), Arial, sans-serif;
 }
 
+html,
+body {
+  height: 100%; // fallback for browsers without dvh support
+  height: 100dvh; // tracks the real mobile viewport as the address bar shows/hides
+  overscroll-behavior: none;
+}
+
 .main-layout {
   background-image: url('/images/chat/layout.svg');
   background-size: cover;
