@@ -1,19 +1,26 @@
 # node:24-alpine vulnerabilities in https://hub.docker.com/layers/library/node/24-alpine
 
 # picomatch
-CVE-2026-33671 exp:2026-08-20
+CVE-2026-33671 exp:2026-10-14
 
 # sigstore (bundled with npm in node:24-alpine / node:22-alpine)
-CVE-2026-48815 exp:2026-08-20
+CVE-2026-48815 exp:2026-10-14
 
 # tar
-CVE-2026-59873 exp:2026-08-20
-CVE-2026-59874 exp:2026-08-20
+CVE-2026-59873 exp:2026-10-14
+CVE-2026-59874 exp:2026-10-14
+CVE-2026-73566 exp:2026-10-14
 
 # brace-expansion
-CVE-2026-13149 exp:2026-08-20
-CVE-2026-14257 exp:2026-08-20
-CVE-2026-69152 exp:2026-08-20
+CVE-2026-13149 exp:2026-10-14
+CVE-2026-14257 exp:2026-10-14
+CVE-2026-69152 exp:2026-10-14
 
 # ip-address
-CVE-2026-69192 exp:2026-08-20
+CVE-2026-69192 exp:2026-10-14
+
+# pacote (bundled with npm in node:24-alpine / node:22-alpine)
+CVE-2026-9496 exp:2026-10-14
+
+# libssl3 / libcrypto3 (OpenSSL, bundled with node:22-alpine)
+CVE-2026-14456 exp:2026-10-14
