@@ -21,3 +21,6 @@ CVE-2026-69192 exp:2026-10-14
 
 # pacote (bundled with npm in node:24-alpine / node:22-alpine)
 CVE-2026-9496 exp:2026-10-14
+
+# libssl3 / libcrypto3 (OpenSSL, bundled with node:22-alpine)
+CVE-2026-14456 exp:2026-10-14
