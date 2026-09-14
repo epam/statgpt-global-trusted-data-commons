@@ -54,6 +54,7 @@ import { useConversationList } from '../../context/ConversationListContext';
 import { getSignInLink } from '../../constants/auth';
 import { wrapWithAuthHandler } from '../../utils/auth/requests-wrapper';
 import { useLogout } from '../../hooks/use-logout';
+import { useSignOutOnSessionError } from '../../utils/auth/useSignOutOnSessionError';
 import { getFileBlobApi } from '../../app/api/files/client';
 import {
   getConversationApi,
@@ -89,6 +90,7 @@ const ConversationListWrapper = ({
   );
 
   const { session, handleLogout } = useLogout();
+  useSignOutOnSessionError();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
 
